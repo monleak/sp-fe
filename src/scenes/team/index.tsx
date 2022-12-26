@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { Box,Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
@@ -35,7 +35,48 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="Danh sách các nhà cung cấp " subtitle="" />
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="Danh sách các nhà cung cấp " subtitle="" />
+        <Box>
+          <Button
+            sx={{
+              backgroundColor: colors.blueAccent[700],
+              color: colors.grey[100],
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+            }}
+          >
+            Thêm nhà cung cấp
+          </Button>
+        </Box>
+      </Box>
+      <Box m="40px 0 0 0">    
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}
+        >
+          Xóa nhà cung cấp
+        </Button>   
+      </Box>
+      <Box m="40px 0 0 0">    
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}
+        >
+          Sửa thông tin nhà cung cấp
+        </Button>   
+      </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -65,8 +106,13 @@ const Team = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
-      </Box>
+        <DataGrid 
+          checkboxSelection 
+          rows={mockDataTeam}
+          columns={columns}
+          experimentalFeatures={{ newEditingApi: true }}
+        />
+      </Box> 
     </Box>
   );
 };
