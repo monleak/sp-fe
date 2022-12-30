@@ -39,21 +39,19 @@ function App() {
                 />
                 <Route path="/importStoryList" element={<ImportStoryList />} />
                 <Route path="/invoices" element={<Invoices />} />
+                {/* Price quotation */}
                 <Route
                   path="/price-quotation/create"
+                  element={<CreatePriceQuotation />}
+                />
+                <Route
+                  path="/import/:importRequestId/price-quotation/create"
                   element={<CreatePriceQuotation />}
                 />
                 <Route
                   path="/import/:importRequestId/price-quotation-list"
                   element={<PriceQuotationList />}
                 />
-                {/* <Route path="/contacts" element={<Contacts />} />
-              <Route path="/bar" element={<Bar />} />
-              <Route path="/pie" element={<Pie />} />
-              <Route path="/line" element={<Line />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/geography" element={<Geography />} /> */}
               </Routes>
             </main>
           </div>

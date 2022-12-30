@@ -23,6 +23,7 @@ import {
 } from "../../api";
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
+import { useParams } from "react-router-dom";
 
 /*
  * @brief Form tạo báo giá mới
@@ -31,6 +32,14 @@ import { transformJoinSubProductList } from "../../api/transform";
  * Copyright (c) 2022 HaVT
  */
 const CreatePriceQuotation = () => {
+  // get param
+  const { importRequestId } = useParams();
+  // set default improt request id if exists in route param
+  // TODO: CHANGE initialValues.productId -> initialValues.importRequestId
+  if (importRequestId) {
+    initialValues.productId = importRequestId;
+  }
+
   // responsive
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
