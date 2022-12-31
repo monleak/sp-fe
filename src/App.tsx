@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Topbar from './scenes/global/Topbar';
-import Sidebar from './scenes/global/Sidebar';
+//import Topbar from './scenes/global/Topbar';
+//import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard';
 import Team from './scenes/team';
 import ImportHistoryList from './scenes/list/ImportHistoryList';
@@ -31,14 +31,8 @@ function App() {
             <Routes>
               <Route path='/' element={<Dashboard />} />
               <Route path='/team' element={<Team />} />
-              <Route
-                path='/importProductsForm'
-                element={<ImportProductsForm />}
-              />
-              <Route
-                path='/ImportHistoryList'
-                element={<ImportHistoryList />}
-              />
+              <Route path='/import/create' element={<ImportProductsForm />} />
+              <Route path='/import/history' element={<ImportHistoryList />} />
               {/* <Route path="/contacts" element={<Contacts />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
