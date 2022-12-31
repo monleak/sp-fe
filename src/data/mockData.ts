@@ -141,6 +141,11 @@ export const mockDataContacts = [
   },
 ];
 
+
+export const productExampleValues = {
+  id: 1,
+  name: "áo khoác",
+}
 export const mockDataInvoices = [
   {
     id: 1,

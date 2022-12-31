@@ -17,7 +17,7 @@ import Form from "./scenes/createNewSupplierForm";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
-import BaoGia from "./scenes/BaoGiaNhaCungCapChoMotLoaiSanPham";
+import BaoGia from "./scenes/BaoGia";
 
 function App() {
   const [theme, colorMode] = useMode();

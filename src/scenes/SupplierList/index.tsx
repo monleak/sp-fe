@@ -3,8 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
 import Header from "../../components/Header";
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete'
+import InfoIcon from '@mui/icons-material/Info';
 const SupplierList = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -33,10 +34,38 @@ const SupplierList = () => {
     },
     { field: "count", headerName: "Tổng số giao dịch", flex: 1 },
     { 
-      field: "edit_delete",
-      renderCell: (param: any) => {
+      field: "edit",
+      headerName: "",
+      renderCell: () => {
         return (
-          <Button variant="outlined" color="warning">Edit</Button>
+          <Button
+            variant='text'
+            startIcon={<EditIcon style={{ color: 'white' }} />}
+          ></Button>
+        );
+      },
+    },
+    { 
+      field: "delete",
+      headerName: "",
+      renderCell: () => {
+        return (
+          <Button
+            variant='text'
+            startIcon={<DeleteIcon style={{ color: 'white' }} />}
+          ></Button>
+        );
+      },
+    },
+    { 
+      field: "detail",
+      headerName: "",
+      renderCell: () => {
+        return (
+          <Button
+            variant='text'
+            startIcon={<InfoIcon style={{ color: 'white' }} />}
+          ></Button>
         );
       },
     },
@@ -60,46 +89,6 @@ const SupplierList = () => {
           </Button>
         </Box>
       </Box>
-      <Box m="40px 0 0 0"display="flex" justifyContent="space-between" alignItems="center">    
-        <Button
-          sx={{
-            backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
-            fontSize: "14px",
-            fontWeight: "bold",
-            padding: "10px 20px",
-          }}
-        >
-          Thông tin chi tiết nhà cung cấp
-        </Button> 
-        <Box display="flex" justifyContent="space-between" alignItems="center">    
-          <Button
-          sx={{
-            backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
-            fontSize: "14px",
-            fontWeight: "bold",
-            padding: "10px 20px",
-          }}
-        >
-          Sửa thông tin nhà cung cấp
-        </Button>   
-
-        <Button
-          sx={{
-            backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
-            fontSize: "14px",
-            fontWeight: "bold",
-            padding: "10px 20px",
-          }}
-        >
-          Xóa nhà cung cấp  
-        </Button>   
-
-      </Box>
-      </Box>
-
       <Box
         m="40px 0 0 0"
         height="75vh"

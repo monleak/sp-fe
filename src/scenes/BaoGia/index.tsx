@@ -1,19 +1,18 @@
-import { Box,Button, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam, products , productData} from "../../data/mockData";
+import { mockDataTeam, mockDataInvoices} from "../../data/mockData";
 import Header from "../../components/Header";
 
 
-const SupplierDetailInfo = () => {
+const BaoGia = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "id", headerName: "productID" },
-    {field: "subpdid", headerName: "SubID"},
+    { field: "id", headerName: "SupplierID" },
     {
       field: "name",
-      headerName: "Tên sản phẩm",
+      headerName: "Tên nhà cung cấp",
       flex: 1,
       cellClassName: "name-column--cell",
     },
@@ -22,39 +21,16 @@ const SupplierDetailInfo = () => {
       headerName: "Giá bán",
       flex: 1,
     },
-    {
-      field: "note",
-      headerName: "Ghi chú",
-      flex: 1,
-    },
-    { 
-      field: "detail",
-      headerName: "",
-      renderCell: () => {
-        return (
-          <Button style={{color: 'yellow'}}>
-            Báo giá của sản phẩm 
-          </Button>
-        );
-      },
-      flex: 1,
-    },
   ];
 
   return (
     <Box m="20px">
         <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Thông tin chi tiết nhà cung cấp" subtitle="" />
+            <Header title="Báo giá của 1 sản phẩm của tất cả các nhà cung cấp" subtitle="" />
         </Box>
         <Box>
-            <p>ID:{productData.id}</p>
-            <p>Tên nhà cung cấp: {productData.name}</p>
-            <p>Số điện thoại: {productData.phone}</p>
-            <p>Email: {productData.email}</p>
-            <p>Địa chỉ:</p>
-            <ol>
-                {productData.address.map((add) => <li>{add}</li>)}
-            </ol>
+            <p>ID: query để lấy id của sản phẩm</p>
+            <p>Tên sản phẩm: query lấy tên sản phẩm</p>
         </Box>
       <Box
         m="40px 0 0 0"
@@ -96,5 +72,4 @@ const SupplierDetailInfo = () => {
   );
 };
 
-export default SupplierDetailInfo;
-
+export default BaoGia;
