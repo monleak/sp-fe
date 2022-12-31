@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/SupplierList";
+import SupplierList from "./scenes/SupplierList";
 import Form from "./scenes/createNewSupplierForm";
 // import Invoices from './scenes/invoices';
 // import Contacts from './scenes/contacts';
@@ -16,6 +16,8 @@ import Form from "./scenes/createNewSupplierForm";
 //import Calendar from './scenes/calendar/calendar';
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
+import BaoGia from "./scenes/BaoGiaNhaCungCapChoMotLoaiSanPham";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -31,8 +33,10 @@ function App() {
             {/* <Topbar setIsSidebar={setIsSidebar} /> */}
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/supplierlist" element={<Team />} />
+              <Route path="/supplierlist" element={<SupplierList />} />
               <Route path="/createNewSupplierForm" element={<Form />} />
+              <Route path="/SupplierDetailInfo" element={<SupplierDetailInfo />} />
+              <Route path="/BaoGia" element={<BaoGia />} />
               {/* <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/form" element={<Form />} />

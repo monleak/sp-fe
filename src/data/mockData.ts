@@ -4,74 +4,16 @@ export const mockDataTeam: any = [
   {
     id: 1,
     name: "Jon Snow",
-    email: "jonsnow@gmail.com",
-    count: 150,
-    phone: "(665)121-5454",
-    access: "admin",
+    subpdid: 2,
+    unit_price: 150,
+    note: "ấdfasdfadsf",
   },
   {
     id: 2,
     name: "Cersei Lannister",
-    email: "cerseilannister@gmail.com",
-    count: 142,
-    phone: "(421)314-2288",
-    access: "manager",
-  },
-  {
-    id: 3,
-    name: "Jaime Lannister",
-    email: "jaimelannister@gmail.com",
-    count: 125,
-    phone: "(422)982-6739",
-    access: "user",
-  },
-  {
-    id: 4,
-    name: "Anya Stark",
-    email: "anyastark@gmail.com",
-    count: 116,
-    phone: "(921)425-6742",
-    access: "admin",
-  },
-  {
-    id: 5,
-    name: "Daenerys Targaryen",
-    email: "daenerystargaryen@gmail.com",
-    count: 101,
-    phone: "(421)445-1189",
-    access: "user",
-  },
-  {
-    id: 6,
-    name: "Ever Melisandre",
-    email: "evermelisandre@gmail.com",
-    count: 90,
-    phone: "(232)545-6483",
-    access: "mancountr",
-  },
-  {
-    id: 7,
-    name: "Ferrara Clifford",
-    email: "ferraraclifford@gmail.com",
-    count: 84,
-    phone: "(543)124-0123",
-    access: "user",
-  },
-  {
-    id: 8,
-    name: "Rossini Frances",
-    email: "rossinifrances@gmail.com",
-    count: 76,
-    phone: "(222)444-5555",
-    access: "user",
-  },
-  {
-    id: 9,
-    name: "Harvey Roxie",
-    email: "harveyroxie@gmail.com",
-    count: 65,
-    phone: "(444)555-6239",
-    access: "admin",
+    subpdid: 21,
+    unit_price: 142,
+    note:"àasfasdfsadf",
   },
 ];
 
@@ -314,6 +256,93 @@ export const mockTransactions = [
     user: "jackdower",
     date: "2022-04-01",
     cost: "133.45",
+  },
+];
+
+export const productData=
+  {
+    id: 1,
+    name: "Jon Snow",
+    email: "jonsnow@gmail.com",
+    phone: "(665)121-5454",
+    address:    
+    [      
+      "adfadfaf",
+      "afdafadsf",
+      "ầdfasfasdfadf",
+    ],
+  }
+export const products: any = [
+  {
+    pdid: 1,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "sdfafdsf"
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
   },
 ];
 

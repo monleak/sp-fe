@@ -3,15 +3,16 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
 import Header from "../../components/Header";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
-const Team = () => {
+const SupplierList = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id", headerName: "ID" },
     {
       field: "name",
-      headerName: "Tên",
+      headerName: "Tên nhà cung cấp",
       flex: 1,
       cellClassName: "name-column--cell",
     },
@@ -31,6 +32,14 @@ const Team = () => {
       flex: 1,
     },
     { field: "count", headerName: "Tổng số giao dịch", flex: 1 },
+    { 
+      field: "edit_delete",
+      renderCell: (param: any) => {
+        return (
+          <Button variant="outlined" color="warning">Edit</Button>
+        );
+      },
+    },
   ];
 
   return (
@@ -51,7 +60,7 @@ const Team = () => {
           </Button>
         </Box>
       </Box>
-      <Box m="40px 0 0 0">    
+      <Box m="40px 0 0 0"display="flex" justifyContent="space-between" alignItems="center">    
         <Button
           sx={{
             backgroundColor: colors.blueAccent[700],
@@ -61,11 +70,10 @@ const Team = () => {
             padding: "10px 20px",
           }}
         >
-          Xóa nhà cung cấp
-        </Button>   
-      </Box>
-      <Box m="40px 0 0 0">    
-        <Button
+          Thông tin chi tiết nhà cung cấp
+        </Button> 
+        <Box display="flex" justifyContent="space-between" alignItems="center">    
+          <Button
           sx={{
             backgroundColor: colors.blueAccent[700],
             color: colors.grey[100],
@@ -76,7 +84,22 @@ const Team = () => {
         >
           Sửa thông tin nhà cung cấp
         </Button>   
+
+        <Button
+          sx={{
+            backgroundColor: colors.blueAccent[700],
+            color: colors.grey[100],
+            fontSize: "14px",
+            fontWeight: "bold",
+            padding: "10px 20px",
+          }}
+        >
+          Xóa nhà cung cấp  
+        </Button>   
+
       </Box>
+      </Box>
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -101,13 +124,9 @@ const Team = () => {
             borderTop: "none",
             backgroundColor: colors.blueAccent[700],
           },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
         }}
       >
         <DataGrid 
-          checkboxSelection 
           rows={mockDataTeam}
           columns={columns}
           experimentalFeatures={{ newEditingApi: true }}
@@ -117,4 +136,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default SupplierList;
