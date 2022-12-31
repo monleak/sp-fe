@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
+
+import SupplierList from "./scenes/SupplierList";
+import Form from "./scenes/createNewSupplierForm";
+import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
+import BaoGia from "./scenes/BaoGia";
 import ImportStoryList from "./scenes/list/ImportHistoryList";
 import ImportProductsForm from "./scenes/form/ImportProductForm";
 import Invoices from "./scenes/list/index";
@@ -32,24 +36,28 @@ function App() {
               <Topbar />
               <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/team" element={<Team />} />
+                {/* <Route path="/team" element={<Team />} /> */}
+                <Route path="/suppliers" element={<SupplierList />} />
+                <Route path="/suppliers/create" element={<Form />} />
+                <Route path="/suppliers/:id" element={<SupplierDetailInfo />} />
+                {/* <Route path="/BaoGia" element={<BaoGia />} /> */}
                 <Route
-                  path="/importProductsForm"
+                  path="/imports/create"
                   element={<ImportProductsForm />}
                 />
-                <Route path="/importStoryList" element={<ImportStoryList />} />
-                <Route path="/invoices" element={<Invoices />} />
+                <Route path="/imports/history" element={<ImportStoryList />} />
+                {/* <Route path="/invoices" element={<Invoices />} /> */}
                 {/* Price quotation */}
                 <Route
-                  path="/price-quotation/create"
+                  path="/price-quotations/create"
                   element={<CreatePriceQuotation />}
                 />
                 <Route
-                  path="/import/:importRequestId/price-quotation/create"
+                  path="/imports/:importRequestId/price-quotation/create"
                   element={<CreatePriceQuotation />}
                 />
                 <Route
-                  path="/import/:importRequestId/price-quotation-list"
+                  path="/imports/:importRequestId/price-quotation-list"
                   element={<PriceQuotationList />}
                 />
               </Routes>

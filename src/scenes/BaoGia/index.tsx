@@ -1,41 +1,37 @@
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
+import { mockDataTeam, mockDataInvoices} from "../../data/mockData";
 import Header from "../../components/Header";
 
-const Team = () => {
+
+const BaoGia = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "id", headerName: "SupplierID" },
     {
       field: "name",
-      headerName: "Tên",
+      headerName: "Tên nhà cung cấp",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
-      headerName: "Số điện thoại",
+      field: "unit_price",
+      headerName: "Giá bán",
       flex: 1,
     },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Địa chỉ",
-      flex: 1,
-    },
-    { field: "count", headerName: "Tổng số giao dịch", flex: 1 },
   ];
 
   return (
     <Box m="20px">
-      <Header title="Danh sách các nhà cung cấp " subtitle="" />
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Header title="Báo giá của 1 sản phẩm của tất cả các nhà cung cấp" subtitle="" />
+        </Box>
+        <Box>
+            <p>ID: query để lấy id của sản phẩm</p>
+            <p>Tên sản phẩm: query lấy tên sản phẩm</p>
+        </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -65,10 +61,15 @@ const Team = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
-      </Box>
+        <DataGrid 
+          checkboxSelection 
+          rows={mockDataTeam}
+          columns={columns}
+          experimentalFeatures={{ newEditingApi: true }}
+        />
+      </Box> 
     </Box>
   );
 };
 
-export default Team;
+export default BaoGia;

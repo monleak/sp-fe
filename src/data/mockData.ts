@@ -199,6 +199,11 @@ export const mockDataContacts = [
   },
 ];
 
+
+export const productExampleValues = {
+  id: 1,
+  name: "áo khoác",
+}
 export const mockDataInvoices = [
   {
     id: 1,
@@ -336,6 +341,93 @@ export const mockDataImportStoryList = [
     note: 'abc',
     created_by: 'abc',
     update_by: 'abc',
+  },
+];
+
+export const productData=
+  {
+    id: 1,
+    name: "Jon Snow",
+    email: "jonsnow@gmail.com",
+    phone: "(665)121-5454",
+    address:    
+    [      
+      "adfadfaf",
+      "afdafadsf",
+      "ầdfasfasdfadf",
+    ],
+  }
+export const products: any = [
+  {
+    pdid: 1,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "sdfafdsf"
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
+  },
+  {
+    pdid: 2,
+    subpdid: 10,
+    name: "sfafafas",
+    unit_price: 100000,
+    note: "dầdsafđf"
+    
   },
 ];
 
