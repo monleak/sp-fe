@@ -9,7 +9,6 @@ import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
 import BaoGia from "./scenes/BaoGia";
 import ImportStoryList from "./scenes/list/ImportHistoryList";
 import ImportProductsForm from "./scenes/form/ImportProductForm";
-import Invoices from "./scenes/list/index";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import CreatePriceQuotation from "./scenes/form/CreatePriceQuotationForm";
@@ -17,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Topbar from "./scenes/global/Topbar";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PriceQuotationList from "./scenes/list/priceQuotationList";
+import ImportHistoryList from "./scenes/list/ImportHistoryList";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -45,7 +45,10 @@ function App() {
                   path="/imports/create"
                   element={<ImportProductsForm />}
                 />
-                <Route path="/imports/history" element={<ImportStoryList />} />
+                <Route
+                  path="/imports/history"
+                  element={<ImportHistoryList />}
+                />
                 {/* <Route path="/invoices" element={<Invoices />} /> */}
                 {/* Price quotation */}
                 <Route
