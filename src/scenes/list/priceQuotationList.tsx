@@ -4,10 +4,12 @@ import {
   Card,
   CardActions,
   CardContent,
+  Chip,
+  Modal,
   Typography,
   useTheme,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataImportStoryList } from "../../data/mockData";
 import Header from "../../components/Header";
@@ -25,6 +27,8 @@ import {
 } from "../../api";
 import React from "react";
 import CardContentItem from "../../components/CardContentItem";
+import { useNavigate } from "react-router-dom";
+import CreatePriceQuotation from "../form/CreatePriceQuotationForm";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -34,6 +38,7 @@ import CardContentItem from "../../components/CardContentItem";
  */
 const PriceQuotationList = () => {
   // url param
+  const navigate = useNavigate();
   const { importRequestId } = useParams();
   const id = Number.parseInt(importRequestId || "");
 
@@ -72,21 +77,13 @@ const PriceQuotationList = () => {
   const colors = tokens(theme.palette.mode);
 
   // table columns
-  const columns = [
+  const columns: GridColumns<any> = [
     { field: "id", headerName: "ID" },
-    { field: "supplier_id", headerName: "Supplier Id" },
-    { field: "supplier", headerName: "Supplier ", flex: 1 },
-    { field: "product_id", headerName: "Product Id" },
-    { field: "product", headerName: "Product ", flex: 1 },
-    { field: "subproduct_id", headerName: "Subproduct Id" },
+    { field: "supplier_id", headerName: "Mã NCC" },
+    { field: "supplier", headerName: "Nhà cung cấp", flex: 1 },
     {
-      field: "quantity",
-      headerName: "Quantity",
-      flex: 1,
-    },
-    {
-      field: "total_cost",
-      headerName: "Total Cost",
+      field: "unit_price",
+      headerName: "Đơn giá",
       flex: 1,
       renderCell: (params: any) => (
         <Typography color={colors.greenAccent[500]}>
@@ -95,32 +92,69 @@ const PriceQuotationList = () => {
       ),
     },
     {
-      field: "status",
-      headerName: "Status",
-      flex: 1,
-    },
-    {
       field: "note",
-      headerName: "Note",
+      headerName: "Ghi chú",
       flex: 1,
     },
     {
-      field: "created_by",
-      headerName: "Created By",
-      flex: 1,
+      field: "Status",
+      renderCell: (param: any) => {
+        return <Chip color="success" variant="outlined" label="Accepted" />;
+      },
     },
     {
-      field: "update_by",
-      headerName: "Updated By",
-      flex: 1,
+      field: "Edit",
+      renderCell: (param: any) => {
+        console.log(param.id);
+        return (
+          <Button variant="outlined" color="warning">
+            Edit
+          </Button>
+        );
+      },
     },
   ];
+
+  // modal state
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box m="20px">
       <Header
         title="Danh sách báo giá"
         subtitle={`Danh sách báo giá của yêu cầu nhập hàng`}
+        rightChildren={
+          <>
+            <Button variant="contained" color="secondary" onClick={handleOpen}>
+              Thêm báo giá mới
+            </Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="parent-modal-title"
+              aria-describedby="parent-modal-description"
+            >
+              <Box
+                sx={{
+                  margin: 10,
+                  marginLeft: 20,
+                  bgcolor: "background.paper",
+                  border: "2px solid #000",
+                  boxShadow: 24,
+                  pr: 4,
+                }}
+              >
+                <CreatePriceQuotation />
+              </Box>
+            </Modal>
+          </>
+        }
       />
       <Card
         variant="outlined"
