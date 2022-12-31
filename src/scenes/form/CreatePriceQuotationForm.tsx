@@ -54,9 +54,15 @@ const CreatePriceQuotation = () => {
     getSubProductList
   );
 
+  // API CALL - STEP 2: sử dụng hook useQuery
+  // Có tool để xem quản lý api call
+  // Có thể điều khiển cache api call
   const { data: supplierList, isSuccess: isSupplierListSuccess } = useQuery(
+    // Đặt api key (key dùng để cache)
     ["supplier-list"],
+    // queryFn
     getSupplierList
+    // xử lý dữ liệu (optional)
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
@@ -116,6 +122,7 @@ const CreatePriceQuotation = () => {
                   onChange={handleChange}
                 >
                   {isSupplierListSuccess ? (
+                    // API CALL - STEP 3: Sử dụng response từ api như state bình thường
                     supplierList?.map((supplier) => {
                       return (
                         <MenuItem key={supplier.id} value={supplier.id}>
