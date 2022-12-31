@@ -3,17 +3,33 @@ import {
   Button,
   FormControl,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { useQuery } from "@tanstack/react-query";
-import { getImportRequestList, getSupplierList } from "../../api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  ApiImportProductT,
+  SubProductInfoT,
+  getImportRequestList,
+  getSubProductList,
+  getSupplierList,
+} from "../../api";
+import React from "react";
+import { transformJoinSubProductList } from "../../api/transform";
 
+/*
+ * @brief Form tạo báo giá mới
+ *
+ * Created on Thu Dec 29 2022
+ * Copyright (c) 2022 HaVT
+ */
 const CreatePriceQuotation = () => {
   // responsive
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -23,13 +39,33 @@ const CreatePriceQuotation = () => {
     console.log(values);
   };
 
-  // api
-  const { data: supplierList } = useQuery(["supplier-list"], getSupplierList);
-
-  const { data: importRequestList } = useQuery(
-    ["import-request"],
-    getImportRequestList
+  // api get
+  const { data: productList } = useQuery(
+    ["sub-product-list"],
+    getSubProductList
   );
+
+  const { data: supplierList, isSuccess: isSupplierListSuccess } = useQuery(
+    ["supplier-list"],
+    getSupplierList
+  );
+
+  const { data: importRequestList, isSuccess: isImportReqListSuccess } =
+    useQuery(["import-request"], getImportRequestList, {
+      //NOTE: join import request list and product list
+      select: React.useCallback(
+        (
+          list: ApiImportProductT[]
+        ): (ApiImportProductT & Partial<SubProductInfoT>)[] => {
+          return productList
+            ? transformJoinSubProductList<ApiImportProductT>(list, productList)
+            : list;
+        },
+        [productList]
+      ),
+    });
+
+  // const {} = useMutation([""]);
 
   // jsx
   return (
@@ -70,13 +106,22 @@ const CreatePriceQuotation = () => {
                   value={values.supplierId}
                   onChange={handleChange}
                 >
-                  {supplierList?.map((supplier) => {
-                    return (
-                      <MenuItem key={supplier.id} value={supplier.id}>
-                        {supplier.name}
-                      </MenuItem>
-                    );
-                  })}
+                  {isSupplierListSuccess ? (
+                    supplierList?.map((supplier) => {
+                      return (
+                        <MenuItem key={supplier.id} value={supplier.id}>
+                          {supplier.name}
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <LinearProgress
+                      color="inherit"
+                      style={{
+                        margin: 12,
+                      }}
+                    />
+                  )}
                 </Select>
               </FormControl>
               <div style={{ width: 60 }}></div>
@@ -93,13 +138,28 @@ const CreatePriceQuotation = () => {
                   value={values.productId}
                   onChange={handleChange}
                 >
-                  {importRequestList?.map((req) => {
-                    return (
-                      <MenuItem key={req.id} value={req.id}>
-                        {req.id}
-                      </MenuItem>
-                    );
-                  })}
+                  {isImportReqListSuccess ? (
+                    importRequestList?.map((req) => {
+                      return (
+                        <MenuItem key={req.id} value={req.id}>
+                          <Typography>
+                            {req.id}
+                            {" - "}
+                            {req.name}
+                            {req.size && ` - ${req.size}`}
+                            {req.color && ` - ${req.color}`}
+                          </Typography>
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <LinearProgress
+                      color="inherit"
+                      style={{
+                        margin: 12,
+                      }}
+                    />
+                  )}
                 </Select>
               </FormControl>
             </Box>

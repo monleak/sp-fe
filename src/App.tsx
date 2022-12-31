@@ -4,20 +4,15 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
 import ImportStoryList from "./scenes/list/ImportHistoryList";
-// import Contacts from './scenes/contacts';
-// import Bar from './scenes/bar';
 import ImportProductsForm from "./scenes/form/ImportProductForm";
 import Invoices from "./scenes/list/index";
-// import Line from './scenes/line';
-// import Pie from './scenes/pie';
-// import FAQ from './scenes/faq';
-// import Geography from './scenes/geography';
-//import Calendar from './scenes/calendar/calendar';
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import CreatePriceQuotation from "./scenes/form/CreatePriceQuotationForm";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Topbar from "./scenes/global/Topbar";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PriceQuotationList from "./scenes/list/priceQuotationList";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -48,6 +43,10 @@ function App() {
                   path="/price-quotation/create"
                   element={<CreatePriceQuotation />}
                 />
+                <Route
+                  path="/import/:importRequestId/price-quotation-list"
+                  element={<PriceQuotationList />}
+                />
                 {/* <Route path="/contacts" element={<Contacts />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
@@ -60,6 +59,7 @@ function App() {
           </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
