@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -10,6 +10,7 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { useRoutes } from "react-router-dom";
 
 type ItemProps = {
   title: string;
@@ -61,19 +62,19 @@ const sidebarSessions: SidebarItemListProps = [
     type: "item",
     icon: <PersonOutlinedIcon />,
     to: "/suppliers/create",
-    title: "Tạo NCC (test only)",
+    title: "Tạo NCC (test)",
   },
   {
     type: "item",
     icon: <PersonOutlinedIcon />,
     to: "/suppliers/1",
-    title: "Chi tiết 1 NCC (test only)",
+    title: "Chi tiết 1 NCC (test)",
   },
   { type: "text", title: "Báo giá" },
   {
     type: "item",
     to: "/price-quotations/create",
-    title: "Tạo báo giá (test only)",
+    title: "Tạo báo giá (test)",
     icon: <PersonOutlinedIcon />,
   },
   {
@@ -107,6 +108,11 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+
+  const [searchParams, setParams] = useSearchParams();
+  if (searchParams.get("sidebar") === "false") {
+    return null;
+  }
 
   return (
     <Box
