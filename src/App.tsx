@@ -17,6 +17,7 @@ import Topbar from "./scenes/global/Topbar";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PriceQuotationList from "./scenes/list/priceQuotationList";
 import ImportHistoryList from "./scenes/list/ImportHistoryList";
+import RequestImportList from "./scenes/list/requestImportList";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -47,6 +48,10 @@ function App() {
                 <Route
                   path="/imports/history"
                   element={<ImportHistoryList />}
+                />
+                <Route
+                  path="/imports/request"
+                  element={<RequestImportList />}
                 />
                 {/* <Route path="/invoices" element={<Invoices />} /> */}
                 {/* Price quotation */}
