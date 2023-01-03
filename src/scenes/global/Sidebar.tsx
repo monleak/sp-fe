@@ -51,6 +51,12 @@ const sidebarSessions: SidebarItemListProps = [
     title: "Lịch sử nhập hàng",
     icon: <ReceiptOutlinedIcon />,
   },
+  {
+    type: "item",
+    to: "/imports/request",
+    title: "Yêu cầu nhập hàng",
+    icon: <ReceiptOutlinedIcon />,
+  },
   { type: "text", title: "Nhà cung cấp" },
   {
     type: "item",

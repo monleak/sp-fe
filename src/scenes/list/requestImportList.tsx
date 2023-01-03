@@ -84,7 +84,7 @@ const RequestImportList = () => {
 
   return (
     <Box m="20px">
-      <Header title="Danh sách" subtitle="Danh sách lịch sử nhập hàng" />
+      <Header title="Danh sách" subtitle="Danh sách yêu cầu nhập hàng" />
       <IconButton color="success" aria-label="add to shopping cart">
         <PlaylistAddIcon />Thêm yêu cầu nhập hàng
       </IconButton>
