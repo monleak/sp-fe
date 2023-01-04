@@ -29,6 +29,7 @@ import React from "react";
 import CardContentItem from "../../components/CardContentItem";
 import { useNavigate } from "react-router-dom";
 import CreatePriceQuotation from "../form/CreatePriceQuotationForm";
+import LazyText from "../../components/LazyText";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -48,7 +49,7 @@ const PriceQuotationList = () => {
     getSubProductList
   );
 
-  const { data: importRequest } = useQuery(
+  const { data: importRequest, isSuccess: isImpFetchSuccess } = useQuery(
     ["import-request-item", id],
     React.useCallback(() => getImportProductItem(id), [id]),
     {
@@ -65,12 +66,27 @@ const PriceQuotationList = () => {
     }
   );
 
-  const { data: priceQuotationList } = useQuery(
-    ["price-quotation-list", id],
-    () => {
-      return getPriceQuotationListOfImportRequest(id);
-    }
-  );
+  const { data: priceQuotationList, isLoading: isPriceQuotaionListLoading } =
+    useQuery(
+      ["price-quotation-list", id],
+      () => {
+        return getPriceQuotationListOfImportRequest(id);
+      },
+      {
+        select: (data) => {
+          return data.map((item: any) => {
+            return {
+              ...item,
+              // key: item.id,
+              product: "abc",
+              supplier: item?.SupplierModel?.name,
+            };
+          });
+        },
+      }
+    );
+
+  console.log(priceQuotationList);
 
   // theme
   const theme = useTheme();
@@ -87,7 +103,7 @@ const PriceQuotationList = () => {
       flex: 1,
       renderCell: (params: any) => (
         <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
+          ${params.row.unit_price}
         </Typography>
       ),
     },
@@ -165,25 +181,41 @@ const PriceQuotationList = () => {
           flexWrap: "wrap",
         }}
       >
-        <CardContentItem title="Mã yêu cầu" value={importRequest?.id} />
+        <CardContentItem
+          loading={isImpFetchSuccess}
+          title="Mã yêu cầu"
+          value={importRequest?.id}
+        />
         <CardContentItem
           title="Mã sản phẩm"
           value={`${importRequest?.product_id} - ${importRequest?.subproduct_id}`}
+          loading={isImpFetchSuccess}
         />
         <CardContentItem
           title="Tên sản phẩm"
           value={`${importRequest?.name}`}
+          loading={isImpFetchSuccess}
         />
-        <CardContentItem title="Loại" value={`${importRequest?.category}`} />
-        <CardContentItem title="Màu" value={`${importRequest?.color}`} />
+        <CardContentItem
+          title="Loại"
+          value={`${importRequest?.category}`}
+          loading={isImpFetchSuccess}
+        />
+        <CardContentItem
+          title="Màu"
+          value={`${importRequest?.color}`}
+          loading={isImpFetchSuccess}
+        />
         <CardContentItem
           title="Số lượng"
           value={`${importRequest?.quantity}`}
+          loading={isImpFetchSuccess}
         />
         <CardContentItem
           title="Ngày tạo"
           value={`${importRequest?.createdAt}`}
-        />
+          loading={isImpFetchSuccess}
+        ></CardContentItem>
       </Card>
       <Box
         m="40px 0 0 0"
@@ -216,8 +248,10 @@ const PriceQuotationList = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={mockDataImportStoryList}
+          // rows={mockDataImportStoryList}
+          rows={priceQuotationList || []}
           columns={columns}
+          loading={isPriceQuotaionListLoading}
         />
       </Box>
     </Box>

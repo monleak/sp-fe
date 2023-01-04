@@ -1,9 +1,11 @@
 import { CardContent, Typography } from "@mui/material";
 import React from "react";
+import LazyText from "./LazyText";
 
 type Props = {
   title?: string;
   value?: string | number;
+  loading?: boolean;
 };
 
 const CardContentItem = (props: Props) => {
@@ -18,9 +20,13 @@ const CardContentItem = (props: Props) => {
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         {props?.title}
       </Typography>
-      <Typography variant="h5" component="div">
+      <LazyText
+        variant="h5"
+        loading={props.loading}
+        // component="div"
+      >
         {props?.value}
-      </Typography>
+      </LazyText>
     </CardContent>
   );
 };
