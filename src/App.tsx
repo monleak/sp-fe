@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
@@ -6,17 +5,17 @@ import Dashboard from "./scenes/dashboard";
 import SupplierList from "./scenes/SupplierList";
 import Form from "./scenes/createNewSupplierForm";
 import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
-import BaoGia from "./scenes/BaoGia";
-import ImportStoryList from "./scenes/list/ImportHistoryList";
 import ImportProductsForm from "./scenes/form/ImportProductForm";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import CreatePriceQuotation from "./scenes/form/CreatePriceQuotationForm";
+import CreatePriceQuotation from "./scenes/PriceQuotation/CreatePriceQuotationForm";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Topbar from "./scenes/global/Topbar";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import PriceQuotationList from "./scenes/list/priceQuotationList";
+import PriceQuotationList from "./scenes/PriceQuotation/PriceQuotationList";
 import ImportHistoryList from "./scenes/list/ImportHistoryList";
+import NestedRouteModal from "./components/modal/NestedRouteModal";
+import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
 import RequestImportList from "./scenes/list/requestImportList";
 
 // Create query client to use react query
@@ -37,10 +36,12 @@ function App() {
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 {/* <Route path="/team" element={<Team />} /> */}
+                {/* ======================================== Supplier ============================================== */}
                 <Route path="/suppliers" element={<SupplierList />} />
                 <Route path="/suppliers/create" element={<Form />} />
                 <Route path="/suppliers/:id" element={<SupplierDetailInfo />} />
                 {/* <Route path="/BaoGia" element={<BaoGia />} /> */}
+                {/* ======================================== Import ============================================== */}
                 <Route
                   path="/imports/create"
                   element={<ImportProductsForm />}
@@ -49,30 +50,47 @@ function App() {
                   path="/imports/history"
                   element={<ImportHistoryList />}
                 />
+                {/* ======================================== Price quotation ============================================== */}
                 <Route
                   path="/imports/request"
                   element={<RequestImportList />}
                 />
-                {/* <Route path="/invoices" element={<Invoices />} /> */}
-                {/* Price quotation */}
                 <Route
                   path="/price-quotations/create"
                   element={<CreatePriceQuotation />}
                 />
                 <Route
-                  path="/imports/:importRequestId/price-quotation/create"
-                  element={<CreatePriceQuotation />}
-                />
-                <Route
-                  path="/imports/:importRequestId/price-quotation-list"
+                  path="/imports/:importRequestId/price-quotation-list/"
                   element={<PriceQuotationList />}
-                />
+                >
+                  {/* Nested route */}
+                  <Route
+                    path="/imports/:importRequestId/price-quotation-list/create"
+                    element={
+                      <NestedRouteModal>
+                        <CreatePriceQuotation />
+                      </NestedRouteModal>
+                    }
+                  />
+                  <Route
+                    path="/imports/:importRequestId/price-quotation-list/update/:priceQuotationId"
+                    element={
+                      <NestedRouteModal>
+                        <UpdatePriceQuotationForm />
+                      </NestedRouteModal>
+                    }
+                  />
+                  {/* Nested route */}
+                </Route>
+                {/* ========================================  ============================================== */}
               </Routes>
             </main>
           </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
+      {/* development */}
       <ReactQueryDevtools />
+      {/* development */}
     </QueryClientProvider>
   );
 }
