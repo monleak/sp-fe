@@ -16,6 +16,7 @@ import PriceQuotationList from "./scenes/PriceQuotation/PriceQuotationList";
 import ImportHistoryList from "./scenes/list/ImportHistoryList";
 import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
+import RequestImportList from "./scenes/list/requestImportList";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -50,6 +51,10 @@ function App() {
                   element={<ImportHistoryList />}
                 />
                 {/* ======================================== Price quotation ============================================== */}
+                <Route
+                  path="/imports/request"
+                  element={<RequestImportList />}
+                />
                 <Route
                   path="/price-quotations/create"
                   element={<CreatePriceQuotation />}

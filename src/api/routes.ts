@@ -13,7 +13,9 @@ const apiGetDataField = async (url: string) => {
   return data?.data;
 };
 
+// API CALL - STEP 1: định nghia queryFn: hàm gọi api và trả về dữ liệu
 export const getSupplierList = async (): Promise<ApiSupplierT[]> => {
+  // gọi api bằng axios, và trả về nội dung nếu có
   return await apiGetDataField(`${BASE_URL}/supplier`);
 };
 
