@@ -15,114 +15,143 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import MoreOutlinedIcon from '@mui/icons-material/MoreOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
+import ImportProductsForm from "../form/ImportProductForm";
+import {
+  ApiImportProductT,
+  SubProductInfoT,
+  getImportRequestList,
+  getSubProductList,
+  getSupplierList,
+} from "../../api";
+import React from "react";
+
 
 
 const RequestImportList = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const columns = [
-    { field: "id", headerName: "ID",flex: 0.1 },
-    { field: "supplier_id", headerName: "ID nhà cung cấp", flex: 0.5 },
-    { field: "supplier", headerName: "Nhà cung cấp ", flex: 1 },
-    { field: "product_id", headerName: "ID sản phẩm", flex: 0.5 },
-    { field: "product", headerName: "Sản phẩm ", flex: 1 },
-    {
-      field: "quantity",
-      headerName: "Số lượng",
-      flex: 1,
-    },
-    {
-      field: "total_cost",
-      headerName: "Tổng số tiền",
-      flex: 1,
-      renderCell: (params: any) => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
-        </Typography>
-      ),
-    },
-    {
-      field: "status",
-      headerName: "Trạng thái",
-      flex: 1,
-      renderCell: (param: any) => {
-        return <Chip color="warning" variant="outlined" label="Waiting" />;
+  
+  const { data: importRequestList, isSuccess: isImportReqListSuccess } = useQuery(
+    ["import-request"],
+    getImportRequestList
+    );
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+      [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
       },
-    },
-    {
-      field: "createdAt",
-      headerName: "Thời gian nhập ",
-      flex: 1,
-    },
-    {
-      field: "more",
-      headerName: "",
-      flex: 0.3,
-      renderCell: () => {
-        return (
-            <Button
+      [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+      },
+    }));
+    
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+      // hide last border
+      '&:last-child td, &:last-child th': {
+        border: 0,
+      },
+    }));
+
+    // modal state
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Box m="20px">
+      <Header 
+        title="Danh sách" 
+        subtitle="Danh sách yêu cầu nhập hàng" 
+        />
+    
+      <>
+            <IconButton color="success" aria-label="add to shopping cart" onClick={handleOpen}>
+              <PlaylistAddIcon />Thêm yêu cầu nhập hàng
+            </IconButton>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="parent-modal-title"
+              aria-describedby="parent-modal-description"
+            >
+              <Box
+                sx={{
+                  margin: 10,
+                  marginLeft: 20,
+                  bgcolor: "background.paper",
+                  border: "2px solid #000",
+                  boxShadow: 24,
+                  pr: 4,
+                }}
+              >
+                <ImportProductsForm />
+              </Box>
+            </Modal>
+          </>
+
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <StyledTableRow>
+            <StyledTableCell align="center">ID</StyledTableCell>
+            <StyledTableCell align="center">ID nhà cung cấp</StyledTableCell>
+            <StyledTableCell align="center">ID sản phẩm</StyledTableCell>
+            <StyledTableCell align="center">Số lượng</StyledTableCell>
+            <StyledTableCell align="center">Tổng số tiền</StyledTableCell>
+            <StyledTableCell align="center">Status</StyledTableCell>
+            <StyledTableCell align="center">Date</StyledTableCell>
+            <StyledTableCell> </StyledTableCell>
+          </StyledTableRow>
+        </TableHead>
+        <TableBody>
+          {importRequestList?.map((importRequest) => (
+            <StyledTableRow
+              key={importRequest.id}
+            >
+              <StyledTableCell align="center">
+                {importRequest.id}
+              </StyledTableCell>
+              <StyledTableCell align="center">{importRequest.supplier_id}</StyledTableCell>
+              <StyledTableCell align="center">{importRequest.product_id}{":"}{importRequest.subproduct_id}</StyledTableCell>
+              <StyledTableCell align="center">{importRequest.quantity}</StyledTableCell>
+              <StyledTableCell align="center">{importRequest.total_cost}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Chip color="warning" variant="outlined" label="Waiting" />
+                </StyledTableCell>
+                <StyledTableCell align="center">{importRequest.createdAt}</StyledTableCell>
+                <StyledTableCell align="center">
+                <Button
                 variant="text"
                 startIcon={<MoreOutlinedIcon style={{ color: "white" }} />}
             ></Button>
-        );
-      },
-    },
-    {
-        field: "delete",
-        headerName: "",
-        flex: 0.3,
-        renderCell: () => {
-          return (
             <Button
             variant="text"
             startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
             ></Button>
-          );
-        },
-      },
-  ];
-
-  return (
-    <Box m="20px">
-      <Header title="Danh sách" subtitle="Danh sách yêu cầu nhập hàng" />
-      <IconButton color="success" aria-label="add to shopping cart">
-        <PlaylistAddIcon />Thêm yêu cầu nhập hàng
-      </IconButton>
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          checkboxSelection
-          rows={mockDataImportStoryList}
-          columns={columns}
-        />
-      </Box>
+                </StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </Box>
   );
 };
