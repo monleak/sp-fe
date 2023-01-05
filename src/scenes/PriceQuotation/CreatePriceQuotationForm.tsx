@@ -25,6 +25,7 @@ import PriceQuotationForm, {
 const initialValues: PriceQuotationFormT = {
   supplier_id: 0,
   product_id: 0,
+  subproduct_id: 0,
   unit_price: 0,
   note: "",
 };
@@ -81,10 +82,11 @@ const CreatePriceQuotation = () => {
         import_id,
         product_id: values.product_id,
         supplier_id: values.supplier_id,
-        subproduct_id: 1, // FIXME: require subproduct_id here
+        subproduct_id: values.subproduct_id,
         note: values.note,
         unit_price: values.unit_price,
       });
+      // console.log(values);
       navigate(-1); // go back
     },
     [mutate, import_id, navigate]

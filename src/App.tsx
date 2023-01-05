@@ -17,6 +17,7 @@ import ImportHistoryList from "./scenes/list/ImportHistoryList";
 import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
 import RequestImportList from "./scenes/list/requestImportList";
+import NotFound from "./scenes/NotFound";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -83,6 +84,10 @@ function App() {
                   {/* Nested route */}
                 </Route>
                 {/* ========================================  ============================================== */}
+                {/* ... */}
+                {/* ======================================== END ============================================== */}
+                <Route path="*" element={<NotFound />} />
+                {/* ======================================== END ============================================== */}
               </Routes>
             </main>
           </div>
