@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -10,6 +10,7 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { useRoutes } from "react-router-dom";
 
 type ItemProps = {
   title: string;
@@ -40,12 +41,6 @@ const sidebarSessions: SidebarItemListProps = [
   { type: "text", title: "Nhập hàng" },
   {
     type: "item",
-    to: "/suppliers",
-    title: "Danh sách NCC",
-    icon: <PeopleOutlinedIcon />,
-  },
-  {
-    type: "item",
     to: "/imports/create",
     title: "Tạo yêu cầu nhập hàng",
     icon: <ContactsOutlinedIcon />,
@@ -53,7 +48,13 @@ const sidebarSessions: SidebarItemListProps = [
   {
     type: "item",
     to: "/imports/history",
-    title: "Invoices Balances",
+    title: "Lịch sử nhập hàng",
+    icon: <ReceiptOutlinedIcon />,
+  },
+  {
+    type: "item",
+    to: "/imports/request",
+    title: "Yêu cầu nhập hàng",
     icon: <ReceiptOutlinedIcon />,
   },
   { type: "text", title: "Nhà cung cấp" },
@@ -67,19 +68,19 @@ const sidebarSessions: SidebarItemListProps = [
     type: "item",
     icon: <PersonOutlinedIcon />,
     to: "/suppliers/create",
-    title: "Tạo NCC (test only)",
+    title: "Tạo NCC (test)",
   },
   {
     type: "item",
     icon: <PersonOutlinedIcon />,
     to: "/suppliers/1",
-    title: "Chi tiết 1 NCC (test only)",
+    title: "Chi tiết 1 NCC (test)",
   },
   { type: "text", title: "Báo giá" },
   {
     type: "item",
     to: "/price-quotations/create",
-    title: "Tạo báo giá (test only)",
+    title: "Tạo báo giá (test)",
     icon: <PersonOutlinedIcon />,
   },
   {
@@ -114,6 +115,11 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
+  const [searchParams, setParams] = useSearchParams();
+  if (searchParams.get("sidebar") === "false") {
+    return null;
+  }
+
   return (
     <Box
       sx={{
@@ -124,7 +130,9 @@ const Sidebar = () => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: "5px 35px 5px 10px !important",
+          padding: isCollapsed
+            ? "5px 35px 5px 18px !important"
+            : "5px 35px 5px 10px !important",
         },
         "& .pro-inner-item:hover": {
           color: "#868dfb !important",
@@ -194,15 +202,19 @@ const Sidebar = () => {
             {sidebarSessions.map((item) => {
               switch (item.type) {
                 case "text":
-                  return (
-                    <Typography
-                      variant="h6"
-                      color={colors.grey[300]}
-                      sx={{ m: "15px 0 5px 20px" }}
-                    >
-                      {item.title}
-                    </Typography>
-                  );
+                  if (isCollapsed) {
+                    return <Divider />;
+                  } else {
+                    return (
+                      <Typography
+                        variant="h6"
+                        color={colors.grey[300]}
+                        sx={{ m: "15px 0 5px 20px" }}
+                      >
+                        {item.title}
+                      </Typography>
+                    );
+                  }
                 case "item":
                   return (
                     <Item

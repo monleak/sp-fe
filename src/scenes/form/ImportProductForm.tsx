@@ -14,10 +14,7 @@ const ImportProductsForm = () => {
 
   return (
     <Box mt='20px' width='650px' margin='100px auto'>
-      <Header
-        title='CREATE A FORM '
-        subtitle='Create an import products request'
-      />
+      <Header title='Form ' subtitle='Tạo yêu cầu nhập hàng' />
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -96,7 +93,7 @@ const ImportProductsForm = () => {
             </Box>
             <Box display='flex' justifyContent='end' mt='20px'>
               <Button type='submit' color='secondary' variant='contained'>
-                Create New Import Product Request
+                Tạo yêu cầu
               </Button>
             </Box>
           </form>
