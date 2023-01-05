@@ -2,25 +2,27 @@ import {
   Box,
   Button,
   Card,
-  CardActions,
-  CardContent,
   Chip,
   Modal,
   Typography,
   useTheme,
 } from "@mui/material";
-import { DataGrid, GridColumns } from "@mui/x-data-grid";
+import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataImportStoryList } from "../../data/mockData";
 import Header from "../../components/Header";
-import { useParams } from "react-router-dom";
-import { useQueries, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { Outlet, useParams } from "react-router-dom";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   ApiImportProductT,
   BASE_URL,
   ProductT,
   SubProductInfoT,
+  deletePriceQuotation,
   getImportProductItem,
   getPriceQuotationListOfImportRequest,
   getSubProductList,
@@ -28,8 +30,9 @@ import {
 import React from "react";
 import CardContentItem from "../../components/CardContentItem";
 import { useNavigate } from "react-router-dom";
-import CreatePriceQuotation from "../form/CreatePriceQuotationForm";
-import LazyText from "../../components/LazyText";
+import CreatePriceQuotation from "./CreatePriceQuotationForm";
+import usePageModal from "../../hooks/usePageModal";
+import PageModal from "../../components/modal/PageModal";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -77,7 +80,7 @@ const PriceQuotationList = () => {
           return data.map((item: any) => {
             return {
               ...item,
-              // key: item.id,
+              key: item.id,
               product: "abc",
               supplier: item?.SupplierModel?.name,
             };
@@ -86,7 +89,13 @@ const PriceQuotationList = () => {
       }
     );
 
-  console.log(priceQuotationList);
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: deletePriceQuotation,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["price-quotation-list"]);
+    },
+  });
 
   // theme
   const theme = useTheme();
@@ -120,55 +129,64 @@ const PriceQuotationList = () => {
     },
     {
       field: "Edit",
-      renderCell: (param: any) => {
-        console.log(param.id);
+      renderCell: (param: GridRenderCellParams<any, any, any>) => {
+        // console.log(param.row);
         return (
-          <Button variant="outlined" color="warning">
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={() => {
+              navigate(
+                `/imports/${importRequestId}/price-quotation-list/update/${param.row?.id}`,
+                { state: param.row }
+              );
+            }}
+          >
             Edit
+          </Button>
+        );
+      },
+    },
+    {
+      field: "Delete",
+      renderCell: (param: GridRenderCellParams<any, any, any>) => {
+        return (
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => {
+              mutate(param.row?.id);
+            }}
+          >
+            Delete
           </Button>
         );
       },
     },
   ];
 
-  // modal state
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Box m="20px">
+      {/* NOTE: Nested modal using nested route react router dom */}
+      <Outlet />
+      {/* modal */}
+
       <Header
         title="Danh sách báo giá"
         subtitle={`Danh sách báo giá của yêu cầu nhập hàng`}
         rightChildren={
           <>
-            <Button variant="contained" color="secondary" onClick={handleOpen}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                navigate(
+                  `/imports/${importRequestId}/price-quotation-list/create`
+                );
+              }}
+            >
               Thêm báo giá mới
             </Button>
-            <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="parent-modal-title"
-              aria-describedby="parent-modal-description"
-            >
-              <Box
-                sx={{
-                  margin: 10,
-                  marginLeft: 20,
-                  bgcolor: "background.paper",
-                  border: "2px solid #000",
-                  boxShadow: 24,
-                  pr: 4,
-                }}
-              >
-                <CreatePriceQuotation />
-              </Box>
-            </Modal>
           </>
         }
       />
@@ -247,7 +265,7 @@ const PriceQuotationList = () => {
         }}
       >
         <DataGrid
-          checkboxSelection
+          // checkboxSelection
           // rows={mockDataImportStoryList}
           rows={priceQuotationList || []}
           columns={columns}
