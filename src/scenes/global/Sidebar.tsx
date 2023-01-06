@@ -27,11 +27,11 @@ type SidebarTextItemProps = {
 
 type SidebarItemListProps =
   | (
-      | ({
-          type: "text";
-        } & SidebarTextItemProps)
-      | ({ type: "item" } & ItemProps)
-    )[];
+    | ({
+      type: "text";
+    } & SidebarTextItemProps)
+    | ({ type: "item" } & ItemProps)
+  )[];
 
 /**
  * NOTE: ADD NEW SIDEBAR SESSION HERE !!!
@@ -56,6 +56,13 @@ const sidebarSessions: SidebarItemListProps = [
     to: "/imports/request",
     title: "Yêu cầu nhập hàng",
     icon: <ReceiptOutlinedIcon />,
+  },
+  { type: "text", title: "Nhập hàng" },
+  {
+    type: "item",
+    to: "/imports/history-export",
+    title: "Lịch sử xuất hàng",
+    icon: <ContactsOutlinedIcon />,
   },
   { type: "text", title: "Nhà cung cấp" },
   {
@@ -87,6 +94,18 @@ const sidebarSessions: SidebarItemListProps = [
     type: "item",
     to: "/imports/1/price-quotation-list/",
     title: "Danh sách báo giá",
+    icon: <HomeOutlinedIcon />,
+  }, { type: "text", title: "Tài Chính" },
+  {
+    type: "item",
+    to: "/fiscal/revenue",
+    title: "Báo Cáo Doanh Thu",
+    icon: <PersonOutlinedIcon />,
+  },
+  {
+    type: "item",
+    to: "/fiscal/receivable",
+    title: "Công Nợ Phải Thu",
     icon: <HomeOutlinedIcon />,
   },
 ];

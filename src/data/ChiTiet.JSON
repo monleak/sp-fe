@@ -1,0 +1,40 @@
+{
+    "historyId": 30,
+    "createdAt": "2023-01-03T04: 17: 30.914Z",
+    "packingStatus": null,
+    "status": "REJECTED",
+    "type": "EXPORT",
+    "updatedAt": "2023-01-03T04: 17: 31.296Z",
+    "HistoryItem": [
+        {
+            "historyItemId": 300,
+            "quantity": 3,
+            "status": "GOOD",
+            "itemId": 68,
+            "historyId": 30,
+            "item": {
+                "productId": 11
+            }
+        },
+        {
+            "historyItemId": 301,
+            "quantity": 3,
+            "status": "GOOD",
+            "itemId": 38,
+            "historyId": 30,
+            "item": {
+                "productId": 6
+            }
+        },
+        {
+            "historyItemId": 302,
+            "quantity": 6,
+            "status": "GOOD",
+            "itemId": 32,
+            "historyId": 30,
+            "item": {
+                "productId": 5
+            }
+        }
+    ]
+}

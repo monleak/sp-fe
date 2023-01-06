@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "./constants";
-import { ApiImportProductT, ApiSupplierT } from "./types";
+import { ApiImportProductT, ApiPriceQuotationT, ApiSupplierT } from "./types";
 
 /**
  * Call api and get data.data
@@ -35,6 +35,10 @@ export const getImportList = async (): Promise<ApiImportProductT[]> => {
  * Lấy danh sách đơn nhập hàng đang ở trạng thái ACCEPT
  * - lấy để thêm báo giá
  */
+export const getImportAcceptedList = async (): Promise<ApiImportProductT[]> => {
+  return await apiGetDataField(`${BASE_URL}/import?status=ACCEPT`);
+};
+
 export const getImportRequestList = async (): Promise<ApiImportProductT[]> => {
   return await apiGetDataField(`${BASE_URL}/import?status=REQUEST`);
 };
@@ -64,4 +68,49 @@ export const getPriceQuotationListOfImportRequest = async (
     `${BASE_URL}/price-quotation?import_id=${importRequestId}`
   );
   return data?.data;
+};
+
+/**
+ * Get one price quotation with id
+ */
+export const getPriceQuotationById = async (
+  priceQuotationId: string | number
+): Promise<ApiPriceQuotationT> => {
+  const { data } = await axios.get(
+    `${BASE_URL}/price-quotation/${priceQuotationId}`
+  );
+  return data?.data;
+};
+
+/**
+ * create new PriceQuotation
+ */
+export const createNewPriceQuotation = async (pq: ApiPriceQuotationT) => {
+  const { data } = await axios.post(`${BASE_URL}/price-quotation/`, pq);
+  console.log(data);
+  return data;
+};
+
+/**
+ * Update PriceQuotation
+ */
+export const updatePriceQuotation = async (param: {
+  id: number;
+  pq: ApiPriceQuotationT;
+}) => {
+  const { data } = await axios.put(
+    `${BASE_URL}/price-quotation/${param.id}`,
+    param.pq
+  );
+  console.log(data);
+  return data;
+};
+
+/**
+ * Delete PriceQuotation
+ */
+export const deletePriceQuotation = async (id: number) => {
+  const { data } = await axios.delete(`${BASE_URL}/price-quotation/${id}`);
+  console.log(data);
+  return data;
 };
