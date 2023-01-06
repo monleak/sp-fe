@@ -114,3 +114,15 @@ export const deletePriceQuotation = async (id: number) => {
   console.log(data);
   return data;
 };
+
+/**
+ * Update ImportProduct
+ */
+export const updateImportProduct = async (param: {
+  id: number;
+  imp: Partial<ApiImportProductT>;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.imp);
+  console.log(data);
+  return data;
+};

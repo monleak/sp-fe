@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import Switch from "@mui/material/Switch";
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
-import { Typography } from "@mui/material";
+import { ListSubheader, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {};
@@ -15,7 +15,22 @@ function Setting({}: Props) {
   const navigate = useNavigate();
   const { search, pathname } = useLocation();
 
-  const [checked, setChecked] = React.useState(["sidebar"]);
+  const [checked, setChecked] = React.useState<string[]>(() => {
+    const initializeChecked = ["topbar", "sidebar"];
+    search
+      .replace("?", "")
+      .split("&")
+      .forEach((exp) => {
+        const [k, v] = exp.split("=");
+        if ((k === "topbar" || k === "sidebar") && v === "false") {
+          initializeChecked.splice(
+            initializeChecked.findIndex((ik) => ik === k),
+            1
+          );
+        }
+      });
+    return initializeChecked;
+  });
 
   const handleToggle = (value: string) => () => {
     const currentIndex = checked.indexOf(value);
@@ -40,12 +55,8 @@ function Setting({}: Props) {
 
   return (
     <List
-      sx={{ width: "100%", maxWidth: 1080, margin: "auto" }}
-      subheader={
-        <Typography variant="h2" padding={4}>
-          Cài đặt
-        </Typography>
-      }
+      sx={{ width: "100%", maxWidth: 1080, margin: "auto", minWidth: 320 }}
+      subheader={<ListSubheader>Cài đặt</ListSubheader>}
     >
       <ListItem>
         <ListItemIcon>

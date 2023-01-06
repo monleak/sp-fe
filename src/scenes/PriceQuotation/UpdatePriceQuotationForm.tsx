@@ -94,14 +94,16 @@ const UpdatePriceQuotationForm = () => {
         importRequestList={importRequestList}
         initialValues={{
           note: param.note || "",
-          product_id: param.product_id || -1,
-          subproduct_id: param.subproduct_id || -1,
+          import_id: param.import_id || 0,
+          product_id: param.product_id || 0,
+          subproduct_id: param.subproduct_id || 0,
           supplier_id: param.supplier_id || 0,
           unit_price: param.unit_price || 0,
         }}
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
+        isImportReqListDisable={true}
         submitBtnText={"Cập nhật"}
       />
       {/*  */}
