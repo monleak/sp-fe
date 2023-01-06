@@ -1,28 +1,33 @@
-import { Box, Button, TextField } from '@mui/material';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Box } from '@mui/material';
 import Header from '../../components/Header';
-import { display } from '@mui/system';
-import React from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ApiImportProductT,
-  createNewImportHistoryList,
+  SubProductInfoT,
   getImportAcceptedList,
   getSubProductList,
   getSupplierList,
-  SubProductInfoT,
+  updatePriceQuotation,
 } from '../../api';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { transformJoinSubProductList } from '../../api/transform';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ImportForm, {
   ImportProductFormT,
 } from '../../components/importForm/ImportForm';
-import { transformJoinSubProductList } from '../../api/transform';
 
-const ImportProductsForm = () => {
-  const isNonMobile = useMediaQuery('(min-width:600px)');
+/*
+ * @brief Form cập nhật báo giá
+ *
+ * Created on Thu Jan 06 2022
+ * Copyright (c) 2022 AnNV
+ */
+
+const UpdateImportForm = () => {
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const param = location.state as ApiImportProductT;
 
   // api get
   const { data: productList } = useQuery(
@@ -52,54 +57,50 @@ const ImportProductsForm = () => {
 
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation({
-    mutationFn: createNewImportHistoryList,
+    mutationFn: updatePriceQuotation,
     onSuccess: () => {
-      queryClient.invalidateQueries(['import-product']);
+      queryClient.invalidateQueries(['price-quotation-list']);
     },
   });
 
   // form
-  const handleFormSubmit = React.useCallback(
-    (values: ImportProductFormT) => {
+  const handleFormSubmit = (values: ImportProductFormT) => {
+    // console.log(values);
+    if (param.id) {
       mutate({
-        product_id: values.product_id,
-        supplier_id: values.supplier_id,
-        subproduct_id: values.subproduct_id,
-        quantity: values.quantity,
-        status: 'REQUEST',
-        note: values.note,
-        created_by: '',
-        updated_by: '',
-        total_cost: 0,
+        id: param.id,
+        pq: {
+          // ...param,
+          ...values,
+        },
       });
-      navigate(-1); // go back
-    },
-    [mutate, navigate]
-  );
+    }
+    navigate(-1); // go back
+  };
 
+  // jsx
   return (
     <Box mt='20px' width='650px' margin='100px auto'>
-      <Header title='Form ' subtitle='Tạo yêu cầu nhập hàng' />
-
+      <Header title='Cập nhật ' subtitle='Cập nhật lịch sử nhập hàng' />
+      {/*  */}
       <ImportForm
         handleSubmit={handleFormSubmit}
         importRequestList={importRequestList}
-        initialValues={initialValues}
+        initialValues={{
+          note: param.note || '',
+          product_id: param.product_id || 0,
+          subproduct_id: param.subproduct_id || 0,
+          supplier_id: param.supplier_id || 0,
+          quantity: param.quantity || 0,
+        }}
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
-        submitBtnText={'Tạo yêu cầu mới'}
+        submitBtnText={'Cập nhật'}
       />
+      {/*  */}
     </Box>
   );
 };
 
-const initialValues = {
-  supplier_id: 0,
-  product_id: 0,
-  subproduct_id: 0,
-  quantity: 0,
-  note: '',
-};
-
-export default ImportProductsForm;
+export default UpdateImportForm;

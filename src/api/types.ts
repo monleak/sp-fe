@@ -33,7 +33,8 @@ export type ApiSupplierT = {
 };
 
 export type ApiImportProductT = {
-  id: number;
+  id?: number;
+  import_id?: number;
   supplier_id: number;
   product_id: number;
   subproduct_id: number;
@@ -41,10 +42,10 @@ export type ApiImportProductT = {
   total_cost: number;
   status: string;
   note: string;
-  created_by: string;
-  updated_by: string;
-  createdAt: string;
-  updatedAt: string;
+  created_by?: string;
+  updated_by?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type ApiPriceQuotationT = {

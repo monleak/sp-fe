@@ -1,6 +1,6 @@
-import axios from "axios";
-import { BASE_URL } from "./constants";
-import { ApiImportProductT, ApiPriceQuotationT, ApiSupplierT } from "./types";
+import axios from 'axios';
+import { BASE_URL } from './constants';
+import { ApiImportProductT, ApiPriceQuotationT, ApiSupplierT } from './types';
 
 /**
  * Call api and get data.data
@@ -27,20 +27,37 @@ export const getSupplierList = async (): Promise<ApiSupplierT[]> => {
  * 4. Danh sách báo giá: Chọn báo giá phù hợp cho ycnh status=WAIT
  * 5. Danh sách ycnh status=WAIT: Nếu nhập thành công: status=SUCCESS, thất bại: status=FAILED
  */
-export const getImportList = async (): Promise<ApiImportProductT[]> => {
-  return await apiGetDataField(`${BASE_URL}/import`);
-};
 
 /**
  * Lấy danh sách đơn nhập hàng đang ở trạng thái ACCEPT
  * - lấy để thêm báo giá
  */
+
+// Import history list
 export const getImportAcceptedList = async (): Promise<ApiImportProductT[]> => {
   return await apiGetDataField(`${BASE_URL}/import?status=ACCEPT`);
 };
 
 export const getImportRequestList = async (): Promise<ApiImportProductT[]> => {
   return await apiGetDataField(`${BASE_URL}/import?status=REQUEST`);
+};
+
+export const getImportHistoryList = async (): Promise<ApiImportProductT[]> => {
+  return await apiGetDataField(`${BASE_URL}/import`);
+};
+
+export const createNewImportHistoryList = async (pq: ApiImportProductT) => {
+  const { data } = await axios.post(`${BASE_URL}/import/`, pq);
+  return data;
+};
+
+export const updateImport = async (param: {
+  id: number;
+  pq: ApiImportProductT;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.pq);
+  console.log(data);
+  return data;
 };
 
 /**

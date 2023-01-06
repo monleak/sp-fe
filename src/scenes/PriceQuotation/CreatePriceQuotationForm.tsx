@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
-import Header from "../../components/Header";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Box } from '@mui/material';
+import Header from '../../components/Header';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ApiImportProductT,
   SubProductInfoT,
@@ -8,13 +8,13 @@ import {
   getImportAcceptedList,
   getSubProductList,
   getSupplierList,
-} from "../../api";
-import React from "react";
-import { transformJoinSubProductList } from "../../api/transform";
-import { useNavigate, useParams } from "react-router-dom";
+} from '../../api';
+import React from 'react';
+import { transformJoinSubProductList } from '../../api/transform';
+import { useNavigate, useParams } from 'react-router-dom';
 import PriceQuotationForm, {
   PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
+} from '../../components/priceQuotation/PriceQuotationForm';
 
 /*
  * @brief Form tạo báo giá mới
@@ -26,7 +26,7 @@ const initialValues: PriceQuotationFormT = {
   supplier_id: 0,
   product_id: 0,
   unit_price: 0,
-  note: "",
+  note: '',
 };
 
 const CreatePriceQuotation = () => {
@@ -36,23 +36,23 @@ const CreatePriceQuotation = () => {
   // set default improt request id if exists in route param
   // TODO: CHANGE initialValues.productId -> initialValues.importRequestId
   if (!importRequestId) {
-    throw new Error("require param: importRequestId");
+    throw new Error('require param: importRequestId');
   }
   let import_id = Number.parseInt(importRequestId);
 
   // api get
   const { data: productList } = useQuery(
-    ["sub-product-list"],
+    ['sub-product-list'],
     getSubProductList
   );
 
   const { data: supplierList, isSuccess: isSupplierListSuccess } = useQuery(
-    ["supplier-list"],
+    ['supplier-list'],
     getSupplierList
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(["import-request"], getImportAcceptedList, {
+    useQuery(['import-request'], getImportAcceptedList, {
       //NOTE: join import request list and product list
       select: React.useCallback(
         (
@@ -70,7 +70,7 @@ const CreatePriceQuotation = () => {
   const { isLoading, isError, error, mutate } = useMutation({
     mutationFn: createNewPriceQuotation,
     onSuccess: () => {
-      queryClient.invalidateQueries(["price-quotation-list", import_id]);
+      queryClient.invalidateQueries(['price-quotation-list', import_id]);
     },
   });
 
@@ -92,10 +92,10 @@ const CreatePriceQuotation = () => {
 
   // jsx
   return (
-    <Box mt="20px" width="650px" margin="100px auto">
+    <Box mt='20px' width='650px' margin='100px auto'>
       <Header
-        title="Thêm báo giá"
-        subtitle="Thêm 1 báo giá mới cho yêu cầu nhập hàng đã được chấp nhận"
+        title='Thêm báo giá'
+        subtitle='Thêm 1 báo giá mới cho yêu cầu nhập hàng đã được chấp nhận'
       />
       {/*  */}
       <PriceQuotationForm
@@ -105,7 +105,7 @@ const CreatePriceQuotation = () => {
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
-        submitBtnText={"Tạo báo giá mới"}
+        submitBtnText={'Tạo báo giá mới'}
       />
       {/*  */}
     </Box>
