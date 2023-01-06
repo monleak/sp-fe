@@ -42,8 +42,14 @@ export const getImportRequestList = async (): Promise<ApiImportProductT[]> => {
   return await apiGetDataField(`${BASE_URL}/import?status=REQUEST`);
 };
 
-export const getImportHistoryList = async (): Promise<ApiImportProductT[]> => {
+export const getALlImportHistoryList = async (): Promise<
+  ApiImportProductT[]
+> => {
   return await apiGetDataField(`${BASE_URL}/import`);
+};
+
+export const getImportHistoryList = async (): Promise<ApiImportProductT[]> => {
+  return await apiGetDataField(`${BASE_URL}/import?status=COMPLETED`);
 };
 
 export const createNewImportHistoryList = async (pq: ApiImportProductT) => {

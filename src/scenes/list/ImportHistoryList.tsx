@@ -47,6 +47,11 @@ const ImportHistoryList = () => {
       flex: 0.7,
     },
     {
+      field: 'unit_price',
+      headerName: 'Đơn giá',
+      flex: 0.7,
+    },
+    {
       field: 'total_cost',
       headerName: 'Tổng số tiền',
       flex: 0.7,

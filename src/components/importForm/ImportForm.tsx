@@ -201,7 +201,7 @@ const ImportForm = (props: Props) => {
               fullWidth
               variant='filled'
               type='text'
-              label={cu == 'c' ? 'Created by' : 'Updated by'}
+              label={cu == 'c' ? 'Created by' : 'Created by'}
               onBlur={handleBlur}
               onChange={handleChange}
               value={cu == 'c' ? values.created_by : values.updated_by}

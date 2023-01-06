@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ApiImportProductT,
   createNewImportHistoryList,
+  getALlImportHistoryList,
   getImportAcceptedList,
   getSubProductList,
   getSupplierList,
@@ -36,7 +37,7 @@ const ImportProductsForm = () => {
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(['import-request'], getImportAcceptedList, {
+    useQuery(['import-request'], getALlImportHistoryList, {
       //NOTE: join import request list and product list
       select: React.useCallback(
         (

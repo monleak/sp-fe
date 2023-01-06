@@ -8,6 +8,7 @@ import {
   getSubProductList,
   getSupplierList,
   updatePriceQuotation,
+  getALlImportHistoryList,
 } from '../../api';
 import React from 'react';
 import { transformJoinSubProductList } from '../../api/transform';
@@ -41,7 +42,7 @@ const UpdateImportForm = () => {
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(['import-request'], getImportAcceptedList, {
+    useQuery(['import-request'], getALlImportHistoryList, {
       //NOTE: join import request list and product list
       select: React.useCallback(
         (

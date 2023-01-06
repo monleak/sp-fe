@@ -51,7 +51,6 @@ const CreatePriceQuotation = () => {
     getSupplierList
   );
 
-  console.log(productList, supplierList);
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
     useQuery(['import-request'], getImportAcceptedList, {
       //NOTE: join import request list and product list
