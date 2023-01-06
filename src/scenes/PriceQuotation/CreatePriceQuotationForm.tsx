@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
 } from "../../components/priceQuotation/PriceQuotationForm";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
  * @brief Form tạo báo giá mới
@@ -31,7 +32,7 @@ const initialValues: PriceQuotationFormT = {
 };
 
 const CreatePriceQuotation = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   // get param
   const { importRequestId } = useParams();
   // set default improt request id if exists in route param

@@ -5,12 +5,13 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import SettingsIcon from "@mui/icons-material/Settings";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useRoutes } from "react-router-dom";
+import { LinkWithPreserveQuery } from "../../components/common/LinkWithPreserveQuery";
 
 type ItemProps = {
   title: string;
@@ -79,15 +80,16 @@ const sidebarSessions: SidebarItemListProps = [
   { type: "text", title: "Báo giá" },
   {
     type: "item",
-    to: "/price-quotations/create",
-    title: "Tạo báo giá (test)",
-    icon: <PersonOutlinedIcon />,
-  },
-  {
-    type: "item",
     to: "/imports/1/price-quotation-list/",
     title: "Danh sách báo giá",
     icon: <HomeOutlinedIcon />,
+  },
+  { type: "text", title: "Cài đặt" },
+  {
+    type: "item",
+    to: "/setting",
+    title: "Cài đặt",
+    icon: <SettingsIcon />,
   },
 ];
 
@@ -104,7 +106,7 @@ const Item = ({ title, to, icon, selected, setSelected }: ItemProps) => {
       icon={icon}
     >
       <Typography>{title}</Typography>
-      <Link to={to} />
+      <LinkWithPreserveQuery to={to} />
     </MenuItem>
   );
 };

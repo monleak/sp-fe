@@ -16,6 +16,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
 } from "../../components/priceQuotation/PriceQuotationForm";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
  * @brief Form cập nhật báo giá
@@ -29,7 +30,7 @@ type UpdatePriceQuotationFormProps = {
 };
 
 const UpdatePriceQuotationForm = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   const location = useLocation();
   const param = location.state as ApiPriceQuotationT;

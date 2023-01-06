@@ -33,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 import CreatePriceQuotation from "./CreatePriceQuotationForm";
 import usePageModal from "../../hooks/usePageModal";
 import PageModal from "../../components/modal/PageModal";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -42,7 +43,7 @@ import PageModal from "../../components/modal/PageModal";
  */
 const PriceQuotationList = () => {
   // url param
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   const { importRequestId } = useParams();
   const id = Number.parseInt(importRequestId || "");
 
