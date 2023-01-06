@@ -104,3 +104,5 @@ export const getProductList = async (): Promise<ProductT[]> => {
 export const getSubProductList = async (): Promise<SubProductInfoT[]> => {
   return getSubProductListFromProductList(fakeProductList);
 };
+
+

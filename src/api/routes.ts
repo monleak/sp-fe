@@ -82,6 +82,15 @@ export const getPriceQuotationById = async (
   return data?.data;
 };
 
+export const getSupplierById = async (
+  SupplierId: string | number
+): Promise<ApiSupplierT> => {
+  const { data } = await axios.get(
+    `${BASE_URL}/supplier/${SupplierId}` 
+  );
+  return data?.data;
+}
+
 /**
  * create new PriceQuotation
  */
@@ -91,6 +100,13 @@ export const createNewPriceQuotation = async (pq: ApiPriceQuotationT) => {
   return data;
 };
 
+/* create new supplier */
+export const createNewSupplier = async (s: ApiSupplierT) => {
+  const { data } = await axios.post(`${BASE_URL}/supplier`, s);
+  console.log(data);
+  return data;
+
+}
 /**
  * Update PriceQuotation
  */
@@ -114,3 +130,23 @@ export const deletePriceQuotation = async (id: number) => {
   console.log(data);
   return data;
 };
+
+
+/* Delete supplier */
+export const deleteSupplier = async (id: number) => {
+  const { data } = await axios.delete(`${BASE_URL}/supplier/${id}`);
+  console.log(data);
+  return data;
+}
+/*Update supplier */
+export const updateSupplier = async (param: {
+  id: number;
+  s: ApiSupplierT;
+}) => {
+  const { data } = await axios.put(
+    `${BASE_URL}/supplier/${param.id}`,
+    param.s
+  );
+  console.log(data);
+  return data;
+}
