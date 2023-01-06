@@ -17,6 +17,7 @@ import ImportHistoryList from "./scenes/list/ImportHistoryList";
 import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
 import RequestImportList from "./scenes/list/requestImportList";
+import UpdateRequestImportForm from "./scenes/form/updateRequestImport";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -77,6 +78,14 @@ function App() {
                     element={
                       <NestedRouteModal>
                         <UpdatePriceQuotationForm />
+                      </NestedRouteModal>
+                    }
+                  />
+                  <Route
+                    path="/imports/update/:importRequestId"
+                    element={
+                      <NestedRouteModal>
+                        <UpdateRequestImportForm />
                       </NestedRouteModal>
                     }
                   />

@@ -66,6 +66,7 @@ const RequestImportList = () => {
       },
     });
 
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -152,7 +153,11 @@ const RequestImportList = () => {
               <StyledTableCell align="center">{importRequest.supplier_id}</StyledTableCell>
               <StyledTableCell align="center">{importRequest.product_id}{":"}{importRequest.subproduct_id}</StyledTableCell>
               <StyledTableCell align="center">{importRequest.quantity}</StyledTableCell>
-              <StyledTableCell align="center">{importRequest.total_cost}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Typography color={colors.greenAccent[500]}>
+                  ${importRequest.total_cost}
+                </Typography>
+              </StyledTableCell>
               <StyledTableCell align="center">
                 <Chip color="warning" variant="outlined" label="Waiting" />
               </StyledTableCell>
@@ -161,6 +166,12 @@ const RequestImportList = () => {
                 <Button
                 variant="text"
                 startIcon={<MoreOutlinedIcon style={{ color: "white" }} />}
+                onClick={() => {
+                  navigate(
+                    `/imports/update/${importRequest.id}`,
+                    { state: importRequest }
+                  );
+                }}
                 ></Button>
                 <Button
                 variant="text"

@@ -107,6 +107,21 @@ export const updatePriceQuotation = async (param: {
 };
 
 /**
+ * Update ImportHistory
+ */
+export const updateImportHistory = async (param: {
+  id: number;
+  pq: ApiImportProductT;
+}) => {
+  const { data } = await axios.put(
+    `${BASE_URL}/price-quotation/${param.id}`,
+    param.pq
+  );
+  console.log(data);
+  return data;
+};
+
+/**
  * Delete PriceQuotation
  */
 export const deletePriceQuotation = async (id: number) => {
