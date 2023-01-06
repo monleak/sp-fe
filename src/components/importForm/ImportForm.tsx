@@ -16,11 +16,13 @@ import { ApiImportProductT, ApiSupplierT, SubProductInfoT } from '../../api';
 
 // form attributes
 export type ImportProductFormT = {
-  supplier_id: number;
   product_id: number;
   subproduct_id: number;
   quantity: number;
+  status: string;
   note: string;
+  created_by: string;
+  updated_by: string;
 };
 
 // validate form
@@ -29,6 +31,7 @@ const checkoutSchema = yup.object().shape({
   product_id: yup.number().required('required'),
   subproduct_id: yup.number().required('required'),
   quantity: yup.number().required('required'),
+  status: yup.string().required('required'),
   note: yup.string().required('required'),
 });
 // props
@@ -40,6 +43,7 @@ type Props = {
   isImportReqListSuccess?: boolean;
   supplierList?: ApiSupplierT[];
   submitBtnText?: string;
+  create_update?: string;
 };
 
 /*
@@ -51,7 +55,7 @@ type Props = {
 const ImportForm = (props: Props) => {
   // responsive
   const isNonMobile = useMediaQuery('(min-width:600px)');
-
+  let cu = props.create_update == 'created_by' ? 'c' : 'u';
   return (
     <Formik
       onSubmit={props.handleSubmit}
@@ -74,19 +78,26 @@ const ImportForm = (props: Props) => {
             alignItems={'center'}
           >
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              <InputLabel id='select-supplier'>Chọn nhà cung cấp</InputLabel>
+              <InputLabel id='select-product-id'>Product Id</InputLabel>
               <Select
-                labelId='select-supplier'
-                label='Chọn nhà cung cấp *'
-                name='supplier_id'
-                value={values.supplier_id}
+                labelId='select-product-id'
+                label='Chọn product'
+                id='product_id'
+                name='product_id'
+                value={values.product_id}
                 onChange={handleChange}
               >
-                {props.isSupplierListSuccess ? (
-                  props.supplierList?.map((supplier) => {
+                {props.isImportReqListSuccess ? (
+                  props.importRequestList?.map((req) => {
                     return (
-                      <MenuItem key={supplier.id} value={supplier.id}>
-                        {supplier.name}
+                      <MenuItem key={req.id} value={req.id}>
+                        <Typography>
+                          {req.id}
+                          {' - '}
+                          {req.name}
+                          {req.size && ` - ${req.size}`}
+                          {req.color && ` - ${req.color}`}
+                        </Typography>
                       </MenuItem>
                     );
                   })
@@ -103,15 +114,13 @@ const ImportForm = (props: Props) => {
             <div style={{ width: 60 }}></div>
             {/*  */}
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              <InputLabel id='select-import-request'>
-                Chọn yêu cầu nhập hàng
-              </InputLabel>
+              <InputLabel id='select-subproduct-id'>Subproduct Id</InputLabel>
               <Select
-                labelId='select-import-request'
-                label='Chọn yêu cầu nhập hàng'
-                id='product_id'
-                name='product_id'
-                value={values.product_id}
+                labelId='select-subproduct-id'
+                label='Chọn subproduct id'
+                id='subproduct_id'
+                name='subproduct_id'
+                value={values.subproduct_id}
                 onChange={handleChange}
               >
                 {props.isImportReqListSuccess ? (
@@ -152,19 +161,6 @@ const ImportForm = (props: Props) => {
               fullWidth
               variant='filled'
               type='number'
-              label='Subproduct Id'
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.subproduct_id}
-              name='subproduct_id'
-              error={!!touched.subproduct_id && !!errors.subproduct_id}
-              helperText={touched.subproduct_id && errors.subproduct_id}
-              sx={{ gridColumn: 'span 2' }}
-            />
-            <TextField
-              fullWidth
-              variant='filled'
-              type='number'
               label='Quantity'
               onBlur={handleBlur}
               onChange={handleChange}
@@ -172,6 +168,20 @@ const ImportForm = (props: Props) => {
               name='quantity'
               error={!!touched.quantity && !!errors.quantity}
               helperText={touched.quantity && errors.quantity}
+              sx={{ gridColumn: 'span 2' }}
+            />
+
+            <TextField
+              fullWidth
+              variant='filled'
+              type='text'
+              label='Status'
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.status}
+              name='status'
+              error={!!touched.status && !!errors.status}
+              helperText={touched.status && errors.status}
               sx={{ gridColumn: 'span 2' }}
             />
             <TextField
@@ -185,6 +195,25 @@ const ImportForm = (props: Props) => {
               name='note'
               error={!!touched.note && !!errors.note}
               helperText={touched.note && errors.note}
+              sx={{ gridColumn: 'span 4' }}
+            />
+            <TextField
+              fullWidth
+              variant='filled'
+              type='text'
+              label={cu == 'c' ? 'Created by' : 'Updated by'}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={cu == 'c' ? values.created_by : values.updated_by}
+              name={props.create_update}
+              error={
+                (cu == 'c' ? !!touched.created_by : !!touched.updated_by) &&
+                (cu == 'c' ? !!errors.created_by : !!errors.updated_by)
+              }
+              helperText={
+                (cu == 'c' ? touched.created_by : touched.updated_by) &&
+                (cu == 'c' ? errors.created_by : errors.updated_by)
+              }
               sx={{ gridColumn: 'span 4' }}
             />
           </Box>

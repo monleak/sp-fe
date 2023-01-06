@@ -90,13 +90,16 @@ const UpdateImportForm = () => {
           note: param.note || '',
           product_id: param.product_id || 0,
           subproduct_id: param.subproduct_id || 0,
-          supplier_id: param.supplier_id || 0,
+          status: param.status || '',
           quantity: param.quantity || 0,
+          created_by: param.created_by || '',
+          updated_by: param.updated_by || '',
         }}
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
         submitBtnText={'Cập nhật'}
+        create_update={'updated_by'}
       />
       {/*  */}
     </Box>

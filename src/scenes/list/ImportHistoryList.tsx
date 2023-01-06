@@ -52,7 +52,7 @@ const ImportHistoryList = () => {
       flex: 0.7,
       renderCell: (params: any) => (
         <Typography color={colors.greenAccent[500]}>
-          ${params.row.total_cost}
+          {params.row.total_cost} đ
         </Typography>
       ),
     },
@@ -119,7 +119,6 @@ const ImportHistoryList = () => {
         }}
       >
         <DataGrid
-          checkboxSelection
           rows={importHistoryList || []}
           columns={columns}
           loading={isImportHistoryListLoading}

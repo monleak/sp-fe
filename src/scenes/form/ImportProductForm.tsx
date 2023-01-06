@@ -63,12 +63,12 @@ const ImportProductsForm = () => {
     (values: ImportProductFormT) => {
       mutate({
         product_id: values.product_id,
-        supplier_id: values.supplier_id,
+        supplier_id: 0,
         subproduct_id: values.subproduct_id,
         quantity: values.quantity,
-        status: 'REQUEST',
+        status: values.status,
         note: values.note,
-        created_by: '',
+        created_by: values.created_by,
         updated_by: '',
         total_cost: 0,
       });
@@ -89,6 +89,7 @@ const ImportProductsForm = () => {
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
         submitBtnText={'Tạo yêu cầu mới'}
+        create_update={'created_by'}
       />
     </Box>
   );
@@ -99,6 +100,9 @@ const initialValues = {
   product_id: 0,
   subproduct_id: 0,
   quantity: 0,
+  status: '',
+  created_by: '',
+  updated_by: '',
   note: '',
 };
 
