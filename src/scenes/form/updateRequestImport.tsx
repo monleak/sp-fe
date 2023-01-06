@@ -17,6 +17,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
 } from "../../components/priceQuotation/PriceQuotationForm";
+import ImportProductForm from "../../components/ImportProductForm";
 
 /*
  * @brief Form cập nhật báo giá
@@ -73,7 +74,7 @@ const UpdateRequestImportForm = () => {
     <Box mt="20px" width="650px" margin="100px auto">
       <Header title="Cập nhật báo giá" subtitle="Cập nhật thông tin báo giá" />
       {/*  */}
-      <PriceQuotationForm
+      <ImportProductForm
         handleSubmit={handleFormSubmit}
         importRequestList={importRequestList}
         initialValues={{
@@ -82,10 +83,11 @@ const UpdateRequestImportForm = () => {
           supplier_id: param.supplier_id || 0,
           subproduct_id: param.subproduct_id || 0,
           total_cost: param.total_cost || 0,
+          status: param.status || "",
+          quantity: param.quantity || 0,
+
         }}
-        supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
-        isSupplierListSuccess={isSupplierListSuccess}
         submitBtnText={"Cập nhật"}
       />
       {/*  */}

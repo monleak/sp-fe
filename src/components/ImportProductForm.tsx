@@ -12,13 +12,16 @@ import {
   import { Formik } from "formik";
   import * as yup from "yup";
   import useMediaQuery from "@mui/material/useMediaQuery";
-  import { ApiImportProductT, ApiSupplierT, SubProductInfoT } from "../../api";
+  import { ApiImportProductT, ApiSupplierT, SubProductInfoT } from "../api";
   
   // form attributes
-  export type PriceQuotationFormT = {
+  export type ImportProductFormT = {
     supplier_id: number;
     product_id: number;
-    unit_price: number;
+    subproduct_id: number;
+    total_cost: number;
+    quantity: number;
+    status: string;
     note: string;
   };
   
@@ -32,12 +35,10 @@ import {
   
   // props
   type Props = {
-    initialValues: PriceQuotationFormT;
-    handleSubmit: (value: PriceQuotationFormT) => any;
-    isSupplierListSuccess?: boolean;
+    initialValues: ImportProductFormT;
+    handleSubmit: (value: ImportProductFormT) => any;
     importRequestList?: (ApiImportProductT & Partial<SubProductInfoT>)[];
     isImportReqListSuccess?: boolean;
-    supplierList?: ApiSupplierT[];
     submitBtnText?: string;
   };
   
@@ -47,7 +48,7 @@ import {
    * Created on Thu Jan 05 2023
    * Copyright (c) 2023 HaVT
    */
-  const PriceQuotationForm = (props: Props) => {
+  const ImportProductForm = (props: Props) => {
     // responsive
     const isNonMobile = useMediaQuery("(min-width:600px)");
   
@@ -74,33 +75,6 @@ import {
               alignItems={"center"}
               // flexDirection="column"
             >
-              <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-                <InputLabel id="select-supplier">Chọn nhà cung cấp</InputLabel>
-                <Select
-                  labelId="select-supplier"
-                  label="Chọn nhà cung cấp *"
-                  name="supplier_id"
-                  value={values.supplier_id}
-                  onChange={handleChange}
-                >
-                  {props.isSupplierListSuccess ? (
-                    props.supplierList?.map((supplier) => {
-                      return (
-                        <MenuItem key={supplier.id} value={supplier.id}>
-                          {supplier.name}
-                        </MenuItem>
-                      );
-                    })
-                  ) : (
-                    <LinearProgress
-                      color="inherit"
-                      style={{
-                        margin: 12,
-                      }}
-                    />
-                  )}
-                </Select>
-              </FormControl>
               <div style={{ width: 60 }}></div>
               {/*  */}
               <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
@@ -156,10 +130,10 @@ import {
                 label="Đơn giá"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.unit_price}
+                value={values.total_cost}
                 name="unit_price"
-                error={!!touched.unit_price && !!errors.unit_price}
-                helperText={touched.unit_price && errors.unit_price}
+                error={!!touched.total_cost && !!errors.total_cost}
+                helperText={touched.total_cost && errors.total_cost}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
@@ -187,5 +161,5 @@ import {
     );
   };
   
-  export default PriceQuotationForm;
+  export default ImportProductForm;
   

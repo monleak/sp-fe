@@ -172,15 +172,15 @@ const RequestImportList = () => {
                     { state: importRequest }
                   );
                 }}
-                ></Button>
-                <Button
-                variant="text"
-                startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
+            ></Button>
+            <Button
+            variant="text"
+            startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
                 onClick={() => {
                   mutate(importRequest.id);
                 }}
-                ></Button>
-              </StyledTableCell>
+            ></Button>
+                </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
