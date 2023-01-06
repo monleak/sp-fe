@@ -15,7 +15,6 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import MoreOutlinedIcon from '@mui/icons-material/MoreOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useMutation, useQuery } from "@tanstack/react-query";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -26,25 +25,46 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import ImportProductsForm from "../form/ImportProductForm";
+import { useNavigate } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   ApiImportProductT,
   SubProductInfoT,
   getImportRequestList,
   getSubProductList,
   getSupplierList,
+  deleteImportHistory,
 } from "../../api";
 import React from "react";
 
 
 
 const RequestImportList = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
+
+  const { importRequestId } = useParams();
+  const id = Number.parseInt(importRequestId || "");
+
   const { data: importRequestList, isSuccess: isImportReqListSuccess } = useQuery(
     ["import-request"],
     getImportRequestList
     );
+
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+      mutationFn: deleteImportHistory,
+      onSuccess: () => {
+        queryClient.invalidateQueries(["import-request"]);
+      },
+    });
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
@@ -135,18 +155,21 @@ const RequestImportList = () => {
               <StyledTableCell align="center">{importRequest.total_cost}</StyledTableCell>
               <StyledTableCell align="center">
                 <Chip color="warning" variant="outlined" label="Waiting" />
-                </StyledTableCell>
-                <StyledTableCell align="center">{importRequest.createdAt}</StyledTableCell>
-                <StyledTableCell align="center">
+              </StyledTableCell>
+              <StyledTableCell align="center">{importRequest.createdAt}</StyledTableCell>
+              <StyledTableCell align="center">
                 <Button
                 variant="text"
                 startIcon={<MoreOutlinedIcon style={{ color: "white" }} />}
-            ></Button>
-            <Button
-            variant="text"
-            startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
-            ></Button>
-                </StyledTableCell>
+                ></Button>
+                <Button
+                variant="text"
+                startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
+                onClick={() => {
+                  mutate(importRequest.id);
+                }}
+                ></Button>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

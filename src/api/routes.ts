@@ -114,3 +114,12 @@ export const deletePriceQuotation = async (id: number) => {
   console.log(data);
   return data;
 };
+
+/**
+ * Delete importHistory
+ */
+export const deleteImportHistory = async (id: number) => {
+  const { data } = await axios.delete(`${BASE_URL}/import/${id}`);
+  console.log(data);
+  return data;
+};

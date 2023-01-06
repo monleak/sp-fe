@@ -90,6 +90,7 @@ const PriceQuotationList = () => {
     );
 
   const queryClient = useQueryClient();
+  
   const { mutate } = useMutation({
     mutationFn: deletePriceQuotation,
     onSuccess: () => {
