@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import Header from '../../components/Header';
 import { tokens } from '../../theme';
-import { mockDataImportStoryList } from '../../data/mockData';
+import { mockDataDetailsExport } from '../../data/mockData';
 import { DataGrid } from '@mui/x-data-grid';
 
 const ShowDetailsHistory = () => {
@@ -86,7 +86,7 @@ const ShowDetailsHistory = () => {
                 }}
             >
                 <DataGrid
-                    rows={mockDataImportStoryList}
+                    rows={mockDataDetailsExport}
                     columns={columns}
                 />
             </Box>

@@ -473,21 +473,47 @@ export const mockLineData = [
   },
 ];
 
-export const mockDataDetailsExport = [
+
+export const mockDataDetailsExport: any = [
   {
-    id: 1,
-    product_id: "01e4dsa",
-    product: "abc",
-    classification: "mau do",
-    quantity: 100,
-    orderSeriNumer: "123"
+    id: 30,
+    createdAt: "2023-01-03",
+    status: "REJECTED",
+    HistoryItem: [
+      {
+        historyItemId: 300,
+        quantity: 3,
+        status: "GOOD",
+        itemId: 68,
+        historyId: 30,
+        item: { productId: 11 }
+      },
+      {
+        historyItemId: 301,
+        quantity: 3,
+        status: "GOOD",
+        itemId: 38,
+        historyId: 30,
+        item: { productId: 6 }
+      },
+      {
+        historyItemId: 302,
+        quantity: 6,
+        status: "GOOD",
+        itemId: 32,
+        historyId: 30,
+        item: { productId: 5 }
+      }
+    ]
   },
   {
-    id: 2,
-    product_id: "01e4dsa",
-    product: "abc",
-    classification: "mau do",
-    quantity: 100,
-    orderSeriNumer: "123"
+    id: 31,
+    createdAt: "2023-01-03",
+    status: "REJECTED",
+  },
+  {
+    id: 32,
+    createdAt: "2023-01-03",
+    status: "REJECTED",
   },
 ];

@@ -1,18 +1,16 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { Formik } from 'formik';
 import * as React from 'react';
 import { DataGrid } from "@mui/x-data-grid";
-import { mockDataImportStoryList } from "../../data/mockData";
+import { mockDataDetailsExport } from '../../data/mockData';
 import * as yup from 'yup';
 import { tokens } from "../../theme";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../../components/Header';
 import EditIcon from "@mui/icons-material/Edit";
-import { display } from '@mui/system';
 import Modal from '@mui/material/Modal';
 import ModalChiTietXuatHang from './ModalChiTietXuatHang';
 const ImportExportsForm = () => {
-  const isNonMobile = useMediaQuery('(min-width:600px)');
   const theme = useTheme();
   const handleFormSubmit = (values: any) => {
     console.log(values);
@@ -22,38 +20,11 @@ const ImportExportsForm = () => {
   const handleClose = () => setOpen(false);
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "id", headerName: "ID Đơn Hàng", flex: 0.75 },
-    { field: "supplier_id", headerName: "", flex: 0.5 },
-    { field: "supplier", headerName: "Nhà cung cấp ", flex: 1 },
-    { field: "product_id", headerName: "Id sản phẩm", flex: 0.5 },
-    { field: "product", headerName: "Sản phẩm ", flex: 1 },
+    { field: "historyId", headerName: "ID Phiết Xuất", flex: 0.75 },
+    { field: "createdAt", headerName: "Ngày Tạo", flex: 1 },
+    { field: "status", headerName: "Trạng Thái", flex: 1 },
     {
-      field: "quantity",
-      headerName: "Số lượng",
-      flex: 1,
-    },
-    {
-      field: "total_cost",
-      headerName: "Tổng số tiền",
-      flex: 1,
-      renderCell: (params: any) => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
-        </Typography>
-      ),
-    },
-    {
-      field: "status",
-      headerName: "Trạng thái",
-      flex: 1,
-    },
-    {
-      field: "createdAt",
-      headerName: "Thời gian nhập ",
-      flex: 1,
-    },
-    {
-      field: "eidt",
+      field: "show",
       headerName: "",
       flex: 0.3,
       renderCell: () => {
@@ -78,11 +49,6 @@ const ImportExportsForm = () => {
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
           handleSubmit,
         }) => (
           <form onSubmit={handleSubmit}>
@@ -116,7 +82,7 @@ const ImportExportsForm = () => {
             >
               <DataGrid
                 checkboxSelection
-                rows={mockDataImportStoryList}
+                rows={mockDataDetailsExport}
                 columns={columns}
                 disableSelectionOnClick
               />
