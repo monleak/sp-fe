@@ -3,14 +3,17 @@ import {
   Button,
   Card,
   Chip,
+  MenuItem,
   Modal,
+  Select,
+  Snackbar,
   Typography,
   useTheme,
 } from "@mui/material";
 import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import {
   useMutation,
   useQueries,
@@ -26,6 +29,8 @@ import {
   getImportProductItem,
   getPriceQuotationListOfImportRequest,
   getSubProductList,
+  updateImportProduct,
+  updatePriceQuotation,
 } from "../../api";
 import React from "react";
 import CardContentItem from "../../components/CardContentItem";
@@ -33,6 +38,9 @@ import { useNavigate } from "react-router-dom";
 import CreatePriceQuotation from "./CreatePriceQuotationForm";
 import usePageModal from "../../hooks/usePageModal";
 import PageModal from "../../components/modal/PageModal";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
+import { LinkWithPreserveQuery } from "../../components/common/LinkWithPreserveQuery";
+import { getPid } from "../../utils/string";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -41,8 +49,9 @@ import PageModal from "../../components/modal/PageModal";
  * Copyright (c) 2022 HaVT
  */
 const PriceQuotationList = () => {
+  const { handleClose, handleOpen, isOpen } = usePageModal(false);
   // url param
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   const { importRequestId } = useParams();
   const id = Number.parseInt(importRequestId || "");
 
@@ -69,6 +78,10 @@ const PriceQuotationList = () => {
     }
   );
 
+  const isPQAssignDone = React.useCallback(() => {
+    return !importRequest || importRequest?.status === "Q_P_ASSIGNED";
+  }, [importRequest]);
+
   const { data: priceQuotationList, isLoading: isPriceQuotaionListLoading } =
     useQuery(
       ["price-quotation-list", id],
@@ -83,6 +96,7 @@ const PriceQuotationList = () => {
               key: item.id,
               product: "abc",
               supplier: item?.SupplierModel?.name,
+              selectedId: item?.ImportProductModel.price_quotation_id,
             };
           });
         },
@@ -93,7 +107,15 @@ const PriceQuotationList = () => {
   const { mutate } = useMutation({
     mutationFn: deletePriceQuotation,
     onSuccess: () => {
+      queryClient.invalidateQueries(["price-quotation-list", id]);
+    },
+  });
+  const { mutate: setImportPriceQuotation } = useMutation({
+    // update import id
+    mutationFn: updateImportProduct,
+    onSuccess: () => {
       queryClient.invalidateQueries(["price-quotation-list"]);
+      queryClient.invalidateQueries(["import-request-item", id]);
     },
   });
 
@@ -104,15 +126,34 @@ const PriceQuotationList = () => {
   // table columns
   const columns: GridColumns<any> = [
     { field: "id", headerName: "ID" },
-    { field: "supplier_id", headerName: "Mã NCC" },
-    { field: "supplier", headerName: "Nhà cung cấp", flex: 1 },
+    {
+      field: "supplier_id",
+      headerName: "Mã NCC",
+      renderCell: (param: any) => (
+        <LinkWithPreserveQuery to={`/suppliers/${param.row?.supplier_id}`}>
+          <Typography color={"white"}>
+            {getPid("NCC", param.row?.supplier_id)}
+          </Typography>
+        </LinkWithPreserveQuery>
+      ),
+    },
+    {
+      field: "supplier",
+      headerName: "Nhà cung cấp",
+      flex: 1,
+      renderCell: (param: any) => (
+        <LinkWithPreserveQuery to={`/suppliers/${param.row?.supplier_id}`}>
+          <Typography color={"white"}>{param.row?.supplier}</Typography>
+        </LinkWithPreserveQuery>
+      ),
+    },
     {
       field: "unit_price",
       headerName: "Đơn giá",
       flex: 1,
       renderCell: (params: any) => (
         <Typography color={colors.greenAccent[500]}>
-          ${params.row.unit_price}
+          {params.row.unit_price}đ
         </Typography>
       ),
     },
@@ -124,7 +165,40 @@ const PriceQuotationList = () => {
     {
       field: "Status",
       renderCell: (param: any) => {
-        return <Chip color="success" variant="outlined" label="Accepted" />;
+        return (
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={param.row?.selectedId === param.row?.id ? 1 : 0}
+            label="Status"
+            disabled={isPQAssignDone()}
+            onChange={(e) => {
+              const v: number = e.target.value as number;
+              if (v) {
+                setImportPriceQuotation({
+                  id: param.row?.import_id,
+                  imp: {
+                    price_quotation_id: param.row?.id,
+                  },
+                });
+              } else {
+                setImportPriceQuotation({
+                  id: param.row?.import_id,
+                  imp: {
+                    price_quotation_id: null,
+                  },
+                });
+              }
+            }}
+          >
+            <MenuItem value={1}>
+              <Chip color="success" variant="outlined" label="Selected" />
+            </MenuItem>
+            <MenuItem value={0}>
+              <Chip color="warning" variant="outlined" label="Waiting" />
+            </MenuItem>
+          </Select>
+        );
       },
     },
     {
@@ -135,6 +209,7 @@ const PriceQuotationList = () => {
           <Button
             variant="outlined"
             color="warning"
+            disabled={isPQAssignDone()}
             onClick={() => {
               navigate(
                 `/imports/${importRequestId}/price-quotation-list/update/${param.row?.id}`,
@@ -154,6 +229,7 @@ const PriceQuotationList = () => {
           <Button
             variant="outlined"
             color="error"
+            disabled={isPQAssignDone()}
             onClick={() => {
               mutate(param.row?.id);
             }}
@@ -175,10 +251,11 @@ const PriceQuotationList = () => {
         title="Danh sách báo giá"
         subtitle={`Danh sách báo giá của yêu cầu nhập hàng`}
         rightChildren={
-          <>
+          <Box>
             <Button
               variant="contained"
               color="secondary"
+              disabled={isPQAssignDone()}
               onClick={() => {
                 navigate(
                   `/imports/${importRequestId}/price-quotation-list/create`
@@ -187,7 +264,39 @@ const PriceQuotationList = () => {
             >
               Thêm báo giá mới
             </Button>
-          </>
+
+            <Button
+              variant="contained"
+              color="info"
+              disabled={isPQAssignDone()}
+              onClick={() => {
+                if (
+                  !!importRequest?.price_quotation_id &&
+                  !!importRequest?.id
+                ) {
+                  setImportPriceQuotation({
+                    id: importRequest?.id,
+                    imp: {
+                      price_quotation_id: importRequest?.price_quotation_id,
+                      status: "Q_P_ASSIGNED",
+                    },
+                  });
+                } else {
+                  handleOpen();
+                }
+                // console.log(importRequest?.price_quotation_id);
+                // console.log(isImpFetchSuccess);
+                // console.log(!isPriceQuotaionListLoading);
+              }}
+              style={{
+                marginLeft: 24,
+              }}
+            >
+              {isPQAssignDone()
+                ? "Đã xác nhận nhập hàng"
+                : "Xác nhận nhập hàng"}
+            </Button>
+          </Box>
         }
       />
       <Card
@@ -227,6 +336,11 @@ const PriceQuotationList = () => {
         <CardContentItem
           title="Số lượng"
           value={`${importRequest?.quantity}`}
+          loading={isImpFetchSuccess}
+        />
+        <CardContentItem
+          title="Trạng thái"
+          value={`${importRequest?.status}`}
           loading={isImpFetchSuccess}
         />
         <CardContentItem
@@ -272,6 +386,13 @@ const PriceQuotationList = () => {
           loading={isPriceQuotaionListLoading}
         />
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={isOpen}
+        onClose={handleClose}
+        message="Cần chọn 1 báo giá trước khi xác nhận nhập hàng"
+        key={"snackbar"}
+      />
     </Box>
   );
 };
