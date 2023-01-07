@@ -22,11 +22,30 @@ const CongNo = () => {
   let countRow = 0;
   let countRow1 = 0;
   const [open, setOpen] = React.useState(false);
-  const [content, setContent] = React.useState('');
+  const [content, setContent] = React.useState(Object);
   const columns = [
     { field: "stt", headerName: "STT", flex: 0.2 },
     { field: "id", headerName: "ID Hóa đơn", flex: 1 },
     { field: "date", headerName: "Ngày thu dự kiến", flex: 1 },
+    { field: "price", headerName: "Số tiền", flex: 1 },
+    {
+      field: "info", headerName: "Chi tiết", flex: 0.5, renderCell: (v: any) => {
+
+        return (
+          <Button
+            onClick={() => { clickHandler(v) }}
+            variant="text"
+            startIcon={<VisibilityIcon style={{ color: "white" }}
+            />}
+          ></Button >
+        )
+      }
+    }
+  ]
+  const columns1 = [
+    { field: "stt", headerName: "STT", flex: 0.2 },
+    { field: "id", headerName: "ID Hóa đơn", flex: 1 },
+    { field: "date", headerName: "Ngày hoàn thành", flex: 1 },
     { field: "price", headerName: "Số tiền", flex: 1 },
     {
       field: "info", headerName: "Chi tiết", flex: 0.5, renderCell: (v: any) => {
@@ -120,7 +139,7 @@ const CongNo = () => {
           }}>
           <DataGrid
             rows={mockDataCollected.map((v) => { return { ...v, stt: ++countRow1 } })}
-            columns={columns}
+            columns={columns1}
           />
         </Box>
       </Box>
@@ -130,7 +149,7 @@ const CongNo = () => {
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={closeHandler}>
-          Chi tiết công nợ
+          <h1 style={{ color: colors.greenAccent[300], textAlign: "center", margin: 0 }}>Chi tiết công nợ</h1>
         </BootstrapDialogTitle>
         <DialogContent dividers>
 
@@ -138,19 +157,58 @@ const CongNo = () => {
             console.log(ct);
             return (
               <Typography gutterBottom>
-                hello
+                <OrderInfoTable
+                  id={ct.id}
+                  customer={{ name: "Son", phone: "123", address: { ward: "123", district: "123", province: "123", detail: "Ha Noi" } }}
+                  shippingFree={100000}
+                  price={10000000}
+                  orderTime="2021-12-31"
+                  payTime='2022-01-01'
+                />
               </Typography>
             )
           })(content)}
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={closeHandler}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
-    </Box>
+    </Box >
   )
 }
-
+export interface OrderInfo {
+  id: string;
+  customer: { name: string, phone: string, address: { ward: string, district: string, province: string, detail: string } };
+  shippingFree: number;
+  price: number;
+  orderTime: string;
+  payTime: string;
+}
+export const OrderInfoTable = ({ id, customer, shippingFree, price, orderTime, payTime }: OrderInfo) => {
+  const css = ".tb,.tb tr, .tb td, .tb th{\
+  border: 1px solid black; \
+  border-collapse: collapse; \
+  padding: .7em;\
+  }\
+  "
+  return (
+    <table className="tb"
+    >
+      <style>{css}</style>
+      <tr>
+        <th>ID</th>
+        <th>Thông tin khách hàng</th>
+        <th>Phí ship</th>
+        <th>Tổng tiền</th>
+        <th>Thời gian tạo đơn</th>
+        <th>Thời gian hoàn thành</th>
+      </tr>
+      <tr>
+        <td>{id}</td>
+        <td>{customer.name}</td>
+        <td>{shippingFree}</td>
+        <td>{price}</td>
+        <td>{orderTime}</td>
+        <td>{payTime}</td>
+      </tr>
+    </table>
+  )
+}
 export default CongNo
