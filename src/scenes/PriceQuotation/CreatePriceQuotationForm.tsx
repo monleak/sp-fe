@@ -1,5 +1,9 @@
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
+import PriceQuotationForm, {
+  PriceQuotationFormT,
+} from "../../components/PriceQuotation/PriceQuotationForm";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ApiImportProductT,
@@ -11,10 +15,9 @@ import {
 } from "../../api";
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
-import { useNavigate, useParams } from "react-router-dom";
-import PriceQuotationForm, {
-  PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
+import { useParams } from "react-router-dom";
+
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
  * @brief Form tạo báo giá mới
@@ -23,6 +26,7 @@ import PriceQuotationForm, {
  * Copyright (c) 2022 HaVT
  */
 const initialValues: PriceQuotationFormT = {
+  import_id: 0,
   supplier_id: 0,
   product_id: 0,
   subproduct_id: 0,
@@ -31,15 +35,15 @@ const initialValues: PriceQuotationFormT = {
 };
 
 const CreatePriceQuotation = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   // get param
   const { importRequestId } = useParams();
   // set default improt request id if exists in route param
-  // TODO: CHANGE initialValues.productId -> initialValues.importRequestId
   if (!importRequestId) {
     throw new Error("require param: importRequestId");
   }
   let import_id = Number.parseInt(importRequestId);
+  initialValues.import_id = import_id;
 
   // api get
   const { data: productList } = useQuery(
@@ -60,12 +64,13 @@ const CreatePriceQuotation = () => {
           list: ApiImportProductT[]
         ): (ApiImportProductT & Partial<SubProductInfoT>)[] => {
           return productList
-            ? transformJoinSubProductList<ApiImportProductT>(list, productList)
+            ? transformJoinSubProductList<any>(list, productList)
             : list;
         },
         [productList]
       ),
     });
+  console.log(importRequestList);
 
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation({
@@ -79,17 +84,17 @@ const CreatePriceQuotation = () => {
   const handleFormSubmit = React.useCallback(
     (values: PriceQuotationFormT) => {
       mutate({
-        import_id,
+        import_id: values.import_id,
         product_id: values.product_id,
-        supplier_id: values.supplier_id,
         subproduct_id: values.subproduct_id,
+        supplier_id: values.supplier_id,
         note: values.note,
         unit_price: values.unit_price,
       });
       // console.log(values);
       navigate(-1); // go back
     },
-    [mutate, import_id, navigate]
+    [mutate, navigate]
   );
 
   // jsx
@@ -102,11 +107,11 @@ const CreatePriceQuotation = () => {
       {/*  */}
       <PriceQuotationForm
         handleSubmit={handleFormSubmit}
-        importRequestList={importRequestList}
         initialValues={initialValues}
         supplierList={supplierList}
-        isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
+        importRequestList={importRequestList}
+        isImportReqListSuccess={isImportReqListSuccess}
         submitBtnText={"Tạo báo giá mới"}
       />
       {/*  */}

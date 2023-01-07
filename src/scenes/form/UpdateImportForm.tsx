@@ -1,53 +1,48 @@
-import { Box } from "@mui/material";
-import Header from "../../components/Header";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Box } from '@mui/material';
+import Header from '../../components/Header';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ApiImportProductT,
-  ApiPriceQuotationT,
   SubProductInfoT,
   getImportAcceptedList,
   getSubProductList,
   getSupplierList,
   updatePriceQuotation,
-} from "../../api";
-import React from "react";
-import { transformJoinSubProductList } from "../../api/transform";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
-import PriceQuotationForm, {
-  PriceQuotationFormT,
-} from "../../components/PriceQuotation/PriceQuotationForm";
+  getALlImportHistoryList,
+} from '../../api';
+import React from 'react';
+import { transformJoinSubProductList } from '../../api/transform';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import ImportForm, {
+  ImportProductFormT,
+} from '../../components/importForm/ImportForm';
 
 /*
  * @brief Form cập nhật báo giá
  *
- * Created on Thu Dec 29 2022
- * Copyright (c) 2022 HaVT
+ * Created on Thu Jan 06 2022
+ * Copyright (c) 2022 AnNV
  */
-type UpdatePriceQuotationFormProps = {
-  initialValues: PriceQuotationFormT;
-  priceQutationId: number;
-};
 
-const UpdatePriceQuotationForm = () => {
-  const navigate = usePreserveQueryNavigate();
+const UpdateImportForm = () => {
+  const navigate = useNavigate();
 
   const location = useLocation();
-  const param = location.state as ApiPriceQuotationT;
+  const param = location.state as ApiImportProductT;
 
   // api get
   const { data: productList } = useQuery(
-    ["sub-product-list"],
+    ['sub-product-list'],
     getSubProductList
   );
 
   const { data: supplierList, isSuccess: isSupplierListSuccess } = useQuery(
-    ["supplier-list"],
+    ['supplier-list'],
     getSupplierList
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(["import-request"], getImportAcceptedList, {
+    useQuery(['import-request'], getALlImportHistoryList, {
       //NOTE: join import request list and product list
       select: React.useCallback(
         (
@@ -65,12 +60,12 @@ const UpdatePriceQuotationForm = () => {
   const { isLoading, isError, error, mutate } = useMutation({
     mutationFn: updatePriceQuotation,
     onSuccess: () => {
-      queryClient.invalidateQueries(["price-quotation-list"]);
+      queryClient.invalidateQueries(['price-quotation-list']);
     },
   });
 
   // form
-  const handleFormSubmit = (values: PriceQuotationFormT) => {
+  const handleFormSubmit = (values: ImportProductFormT) => {
     // console.log(values);
     if (param.id) {
       mutate({
@@ -86,29 +81,30 @@ const UpdatePriceQuotationForm = () => {
 
   // jsx
   return (
-    <Box mt="20px" width="650px" margin="100px auto">
-      <Header title="Cập nhật báo giá" subtitle="Cập nhật thông tin báo giá" />
+    <Box mt='20px' width='650px' margin='100px auto'>
+      <Header title='Cập nhật ' subtitle='Cập nhật lịch sử nhập hàng' />
       {/*  */}
-      <PriceQuotationForm
+      <ImportForm
         handleSubmit={handleFormSubmit}
         importRequestList={importRequestList}
         initialValues={{
-          note: param.note || "",
-          import_id: param.import_id || 0,
+          note: param.note || '',
           product_id: param.product_id || 0,
           subproduct_id: param.subproduct_id || 0,
-          supplier_id: param.supplier_id || 0,
-          unit_price: param.unit_price || 0,
+          status: param.status || '',
+          quantity: param.quantity || 0,
+          created_by: param.created_by || '',
+          updated_by: param.updated_by || '',
         }}
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
-        // isImportReqListDisable={true}
-        submitBtnText={"Cập nhật"}
+        submitBtnText={'Cập nhật'}
+        create_update={'updated_by'}
       />
       {/*  */}
     </Box>
   );
 };
 
-export default UpdatePriceQuotationForm;
+export default UpdateImportForm;

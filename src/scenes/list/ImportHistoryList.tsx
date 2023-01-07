@@ -1,38 +1,70 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataImportStoryList } from "../../data/mockData";
 import EditIcon from "@mui/icons-material/Edit";
 import Header from "../../components/Header";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getImportHistoryList } from "../../api";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ImportHistoryList = () => {
+  // url param
+  const navigate = useNavigate();
+  // api
+  const { data: importHistoryList, isLoading: isImportHistoryListLoading } =
+    useQuery(
+      ["history-list"],
+      () => {
+        return getImportHistoryList();
+      },
+      {
+        select: (data) => {
+          return data.map((item: any) => {
+            return {
+              ...item,
+              key: item.id,
+              product: "abc",
+              supplier: item?.SupplierModel?.name,
+            };
+          });
+        },
+      }
+    );
+
+  //theme
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "supplier_id", headerName: "Id nhà cung cấp", flex: 0.5 },
+    { field: "id", headerName: "ID", flex: 0.5 },
     { field: "supplier", headerName: "Nhà cung cấp ", flex: 1 },
-    { field: "product_id", headerName: "Id sản phẩm", flex: 0.5 },
     { field: "product", headerName: "Sản phẩm ", flex: 1 },
+    { field: "product_id", headerName: "Id Product", flex: 0.5 },
+    { field: "subproduct_id", headerName: "Id Subproduct", flex: 0.5 },
     {
       field: "quantity",
       headerName: "Số lượng",
-      flex: 1,
+      flex: 0.7,
+    },
+    {
+      field: "unit_price",
+      headerName: "Đơn giá",
+      flex: 0.7,
     },
     {
       field: "total_cost",
       headerName: "Tổng số tiền",
-      flex: 1,
+      flex: 0.7,
       renderCell: (params: any) => (
         <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
+          {params.row.total_cost} đ
         </Typography>
       ),
     },
     {
       field: "status",
       headerName: "Trạng thái",
-      flex: 1,
+      flex: 0.7,
     },
     {
       field: "createdAt",
@@ -40,14 +72,19 @@ const ImportHistoryList = () => {
       flex: 1,
     },
     {
-      field: "eidt",
+      field: "edit",
       headerName: "",
       flex: 0.3,
-      renderCell: () => {
+      renderCell: (param: GridRenderCellParams<any, any, any>) => {
         return (
           <Button
             variant="text"
             startIcon={<EditIcon style={{ color: "white" }} />}
+            onClick={() => {
+              navigate(`/imports/update/${param.row?.id}`, {
+                state: param.row,
+              });
+            }}
           ></Button>
         );
       },
@@ -87,9 +124,9 @@ const ImportHistoryList = () => {
         }}
       >
         <DataGrid
-          checkboxSelection
-          rows={mockDataImportStoryList}
+          rows={importHistoryList || []}
           columns={columns}
+          loading={isImportHistoryListLoading}
         />
       </Box>
     </Box>

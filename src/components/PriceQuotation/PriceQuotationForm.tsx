@@ -4,21 +4,18 @@ import {
   Button,
   CircularProgress,
   FormControl,
-  InputLabel,
-  LinearProgress,
-  MenuItem,
-  Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { ApiImportProductT, ApiSupplierT, SubProductInfoT } from "../../api";
 import usePageModal from "../../hooks/usePageModal";
+import { getPid } from "../../utils/string";
 
 // form attributes
 export type PriceQuotationFormT = {
+  import_id: number;
   supplier_id: number;
   product_id: number;
   subproduct_id: number;
@@ -39,9 +36,13 @@ type Props = {
   initialValues: PriceQuotationFormT;
   handleSubmit: (value: PriceQuotationFormT) => any;
   isSupplierListSuccess?: boolean;
+  supplierList?: ApiSupplierT[];
+
   importRequestList?: (ApiImportProductT & Partial<SubProductInfoT>)[];
   isImportReqListSuccess?: boolean;
-  supplierList?: ApiSupplierT[];
+  isImportReqListDisable?: boolean;
+  isImportReqListDefault?: number;
+
   submitBtnText?: string;
 };
 
@@ -75,6 +76,7 @@ const PriceQuotationForm = (props: Props) => {
         handleBlur,
         handleChange,
         handleSubmit,
+        setFieldValue,
       }) => (
         <form onSubmit={handleSubmit}>
           {/*  */}
@@ -83,52 +85,42 @@ const PriceQuotationForm = (props: Props) => {
             flex={1}
             justifyContent="center"
             alignItems={"center"}
-            // flexDirection="column"
           >
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              {/* <InputLabel id="select-supplier">Chọn nhà cung cấp</InputLabel>
-              <Select
-                labelId="select-supplier"
-                label="Chọn nhà cung cấp *"
-                name="supplier_id"
-                value={values.supplier_id}
-                onChange={handleChange}
-              >
-                {props.isSupplierListSuccess ? (
-                  props.supplierList?.map((supplier) => {
-                    return (
-                      <MenuItem key={supplier.id} value={supplier.id}>
-                        {supplier.name}
-                      </MenuItem>
-                    );
-                  })
-                ) : (
-                  <LinearProgress
-                    color="inherit"
-                    style={{
-                      margin: 12,
-                    }}
-                  />
-                )}
-              </Select> */}
               <Autocomplete
-                id="select-supplier"
+                id="supplier_id"
                 sx={{ width: 300 }}
                 open={isOpen}
                 onOpen={handleOpen}
                 onClose={handleClose}
                 onChange={(e, value) => {
-                  values.supplier_id = value?.id || -1;
+                  setFieldValue("supplier_id", value?.id);
                 }}
-                includeInputInList
+                defaultValue={
+                  props.initialValues.supplier_id
+                    ? {
+                        id: props.initialValues.supplier_id,
+                        address: "",
+                        name:
+                          props.supplierList?.find(
+                            (item) =>
+                              item.id === props.initialValues.supplier_id
+                          )?.name || "",
+                      }
+                    : undefined
+                }
+                // includeInputInList
                 isOptionEqualToValue={(option: any, value: any) => {
-                  if (option?.name === value?.name) {
+                  if (option?.id === value?.id) {
                     return true;
                   }
                   return false;
                 }}
-                getOptionLabel={(option) => `${option.id} - ${option?.name}`}
-                // options={options}
+                getOptionLabel={(option) =>
+                  option?.id && option?.id > 0
+                    ? `${getPid("NCC", option.id)} - ${option?.name}`
+                    : ""
+                }
                 options={props.supplierList || []}
                 loading={!props.isSupplierListSuccess}
                 renderInput={(params) => (
@@ -154,49 +146,25 @@ const PriceQuotationForm = (props: Props) => {
             <div style={{ width: 60 }}></div>
             {/*  */}
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              {/* <InputLabel id="select-import-request">
-                Chọn yêu cầu nhập hàng
-              </InputLabel>
-              <Select
-                labelId="select-import-request"
-                label="Chọn yêu cầu nhập hàng"
-                id="product_id"
-                name="product_id"
-                value={values.product_id}
-                onChange={handleChange}
-              >
-                {props.isImportReqListSuccess ? (
-                  props.importRequestList?.map((req) => {
-                    return (
-                      <MenuItem key={req.id} value={req.id}>
-                        <Typography>
-                          {req.id}
-                          {" - "}
-                          {req.name}
-                          {req.size && ` - ${req.size}`}
-                          {req.color && ` - ${req.color}`}
-                        </Typography>
-                      </MenuItem>
-                    );
-                  })
-                ) : (
-                  <LinearProgress
-                    color="inherit"
-                    style={{
-                      margin: 12,
-                    }}
-                  />
-                )}
-              </Select> */}
               <Autocomplete
-                id="select-import-request"
+                id="import_id"
+                disabled={props.isImportReqListDisable}
                 sx={{ width: 300 }}
                 open={isOpen2}
                 onOpen={handleOpen2}
                 onClose={handleClose2}
+                defaultValue={{
+                  id: props.initialValues.import_id,
+                  note: props.initialValues.note,
+                  product_id: props.initialValues.product_id,
+                  subproduct_id: props.initialValues.subproduct_id,
+                  supplier_id: props.initialValues.supplier_id,
+                  // unit_price: props.initialValues.unit_price,
+                }}
                 onChange={(e, value) => {
-                  values.product_id = value?.product_id || -1;
-                  values.subproduct_id = value?.subproduct_id || -1;
+                  setFieldValue("import_id", value?.id);
+                  setFieldValue("product_id", value?.product_id);
+                  setFieldValue("subproduct_id", value?.subproduct_id);
                 }}
                 isOptionEqualToValue={(option, value) => {
                   if (option.id === value.id) {
@@ -205,7 +173,10 @@ const PriceQuotationForm = (props: Props) => {
                   return false;
                 }}
                 getOptionLabel={(option) =>
-                  `${option.id} - ${option.name} ${option.product_id} ${option.subproduct_id}`
+                  `${getPid("IMP", option.id)} - ${option.name} - ${getPid(
+                    "P",
+                    option.product_id
+                  )} - ${getPid("SP", option.subproduct_id)}`
                 }
                 options={props.importRequestList || []}
                 loading={!props.isImportReqListSuccess}

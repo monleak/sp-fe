@@ -15,8 +15,14 @@ import PriceQuotationList from "./scenes/PriceQuotation/PriceQuotationList";
 import ImportHistoryList from "./scenes/list/ImportHistoryList";
 import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
-import RequestImportList from "./scenes/list/requestImportList";
+
+import RequestImportList from "./scenes/RequestImportProduct/requestImportList";
+import EditImportProductsForm from "./scenes/RequestImportProduct/editImportProductForm";
+import CreateImportProduct from "./scenes/RequestImportProduct/createImportProduct";
 import NotFound from "./scenes/NotFound";
+import Setting from "./scenes/Setting";
+import ConfirmImportPQ from "./scenes/PriceQuotation/ConfirmImportPQ";
+import UpdateImportForm from "./scenes/form/UpdateImportForm";
 import CreateSupplier from "./scenes/SupplierList/CreateSupplierForm";
 import UpdateSupplier from "./scenes/SupplierList/UppdateSupplierForm";
 
@@ -42,12 +48,47 @@ function App() {
                 <Route path="/suppliers" element={<SupplierList />} />
                 <Route path="/suppliers/create" element={<CreateSupplier />} />
                 <Route path="/suppliers/:id" element={<SupplierDetailInfo />} />
-                <Route path="supplier/update/:id" element={<UpdateSupplier />} />
+                <Route
+                  path="supplier/update/:id"
+                  element={<UpdateSupplier />}
+                />
                 {/* <Route path="/BaoGia" element={<BaoGia />} /> */}
                 {/* ======================================== Import ============================================== */}
                 <Route
                   path="/imports/create"
                   element={<ImportProductsForm />}
+                />
+
+                <Route
+                  path="/imports/edit/:id"
+                  element={
+                    <NestedRouteModal>
+                      <EditImportProductsForm />
+                    </NestedRouteModal>
+                  }
+                />
+                <Route
+                  path="/imports/history"
+                  element={<ImportHistoryList />}
+                />
+                {/* ======================================== Price quotation ============================================== */}
+                <Route path="/imports/request" element={<RequestImportList />}>
+                  <Route
+                    path="/imports/request/create_hieutt"
+                    element={
+                      <NestedRouteModal>
+                        <CreateImportProduct />
+                      </NestedRouteModal>
+                    }
+                  />
+                </Route>
+                <Route
+                  path="/imports/update/:importId"
+                  element={
+                    <NestedRouteModal>
+                      <UpdateImportForm />
+                    </NestedRouteModal>
+                  }
                 />
                 <Route
                   path="/imports/history"
@@ -83,8 +124,17 @@ function App() {
                       </NestedRouteModal>
                     }
                   />
+                  <Route
+                    path="/imports/:importRequestId/price-quotation-list/confirm"
+                    element={
+                      <NestedRouteModal>
+                        <ConfirmImportPQ />
+                      </NestedRouteModal>
+                    }
+                  ></Route>
                   {/* Nested route */}
                 </Route>
+                <Route path="/setting" element={<Setting />} />
                 {/* ========================================  ============================================== */}
                 {/* ... */}
                 {/* ======================================== END ============================================== */}
