@@ -14,34 +14,49 @@ export type ApiResponseT<T> = {
   data: T;
 };
 
+export type ApiSubProductInfoT = {
+  id: number;
+  size: string;
+  color: string;
+  image_url?: string;
+};
+export type ApiProductInfoT = {
+  id: number;
+  name: string;
+  description?: string;
+  cost: number;
+  sub_products: ApiSubProductInfoT[];
+};
+
 export type ApiGetAllResponseT<T> = ApiResponseT<T> & PaginateT;
 
 /**
  * Kiểu trả về trong response.data
  */
 export type ApiSupplierT = {
-  id: number;
-  address: string;
-  email: string;
-  name: string;
-  note: string;
-  phone: string;
-  createdAt: string;
-  created_by: string | null;
-  updatedAt: string;
-  updated_by: string | null;
+  id?: number;
+  address?: string;
+  email?: string;
+  name?: string;
+  note?: string;
+  phone?: string;
+  createdAt?: string;
+  created_by?: string | null;
+  updatedAt?: string;
+  updated_by?: string | null;
 };
 
 export type ApiImportProductT = {
   id?: number;
   import_id?: number;
-  supplier_id: number;
+  price_quotation_id?: number | null;
+  supplier_id?: number;
   product_id: number;
   subproduct_id: number;
-  quantity: number;
-  total_cost: number;
-  status: string;
-  note: string;
+  quantity?: number;
+  total_cost?: number;
+  status?: string;
+  note?: string;
   created_by?: string;
   updated_by?: string;
   createdAt?: string;

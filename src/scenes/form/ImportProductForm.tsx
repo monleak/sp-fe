@@ -1,11 +1,11 @@
-import { Box, Button, TextField } from '@mui/material';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Header from '../../components/Header';
-import { display } from '@mui/system';
-import React from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Box, Button, TextField } from "@mui/material";
+import { Formik } from "formik";
+import * as yup from "yup";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Header from "../../components/Header";
+import { display } from "@mui/system";
+import React from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ApiImportProductT,
   createNewImportHistoryList,
@@ -14,30 +14,30 @@ import {
   getSubProductList,
   getSupplierList,
   SubProductInfoT,
-} from '../../api';
-import { useNavigate } from 'react-router-dom';
+} from "../../api";
+import { useNavigate } from "react-router-dom";
 import ImportForm, {
   ImportProductFormT,
-} from '../../components/importForm/ImportForm';
-import { transformJoinSubProductList } from '../../api/transform';
+} from "../../components/importForm/ImportForm";
+import { transformJoinSubProductList } from "../../api/transform";
 
 const ImportProductsForm = () => {
-  const isNonMobile = useMediaQuery('(min-width:600px)');
+  const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
 
   // api get
   const { data: productList } = useQuery(
-    ['sub-product-list'],
+    ["sub-product-list"],
     getSubProductList
   );
 
   const { data: supplierList, isSuccess: isSupplierListSuccess } = useQuery(
-    ['supplier-list'],
+    ["supplier-list"],
     getSupplierList
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(['import-request'], getALlImportHistoryList, {
+    useQuery(["import-request"], getALlImportHistoryList, {
       //NOTE: join import request list and product list
       select: React.useCallback(
         (
@@ -55,7 +55,7 @@ const ImportProductsForm = () => {
   const { isLoading, isError, error, mutate } = useMutation({
     mutationFn: createNewImportHistoryList,
     onSuccess: () => {
-      queryClient.invalidateQueries(['import-product']);
+      queryClient.invalidateQueries(["import-product"]);
     },
   });
 
@@ -70,7 +70,7 @@ const ImportProductsForm = () => {
         status: values.status,
         note: values.note,
         created_by: values.created_by,
-        updated_by: '',
+        updated_by: "",
         total_cost: 0,
       });
       navigate(-1); // go back
@@ -79,8 +79,8 @@ const ImportProductsForm = () => {
   );
 
   return (
-    <Box mt='20px' width='650px' margin='100px auto'>
-      <Header title='Form ' subtitle='Tạo yêu cầu nhập hàng' />
+    <Box mt="20px" width="650px" margin="100px auto">
+      <Header title="Form " subtitle="Tạo yêu cầu nhập hàng" />
 
       <ImportForm
         handleSubmit={handleFormSubmit}
@@ -89,8 +89,8 @@ const ImportProductsForm = () => {
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
-        submitBtnText={'Tạo yêu cầu mới'}
-        create_update={'created_by'}
+        submitBtnText={"Tạo yêu cầu mới"}
+        create_update={"created_by"}
       />
     </Box>
   );
@@ -101,10 +101,10 @@ const initialValues = {
   product_id: 0,
   subproduct_id: 0,
   quantity: 0,
-  status: '',
-  created_by: '',
-  updated_by: '',
-  note: '',
+  status: "",
+  created_by: "",
+  updated_by: "",
+  note: "",
 };
 
 export default ImportProductsForm;

@@ -12,32 +12,29 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { ApiImportProductT, ApiSupplierT, SubProductInfoT } from "../../api";
+import { ApiImportProductT, ApiProductInfoT, ApiSupplierT, SubProductInfoT } from "../../api";
 
 // form attributes
-export type PriceQuotationFormT = {
-  supplier_id: number;
+export type ImportProductFormT = {
   product_id: number;
-  unit_price: number;
+  subproduct_id: number;
+  quantity: number;
   note: string;
 };
 
 // validate form
 const checkoutSchema = yup.object().shape({
-  supplier_id: yup.number().min(0).required("required"),
+  subproduct_id: yup.number().min(0).required("required"),
   product_id: yup.number().min(0).required("required"),
-  unit_price: yup.number().min(0).required(""),
   note: yup.string().required("required"),
 });
 
 // props
 type Props = {
-  initialValues: PriceQuotationFormT;
-  handleSubmit: (value: PriceQuotationFormT) => any;
-  isSupplierListSuccess?: boolean;
-  importRequestList?: (ApiImportProductT & Partial<SubProductInfoT>)[];
-  isImportReqListSuccess?: boolean;
-  supplierList?: ApiSupplierT[];
+  initialValues: ImportProductFormT;
+  handleSubmit: (value: ImportProductFormT) => any;
+  infoProductList?: ApiProductInfoT[];
+  isInfoProductListSuccess?:boolean;
   submitBtnText?: string;
 };
 
@@ -47,7 +44,7 @@ type Props = {
  * Created on Thu Jan 05 2023
  * Copyright (c) 2023 HaVT
  */
-const PriceQuotationForm = (props: Props) => {
+const ImportProductForm_hieutt = (props: Props) => {
   // responsive
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
@@ -75,19 +72,21 @@ const PriceQuotationForm = (props: Props) => {
             // flexDirection="column"
           >
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              <InputLabel id="select-supplier">Chọn nhà cung cấp</InputLabel>
+              <InputLabel id="select-idproduct">Chọn ID Product</InputLabel>
               <Select
-                labelId="select-supplier"
-                label="Chọn nhà cung cấp *"
-                name="supplier_id"
-                value={values.supplier_id}
+                labelId="select-idproduct"
+                label="Chọn ID Product *"
+                name="product_id"
+                value={values.product_id}
                 onChange={handleChange}
               >
-                {props.isSupplierListSuccess ? (
-                  props.supplierList?.map((supplier) => {
+                {props.isInfoProductListSuccess ? (
+                  props.infoProductList?.map((info) => {
                     return (
-                      <MenuItem key={supplier.id} value={supplier.id}>
-                        {supplier.name}
+                      <MenuItem key={info.id} value={info.id}>
+                        {info.id}
+                        {" - "}
+                        {info.name}
                       </MenuItem>
                     );
                   })
@@ -104,31 +103,39 @@ const PriceQuotationForm = (props: Props) => {
             <div style={{ width: 60 }}></div>
             {/*  */}
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              <InputLabel id="select-import-request">
-                Chọn yêu cầu nhập hàng
+              <InputLabel id="select-subidproduct">
+                Chọn SubID Product
               </InputLabel>
               <Select
-                labelId="select-import-request"
-                label="Chọn yêu cầu nhập hàng"
-                id="product_id"
-                name="product_id"
-                value={values.product_id}
+                labelId="select-subidproduct"
+                label="Chọn SubID Product"
+                id="subproduct_id"
+                name="subproduct_id"
+                value={values.subproduct_id}
                 onChange={handleChange}
               >
-                {props.isImportReqListSuccess ? (
-                  props.importRequestList?.map((req) => {
+                {props.isInfoProductListSuccess ? (
+                  props.infoProductList?.find((product) => {
+                    if(product.id === values.product_id){
+                      return(
+                        true
+                      )
+                    }else{
+                      return false
+                    }
+                  })?.sub_products.map((sub) => {
                     return (
-                      <MenuItem key={req.id} value={req.id}>
+                      <MenuItem key={sub.id} value={sub.id}>
                         <Typography>
-                          {req.id}
+                          {sub.id}
                           {" - "}
-                          {req.name}
-                          {req.size && ` - ${req.size}`}
-                          {req.color && ` - ${req.color}`}
+                          {sub.size && ` - ${sub.size}`}
+                          {sub.color && ` - ${sub.color}`}
                         </Typography>
                       </MenuItem>
                     );
                   })
+
                 ) : (
                   <LinearProgress
                     color="inherit"
@@ -153,13 +160,13 @@ const PriceQuotationForm = (props: Props) => {
               fullWidth
               variant="filled"
               type="number"
-              label="Đơn giá"
+              label="Số lượng"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.unit_price}
-              name="unit_price"
-              error={!!touched.unit_price && !!errors.unit_price}
-              helperText={touched.unit_price && errors.unit_price}
+              value={values.quantity}
+              name="quantity"
+              error={!!touched.quantity && !!errors.quantity}
+              helperText={touched.quantity && errors.quantity}
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
@@ -187,4 +194,4 @@ const PriceQuotationForm = (props: Props) => {
   );
 };
 
-export default PriceQuotationForm;
+export default ImportProductForm_hieutt;

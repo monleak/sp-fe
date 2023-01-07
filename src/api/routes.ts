@@ -1,6 +1,11 @@
-import axios from 'axios';
-import { BASE_URL } from './constants';
-import { ApiImportProductT, ApiPriceQuotationT, ApiSupplierT } from './types';
+import axios from "axios";
+import { BASE_URL } from "./constants";
+import {
+  ApiImportProductT,
+  ApiPriceQuotationT,
+  ApiProductInfoT,
+  ApiSupplierT,
+} from "./types";
 
 /**
  * Call api and get data.data
@@ -32,8 +37,6 @@ export const getSupplierList = async (): Promise<ApiSupplierT[]> => {
  * Lấy danh sách đơn nhập hàng đang ở trạng thái ACCEPT
  * - lấy để thêm báo giá
  */
-
-// Import history list
 export const getImportAcceptedList = async (): Promise<ApiImportProductT[]> => {
   return await apiGetDataField(`${BASE_URL}/import?status=ACCEPT`);
 };
@@ -86,7 +89,7 @@ export const getImportProductItem = async (
  */
 export const getPriceQuotationListOfImportRequest = async (
   importRequestId: string | number
-) => {
+): Promise<ApiPriceQuotationT[]> => {
   const { data } = await axios.get(
     `${BASE_URL}/price-quotation?import_id=${importRequestId}`
   );
@@ -105,11 +108,26 @@ export const getPriceQuotationById = async (
   return data?.data;
 };
 
+// Thông tin tất cả sản phẩm
+// https://p01-product-api-production.up.railway.app/api/user/products
+export const getInfoProductList = async (): Promise<ApiProductInfoT[]> => {
+  const { data } = await axios.get(
+    "https://p01-product-api-production.up.railway.app/api/user/products"
+  );
+  return data?.data;
+};
+
 /**
  * create new PriceQuotation
  */
 export const createNewPriceQuotation = async (pq: ApiPriceQuotationT) => {
   const { data } = await axios.post(`${BASE_URL}/price-quotation/`, pq);
+  console.log(data);
+  return data;
+};
+
+export const createNewImportProduct = async (pq: ApiImportProductT) => {
+  const { data } = await axios.post(`${BASE_URL}/import/`, pq);
   console.log(data);
   return data;
 };
@@ -130,10 +148,43 @@ export const updatePriceQuotation = async (param: {
 };
 
 /**
+ * Update ImportHistory
+ */
+export const updateImportHistory = async (param: {
+  id: number;
+  pq: ApiImportProductT;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.pq);
+  console.log(data);
+  return data;
+};
+
+/**
  * Delete PriceQuotation
  */
 export const deletePriceQuotation = async (id: number) => {
   const { data } = await axios.delete(`${BASE_URL}/price-quotation/${id}`);
+  console.log(data);
+  return data;
+};
+
+/**
+ * Delete importHistory
+ */
+export const deleteImportHistory = async (id: number) => {
+  const { data } = await axios.delete(`${BASE_URL}/import/${id}`);
+  console.log(data);
+  return data;
+};
+
+/**
+ * Update ImportProduct
+ */
+export const updateImportProduct = async (param: {
+  id: number;
+  imp: Partial<ApiImportProductT>;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.imp);
   console.log(data);
   return data;
 };
