@@ -16,8 +16,9 @@ import PriceQuotationList from "./scenes/PriceQuotation/PriceQuotationList";
 import ImportHistoryList from "./scenes/list/ImportHistoryList";
 import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
-import RequestImportList from "./scenes/list/requestImportList";
-import UpdateRequestImportForm from "./scenes/form/updateRequestImport";
+import RequestImportList from "./scenes/RequestImportProduct/requestImportList";
+import EditImportProductsForm from "./scenes/RequestImportProduct/editImportProductForm";
+import CreateImportProduct from "./scenes/RequestImportProduct/createImportProduct";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -46,6 +47,20 @@ function App() {
                 <Route
                   path="/imports/create"
                   element={<ImportProductsForm />}
+                />
+                <Route
+                  path="/imports/create_hieutt"
+                  element={
+                      <CreateImportProduct />
+                  }
+                />
+                <Route
+                  path="/imports/edit/:id"
+                  element={
+                  <NestedRouteModal>
+                      <EditImportProductsForm />
+                  </NestedRouteModal>
+                }
                 />
                 <Route
                   path="/imports/history"
@@ -78,14 +93,6 @@ function App() {
                     element={
                       <NestedRouteModal>
                         <UpdatePriceQuotationForm />
-                      </NestedRouteModal>
-                    }
-                  />
-                  <Route
-                    path="/imports/update/:importRequestId"
-                    element={
-                      <NestedRouteModal>
-                        <UpdateRequestImportForm />
                       </NestedRouteModal>
                     }
                   />

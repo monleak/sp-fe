@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "./constants";
-import { ApiImportProductT, ApiPriceQuotationT, ApiSupplierT } from "./types";
+import { ApiImportProductT, ApiPriceQuotationT, ApiProductInfoT, ApiSupplierT } from "./types";
 
 /**
  * Call api and get data.data
@@ -82,6 +82,15 @@ export const getPriceQuotationById = async (
   return data?.data;
 };
 
+// Thông tin tất cả sản phẩm
+// https://p01-product-api-production.up.railway.app/api/user/products
+export const getInfoProductList = async (): Promise<ApiProductInfoT[]> => {
+  const { data } = await axios.get(
+    "https://p01-product-api-production.up.railway.app/api/user/products"
+  );
+  return data?.data;
+};
+
 /**
  * create new PriceQuotation
  */
@@ -90,6 +99,13 @@ export const createNewPriceQuotation = async (pq: ApiPriceQuotationT) => {
   console.log(data);
   return data;
 };
+
+export const createNewImportProduct = async (pq: ApiImportProductT) => {
+  const { data } = await axios.post(`${BASE_URL}/import/`, pq);
+  console.log(data);
+  return data;
+};
+
 
 /**
  * Update PriceQuotation
@@ -114,7 +130,7 @@ export const updateImportHistory = async (param: {
   pq: ApiImportProductT;
 }) => {
   const { data } = await axios.put(
-    `${BASE_URL}/price-quotation/${param.id}`,
+    `${BASE_URL}/import/${param.id}`,
     param.pq
   );
   console.log(data);
@@ -138,3 +154,4 @@ export const deleteImportHistory = async (id: number) => {
   console.log(data);
   return data;
 };
+

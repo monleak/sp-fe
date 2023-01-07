@@ -7,9 +7,10 @@ import {
   SubProductInfoT,
   getImportAcceptedList,
   getSubProductList,
-  getImportRequestList,
   getSupplierList,
   updatePriceQuotation,
+  getInfoProductList,
+  updateImportHistory,
 } from "../../api";
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
@@ -17,40 +18,34 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
 } from "../../components/priceQuotation/PriceQuotationForm";
-import ImportProductForm from "../../components/ImportProductForm";
 
+import ImportProductsForm from "../form/ImportProductForm";
+import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
+import { ImportProductFormT } from "./ImportProductForm_hieutt";
 /*
  * @brief Form cập nhật báo giá
  *
  * Created on Thu Dec 29 2022
  * Copyright (c) 2022 HaVT
  */
-export type ImportProductFormT = {
-    supplier_id: number;
-    product_id: number;
-    subproduct_id: number;
-    quantity: number;
-    total_cost: number;
-    note: string;
-  };
 
-const UpdateRequestImportForm = () => {
+const EditImportProductsForm = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
   const param = location.state as ApiImportProductT;
 
   // api get
-  const { data: importRequestList, isSuccess: isImportReqListSuccess } = useQuery(
-    ["import-request"],
-    getImportRequestList
-    );
+  const { data: infoProductList, isSuccess: isinfoProductListSuccess } = useQuery(
+    ["infoProduct-list"],
+    getInfoProductList
+  );
 
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation({
-    mutationFn: updatePriceQuotation,
+    mutationFn: updateImportHistory,
     onSuccess: () => {
-      queryClient.invalidateQueries(["price-quotation-list"]);
+      queryClient.invalidateQueries(["import-request"]);
     },
   });
 
@@ -72,22 +67,18 @@ const UpdateRequestImportForm = () => {
   // jsx
   return (
     <Box mt="20px" width="650px" margin="100px auto">
-      <Header title="Cập nhật báo giá" subtitle="Cập nhật thông tin báo giá" />
+      <Header title="UPDATE" subtitle="Cập nhật thông tin yêu cầu nhập hàng" />
       {/*  */}
-      <ImportProductForm
+      <ImportProductForm_hieutt
         handleSubmit={handleFormSubmit}
-        importRequestList={importRequestList}
+        infoProductList = {infoProductList}
+        isInfoProductListSuccess = {isinfoProductListSuccess}
         initialValues={{
           note: param.note || "",
           product_id: param.product_id || 0,
-          supplier_id: param.supplier_id || 0,
           subproduct_id: param.subproduct_id || 0,
-          total_cost: param.total_cost || 0,
-          status: param.status || "",
           quantity: param.quantity || 0,
-
         }}
-        isImportReqListSuccess={isImportReqListSuccess}
         submitBtnText={"Cập nhật"}
       />
       {/*  */}
@@ -95,4 +86,4 @@ const UpdateRequestImportForm = () => {
   );
 };
 
-export default UpdateRequestImportForm;
+export default EditImportProductsForm;
