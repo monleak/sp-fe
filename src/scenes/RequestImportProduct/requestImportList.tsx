@@ -16,6 +16,7 @@ import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import MoreOutlinedIcon from '@mui/icons-material/MoreOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Table from '@mui/material/Table';
+import Tooltip from '@mui/material/Tooltip';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -176,9 +177,13 @@ const RequestImportList = () => {
                 {importRequest.status == "REJECT" ?
                   <Chip color="error" variant="outlined" label="Rejected" /> : ""
                 }
+                {importRequest.status == "NULL" ?
+                  <Chip color="error" variant="outlined" label="Null" /> : ""
+                }
               </StyledTableCell>
               <StyledTableCell align="center">{importRequest.createdAt}</StyledTableCell>
               <StyledTableCell align="center">
+              <Tooltip title="Edit">
                 <Button
                 variant="text"
                 startIcon={<MoreOutlinedIcon style={{ color: "white" }} />}
@@ -189,24 +194,30 @@ const RequestImportList = () => {
                   );
                 }}
                 ></Button>
-                <Button
-                variant="text"
-                startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
-                onClick={() => {
-                  if(importRequest.id){
-                    mutate(importRequest.id);
-                  }
-                }}
-                ></Button>
-                <Button
-                variant="text"
-                startIcon={<LocalAtmIcon style={{ color: "white" }} />}
-                onClick={() => {
-                  navigate(
-                    `/imports/${importRequest.id}/price-quotation-list/`
-                  );
-                }}
-                ></Button>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <Button
+                  variant="text"
+                  startIcon={<DeleteForeverIcon style={{ color: "white" }} />}
+                  onClick={() => {
+                    if(importRequest.id){
+                      mutate(importRequest.id);
+                    }
+                  }}
+                  ></Button>
+                </Tooltip>
+                <Tooltip title="Báo giá">
+                  <Button
+                  variant="text"
+                  startIcon={<LocalAtmIcon style={{ color: "white" }} />}
+                  onClick={() => {
+                    navigate(
+                      `/imports/${importRequest.id}/price-quotation-list/`
+                    );
+                  }}
+                  ></Button>
+                </Tooltip>
+                
               </StyledTableCell>
             </StyledTableRow>
           ))}
