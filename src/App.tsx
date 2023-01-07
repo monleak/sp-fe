@@ -3,7 +3,6 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 
 import SupplierList from "./scenes/SupplierList";
-import Form from "./scenes/createNewSupplierForm";
 import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
 import ImportProductsForm from "./scenes/form/ImportProductForm";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -18,6 +17,7 @@ import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
 import RequestImportList from "./scenes/list/requestImportList";
 import NotFound from "./scenes/NotFound";
+import CreateSupplier from "./scenes/SupplierList/CreateSupplierForm";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -39,7 +39,7 @@ function App() {
                 {/* <Route path="/team" element={<Team />} /> */}
                 {/* ======================================== Supplier ============================================== */}
                 <Route path="/suppliers" element={<SupplierList />} />
-                <Route path="/suppliers/create" element={<Form />} />
+                <Route path="/suppliers/create" element={<CreateSupplier />} />
                 <Route path="/suppliers/:id" element={<SupplierDetailInfo />} />
                 {/* <Route path="/BaoGia" element={<BaoGia />} /> */}
                 {/* ======================================== Import ============================================== */}

@@ -8,7 +8,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
 import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import EditIcon from '@mui/icons-material/Edit';

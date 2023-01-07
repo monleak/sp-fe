@@ -1,20 +1,11 @@
 import {
-    Autocomplete,
     Box,
     Button,
-    CircularProgress,
-    FormControl,
-    InputLabel,
-    LinearProgress,
-    MenuItem,
-    Select,
     TextField,
-    Typography,
   } from "@mui/material";
   import { Formik } from "formik";
   import * as yup from "yup";
   import useMediaQuery from "@mui/material/useMediaQuery";
-  import usePageModal from "../../hooks/usePageModal";
   
   // form attributes
   export type SupplierFormT = {
@@ -46,13 +37,6 @@ import {
   const SupplierForm = (props: Props) => {
     // responsive
     const isNonMobile = useMediaQuery("(min-width:600px)");
-  
-    const { handleClose, handleOpen, isOpen } = usePageModal(false);
-    const {
-      handleClose: handleClose2,
-      handleOpen: handleOpen2,
-      isOpen: isOpen2,
-    } = usePageModal(false);
   
     return (
       <Formik
@@ -86,7 +70,7 @@ import {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.name}
-                name="unit_price"
+                name="name"
                 error={!!touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
                 sx={{ gridColumn: "span 4" }}
@@ -99,7 +83,7 @@ import {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.phone}
-                name="unit_price"
+                name="phone"
                 error={!!touched.phone && !!errors.phone}
                 helperText={touched.phone && errors.phone}
                 sx={{ gridColumn: "span 4" }}
@@ -112,7 +96,7 @@ import {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.email}
-                name="note"
+                name="email"
                 error={!!touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 4" }}
@@ -125,16 +109,23 @@ import {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.address}
-                name="note"
+                name="address"
                 error={!!touched.address && !!errors.address}
                 helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
-                {props.submitBtnText}
-              </Button>
+              <Box display="flex">  
+                <Button color="secondary" variant="contained">
+                    Cancel
+                  </Button>
+                </Box>
+              <Box display="flex">
+                <Button type="submit" color="secondary" variant="contained">
+                  {props.submitBtnText}
+                </Button>
+              </Box>
             </Box>
           </form>
         )}
