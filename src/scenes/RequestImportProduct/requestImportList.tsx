@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { Outlet, useParams } from "react-router-dom";
 import EditImportProductsForm from "./ImportProductForm_hieutt";
 import CreateImportProduct from "./createImportProduct";
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import {
   useMutation,
   useQueries,
@@ -195,6 +196,15 @@ const RequestImportList = () => {
                   if(importRequest.id){
                     mutate(importRequest.id);
                   }
+                }}
+                ></Button>
+                <Button
+                variant="text"
+                startIcon={<LocalAtmIcon style={{ color: "white" }} />}
+                onClick={() => {
+                  navigate(
+                    `/imports/${importRequest.id}/price-quotation-list/`
+                  );
                 }}
                 ></Button>
               </StyledTableCell>
