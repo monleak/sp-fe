@@ -15,7 +15,7 @@ import { transformJoinSubProductList } from "../../api/transform";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
+} from "../../components/PriceQuotation/PriceQuotationForm";
 import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*

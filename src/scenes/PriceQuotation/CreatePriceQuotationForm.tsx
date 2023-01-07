@@ -11,10 +11,10 @@ import {
 } from "../../api";
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
+} from "../../components/PriceQuotation/PriceQuotationForm";
 import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
