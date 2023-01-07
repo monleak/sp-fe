@@ -15,9 +15,6 @@ import {
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import PriceQuotationForm, {
-  PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
 
 import ImportProductsForm from "../form/ImportProductForm";
 import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
@@ -36,10 +33,8 @@ const EditImportProductsForm = () => {
   const param = location.state as ApiImportProductT;
 
   // api get
-  const { data: infoProductList, isSuccess: isinfoProductListSuccess } = useQuery(
-    ["infoProduct-list"],
-    getInfoProductList
-  );
+  const { data: infoProductList, isSuccess: isinfoProductListSuccess } =
+    useQuery(["infoProduct-list"], getInfoProductList);
 
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation({
@@ -71,8 +66,8 @@ const EditImportProductsForm = () => {
       {/*  */}
       <ImportProductForm_hieutt
         handleSubmit={handleFormSubmit}
-        infoProductList = {infoProductList}
-        isInfoProductListSuccess = {isinfoProductListSuccess}
+        infoProductList={infoProductList}
+        isInfoProductListSuccess={isinfoProductListSuccess}
         initialValues={{
           note: param.note || "",
           product_id: param.product_id || 0,

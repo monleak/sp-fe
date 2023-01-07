@@ -14,27 +14,23 @@ import {
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
 import { useNavigate, useParams } from "react-router-dom";
-import PriceQuotationForm, {
-  PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
+
 import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
 import { ImportProductFormT } from "./ImportProductForm_hieutt";
 
 const initialValues: ImportProductFormT = {
-    product_id: 0,
-    subproduct_id: 0,
-    quantity: 0,
-    note: "",
+  product_id: 0,
+  subproduct_id: 0,
+  quantity: 0,
+  note: "",
 };
 
 const CreateImportProduct = () => {
   const navigate = useNavigate();
 
   // api get
-  const { data: infoProductList, isSuccess: isinfoProductListSuccess } = useQuery(
-    ["infoProduct-list"],
-    getInfoProductList
-  );
+  const { data: infoProductList, isSuccess: isinfoProductListSuccess } =
+    useQuery(["infoProduct-list"], getInfoProductList);
 
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation({
@@ -63,16 +59,13 @@ const CreateImportProduct = () => {
   // jsx
   return (
     <Box mt="20px" width="650px" margin="100px auto">
-      <Header
-        title="CREATE"
-        subtitle="Yêu cầu nhập hàng"
-      />
+      <Header title="CREATE" subtitle="Yêu cầu nhập hàng" />
       {/*  */}
       <ImportProductForm_hieutt
         handleSubmit={handleFormSubmit}
         initialValues={initialValues}
-        infoProductList = {infoProductList}
-        isInfoProductListSuccess = {isinfoProductListSuccess}
+        infoProductList={infoProductList}
+        isInfoProductListSuccess={isinfoProductListSuccess}
         submitBtnText={"Tạo mới"}
       />
       {/*  */}

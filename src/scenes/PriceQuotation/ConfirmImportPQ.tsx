@@ -119,7 +119,7 @@ const ConfirmImportPQ = (props: Props) => {
       confirmSetImportPQId(importRequest?.price_quotation_id);
       navigate(-1);
     },
-    [updateImportProductApi, id, confirmSetImportPQId, importRequest]
+    [updateImportProductApi, id, confirmSetImportPQId, importRequest, navigate]
   );
 
   return (
