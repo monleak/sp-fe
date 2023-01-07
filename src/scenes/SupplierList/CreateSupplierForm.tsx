@@ -30,16 +30,10 @@ const CreateSupplier = () => {
     const handleFormSubmit = React.useCallback(
       (values: SupplierFormT) => {
         mutate({
-            name: values.name,
-            phone: values.phone,
-            email: values.email,
-            address: values.address,
-            id: 0,
-            note: "",
-            createdAt: "",
-            created_by: null,
-            updatedAt: "",
-            updated_by: null
+          name: values.name,
+          phone: values.phone,
+          email: values.email,
+          address: values.address,
         });
         // console.log(values);
         navigate(-1); // go back

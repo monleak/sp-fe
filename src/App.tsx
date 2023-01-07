@@ -18,6 +18,7 @@ import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotati
 import RequestImportList from "./scenes/list/requestImportList";
 import NotFound from "./scenes/NotFound";
 import CreateSupplier from "./scenes/SupplierList/CreateSupplierForm";
+import UpdateSupplier from "./scenes/SupplierList/UppdateSupplierForm";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/suppliers" element={<SupplierList />} />
                 <Route path="/suppliers/create" element={<CreateSupplier />} />
                 <Route path="/suppliers/:id" element={<SupplierDetailInfo />} />
+                <Route path="supplier/update/:id" element={<UpdateSupplier />} />
                 {/* <Route path="/BaoGia" element={<BaoGia />} /> */}
                 {/* ======================================== Import ============================================== */}
                 <Route

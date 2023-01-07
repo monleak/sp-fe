@@ -79,7 +79,7 @@ const SupplierList = () => {
           variant="outlined"
           onClick={() => {
             navigate(
-              `/${SupplierList}/update/${param.row?.id}`,
+              `/$supplier/update/${param.row?.id}`,
               { state: param.row }
             );
           }}

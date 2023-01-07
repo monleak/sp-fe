@@ -3,9 +3,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam, products , productData} from "../../data/mockData";
 import Header from "../../components/Header";
-
-
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const SupplierDetailInfo = () => {
+  const navigate = useNavigate();
+  const { supplier_id } = useParams();
+  const id = Number.parseInt(supplier_id || "");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [

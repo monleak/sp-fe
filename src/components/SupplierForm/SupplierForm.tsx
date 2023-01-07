@@ -6,6 +6,7 @@ import {
   import { Formik } from "formik";
   import * as yup from "yup";
   import useMediaQuery from "@mui/material/useMediaQuery";
+import { useNavigate } from "react-router-dom";
   
   // form attributes
   export type SupplierFormT = {
@@ -19,9 +20,9 @@ import {
 
   const checkoutSchema = yup.object().shape({
     name: yup.string().required("required"),
-    phone: yup.string().required("required"),
+    address: yup.string().required("required"),
     email: yup.string().email("invalid Email").required("required"),
-    address: yup
+    phone: yup
       .string()
       .matches(phoneRegExp, "Phone number is not valid")
       .required("required"),
@@ -37,6 +38,7 @@ import {
   const SupplierForm = (props: Props) => {
     // responsive
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const navigate = useNavigate();
   
     return (
       <Formik
@@ -117,7 +119,10 @@ import {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Box display="flex">  
-                <Button color="secondary" variant="contained">
+                <Button color="secondary" variant="contained"
+                            onClick = {() => {
+                              navigate(`/suppliers`);}}
+                >
                     Cancel
                   </Button>
                 </Box>

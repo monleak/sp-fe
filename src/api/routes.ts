@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SupplierFormT } from "../components/SupplierForm/SupplierForm";
 import { BASE_URL } from "./constants";
 import { ApiImportProductT, ApiPriceQuotationT, ApiSupplierT } from "./types";
 
@@ -101,7 +102,7 @@ export const createNewPriceQuotation = async (pq: ApiPriceQuotationT) => {
 };
 
 /* create new supplier */
-export const createNewSupplier = async (s: ApiSupplierT) => {
+export const createNewSupplier = async (s: SupplierFormT) => {
   const { data } = await axios.post(`${BASE_URL}/supplier`, s);
   console.log(data);
   return data;
