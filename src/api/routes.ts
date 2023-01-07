@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SupplierFormT } from "../components/SupplierForm/SupplierForm";
 import { BASE_URL } from "./constants";
 import {
   ApiImportProductT,
@@ -108,6 +109,12 @@ export const getPriceQuotationById = async (
   return data?.data;
 };
 
+export const getSupplierById = async (
+  SupplierId: string | number
+): Promise<ApiSupplierT> => {
+  const { data } = await axios.get(`${BASE_URL}/supplier/${SupplierId}`);
+  return data?.data;
+};
 // Thông tin tất cả sản phẩm
 // https://p01-product-api-production.up.railway.app/api/user/products
 export const getInfoProductList = async (): Promise<ApiProductInfoT[]> => {
@@ -126,6 +133,12 @@ export const createNewPriceQuotation = async (pq: ApiPriceQuotationT) => {
   return data;
 };
 
+/* create new supplier */
+export const createNewSupplier = async (s: SupplierFormT) => {
+  const { data } = await axios.post(`${BASE_URL}/supplier`, s);
+  console.log(data);
+  return data;
+};
 export const createNewImportProduct = async (pq: ApiImportProductT) => {
   const { data } = await axios.post(`${BASE_URL}/import/`, pq);
   console.log(data);
@@ -168,6 +181,21 @@ export const deletePriceQuotation = async (id: number) => {
   return data;
 };
 
+/* Delete supplier */
+export const deleteSupplier = async (id: number) => {
+  const { data } = await axios.delete(`${BASE_URL}/supplier/${id}`);
+  console.log(data);
+  return data;
+};
+/*Update supplier */
+export const updateSupplier = async (param: {
+  id: number;
+  s: ApiSupplierT;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/supplier/${param.id}`, param.s);
+  console.log(data);
+  return data;
+};
 /**
  * Delete importHistory
  */
