@@ -37,10 +37,6 @@ const Topbar = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  // if (searchParams.get("topbar") === "false") {
-  //   return null;
-  // }
-
   return (
     <>
       <Box display="flex" justifyContent="space-between" p={2}>

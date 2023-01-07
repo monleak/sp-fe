@@ -23,7 +23,7 @@ import CreateImportProduct from "./scenes/RequestImportProduct/createImportProdu
 import NotFound from "./scenes/NotFound";
 import Setting from "./scenes/Setting";
 import ConfirmImportPQ from "./scenes/PriceQuotation/ConfirmImportPQ";
-
+import UpdateImportForm from "./scenes/form/UpdateImportForm";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -53,14 +53,37 @@ function App() {
                   path="/imports/create"
                   element={<ImportProductsForm />}
                 />
-                
+
                 <Route
                   path="/imports/edit/:id"
                   element={
-                  <NestedRouteModal>
+                    <NestedRouteModal>
                       <EditImportProductsForm />
-                  </NestedRouteModal>
-                }
+                    </NestedRouteModal>
+                  }
+                />
+                <Route
+                  path="/imports/history"
+                  element={<ImportHistoryList />}
+                />
+                {/* ======================================== Price quotation ============================================== */}
+                <Route path="/imports/request" element={<RequestImportList />}>
+                  <Route
+                    path="/imports/request/create_hieutt"
+                    element={
+                      <NestedRouteModal>
+                        <CreateImportProduct />
+                      </NestedRouteModal>
+                    }
+                  />
+                </Route>
+                <Route
+                  path="/imports/update/:importId"
+                  element={
+                    <NestedRouteModal>
+                      <UpdateImportForm />
+                    </NestedRouteModal>
+                  }
                 />
                 <Route
                   path="/imports/history"
@@ -70,17 +93,7 @@ function App() {
                 <Route
                   path="/imports/request"
                   element={<RequestImportList />}
-                >
-                  <Route
-                    path="/imports/request/create_hieutt"
-                    element={
-                      <NestedRouteModal>
-                        <CreateImportProduct />
-                      </NestedRouteModal>
-                        
-                    }
-                  />
-                </Route>
+                />
                 <Route
                   path="/price-quotations/create"
                   element={<CreatePriceQuotation />}

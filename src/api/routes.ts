@@ -1,6 +1,11 @@
 import axios from "axios";
 import { BASE_URL } from "./constants";
-import { ApiImportProductT, ApiPriceQuotationT, ApiProductInfoT, ApiSupplierT } from "./types";
+import {
+  ApiImportProductT,
+  ApiPriceQuotationT,
+  ApiProductInfoT,
+  ApiSupplierT,
+} from "./types";
 
 /**
  * Call api and get data.data
@@ -27,9 +32,6 @@ export const getSupplierList = async (): Promise<ApiSupplierT[]> => {
  * 4. Danh sách báo giá: Chọn báo giá phù hợp cho ycnh status=WAIT
  * 5. Danh sách ycnh status=WAIT: Nếu nhập thành công: status=SUCCESS, thất bại: status=FAILED
  */
-export const getImportList = async (): Promise<ApiImportProductT[]> => {
-  return await apiGetDataField(`${BASE_URL}/import`);
-};
 
 /**
  * Lấy danh sách đơn nhập hàng đang ở trạng thái ACCEPT
@@ -41,6 +43,30 @@ export const getImportAcceptedList = async (): Promise<ApiImportProductT[]> => {
 
 export const getImportRequestList = async (): Promise<ApiImportProductT[]> => {
   return await apiGetDataField(`${BASE_URL}/import?status=REQUEST`);
+};
+
+export const getALlImportHistoryList = async (): Promise<
+  ApiImportProductT[]
+> => {
+  return await apiGetDataField(`${BASE_URL}/import`);
+};
+
+export const getImportHistoryList = async (): Promise<ApiImportProductT[]> => {
+  return await apiGetDataField(`${BASE_URL}/import?status=COMPLETED`);
+};
+
+export const createNewImportHistoryList = async (pq: ApiImportProductT) => {
+  const { data } = await axios.post(`${BASE_URL}/import/`, pq);
+  return data;
+};
+
+export const updateImport = async (param: {
+  id: number;
+  pq: ApiImportProductT;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.pq);
+  console.log(data);
+  return data;
 };
 
 /**
@@ -106,7 +132,6 @@ export const createNewImportProduct = async (pq: ApiImportProductT) => {
   return data;
 };
 
-
 /**
  * Update PriceQuotation
  */
@@ -129,10 +154,7 @@ export const updateImportHistory = async (param: {
   id: number;
   pq: ApiImportProductT;
 }) => {
-  const { data } = await axios.put(
-    `${BASE_URL}/import/${param.id}`,
-    param.pq
-  );
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.pq);
   console.log(data);
   return data;
 };

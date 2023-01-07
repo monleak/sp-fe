@@ -18,14 +18,14 @@ export type ApiSubProductInfoT = {
   id: number;
   size: string;
   color: string;
-  image_url?:string;
+  image_url?: string;
 };
 export type ApiProductInfoT = {
   id: number;
   name: string;
   description?: string;
   cost: number;
-  sub_products : ApiSubProductInfoT[];
+  sub_products: ApiSubProductInfoT[];
 };
 
 export type ApiGetAllResponseT<T> = ApiResponseT<T> & PaginateT;
