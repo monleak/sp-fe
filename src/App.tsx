@@ -48,12 +48,7 @@ function App() {
                   path="/imports/create"
                   element={<ImportProductsForm />}
                 />
-                <Route
-                  path="/imports/create_hieutt"
-                  element={
-                      <CreateImportProduct />
-                  }
-                />
+                
                 <Route
                   path="/imports/edit/:id"
                   element={
@@ -70,7 +65,17 @@ function App() {
                 <Route
                   path="/imports/request"
                   element={<RequestImportList />}
-                />
+                >
+                  <Route
+                    path="/imports/request/create_hieutt"
+                    element={
+                      <NestedRouteModal>
+                        <CreateImportProduct />
+                      </NestedRouteModal>
+                        
+                    }
+                  />
+                </Route>
                 <Route
                   path="/price-quotations/create"
                   element={<CreatePriceQuotation />}

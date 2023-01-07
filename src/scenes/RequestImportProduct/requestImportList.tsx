@@ -100,12 +100,23 @@ const RequestImportList = () => {
 
   return (
     <Box m="20px">
+      <Outlet/>
       <Header 
         title="Danh sách" 
         subtitle="Danh sách yêu cầu nhập hàng" 
         />
         {/* /imports/create_hieutt */}
-        <>
+        <IconButton color="success" 
+            aria-label="add to shopping cart" 
+            onClick={() => {
+              navigate(
+                "/imports/request/create_hieutt"
+              );
+            }}>
+            <PlaylistAddIcon />Thêm yêu cầu nhập hàng
+          </IconButton>
+
+        {/* <>
           <IconButton color="success" 
             aria-label="add to shopping cart" 
             onClick={handleOpen}>
@@ -130,7 +141,7 @@ const RequestImportList = () => {
               <CreateImportProduct />
             </Box>
           </Modal>
-        </>
+        </> */}
 
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

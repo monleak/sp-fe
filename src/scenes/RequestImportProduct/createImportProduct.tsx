@@ -21,10 +21,10 @@ import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
 import { ImportProductFormT } from "./ImportProductForm_hieutt";
 
 const initialValues: ImportProductFormT = {
-  product_id: 0,
-  subproduct_id: 0,
-  quantity: 0,
-  note: "",
+    product_id: 0,
+    subproduct_id: 0,
+    quantity: 0,
+    note: "",
 };
 
 const CreateImportProduct = () => {
@@ -48,6 +48,8 @@ const CreateImportProduct = () => {
   const handleFormSubmit = React.useCallback(
     (values: ImportProductFormT) => {
       mutate({
+        total_cost: 0,
+        status: "REQUEST",
         product_id: values.product_id,
         subproduct_id: values.subproduct_id,
         note: values.note,
