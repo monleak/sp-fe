@@ -15,7 +15,8 @@ import { transformJoinSubProductList } from "../../api/transform";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PriceQuotationForm, {
   PriceQuotationFormT,
-} from "../../components/priceQuotation/PriceQuotationForm";
+} from "../../components/PriceQuotation/PriceQuotationForm";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
  * @brief Form cập nhật báo giá
@@ -29,7 +30,7 @@ type UpdatePriceQuotationFormProps = {
 };
 
 const UpdatePriceQuotationForm = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   const location = useLocation();
   const param = location.state as ApiPriceQuotationT;
@@ -93,13 +94,16 @@ const UpdatePriceQuotationForm = () => {
         importRequestList={importRequestList}
         initialValues={{
           note: param.note || "",
+          import_id: param.import_id || 0,
           product_id: param.product_id || 0,
+          subproduct_id: param.subproduct_id || 0,
           supplier_id: param.supplier_id || 0,
           unit_price: param.unit_price || 0,
         }}
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
+        isImportReqListDisable={true}
         submitBtnText={"Cập nhật"}
       />
       {/*  */}

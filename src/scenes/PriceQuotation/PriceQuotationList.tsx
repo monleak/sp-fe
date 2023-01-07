@@ -1,38 +1,17 @@
-import {
-  Box,
-  Button,
-  Card,
-  Chip,
-  Modal,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
+import { Box, Button, Chip, MenuItem, Select, Snackbar } from "@mui/material";
+import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import { Outlet, useParams } from "react-router-dom";
-import {
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import {
-  ApiImportProductT,
-  BASE_URL,
-  ProductT,
-  SubProductInfoT,
-  deletePriceQuotation,
-  getImportProductItem,
-  getPriceQuotationListOfImportRequest,
-  getSubProductList,
-} from "../../api";
+import { useQueryClient } from "@tanstack/react-query";
+
 import React from "react";
-import CardContentItem from "../../components/CardContentItem";
-import { useNavigate } from "react-router-dom";
-import CreatePriceQuotation from "./CreatePriceQuotationForm";
 import usePageModal from "../../hooks/usePageModal";
-import PageModal from "../../components/modal/PageModal";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
+import ImportRequestCard from "../../components/ImportRequest/ImportRequestCard";
+import TableContainer from "../../components/common/TableContainer";
+import usePriceQuotationBasicColumns from "../../hooks/usePriceQuotationColumns";
+import useApiPQListOfImpReq from "../../hooks/useApiPQListOfImpReq";
+import { useApiDeletePQ, useApiImpSetPQ } from "../../hooks/useApiPQMutation";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -41,102 +20,72 @@ import PageModal from "../../components/modal/PageModal";
  * Copyright (c) 2022 HaVT
  */
 const PriceQuotationList = () => {
+  const navigate = usePreserveQueryNavigate();
+  // snackbar
+  const { handleClose, handleOpen, isOpen } = usePageModal(false);
   // url param
-  const navigate = useNavigate();
   const { importRequestId } = useParams();
   const id = Number.parseInt(importRequestId || "");
 
-  // api
-  const { data: productList } = useQuery(
-    ["sub-product-list"],
-    getSubProductList
-  );
+  // api get
+  const {
+    importRequest,
+    isImpFetchSuccess,
+    isPriceQuotaionListLoading,
+    priceQuotationList,
+    productList,
+  } = useApiPQListOfImpReq(id);
 
-  const { data: importRequest, isSuccess: isImpFetchSuccess } = useQuery(
-    ["import-request-item", id],
-    React.useCallback(() => getImportProductItem(id), [id]),
-    {
-      select: (data): ApiImportProductT & Partial<SubProductInfoT> => {
-        return {
-          ...data,
-          ...productList?.find(
-            (p) =>
-              p.product_id === data.product_id &&
-              p.subproduct_id === data.subproduct_id
-          ),
-        };
-      },
-    }
-  );
+  // kiểm tra yêu cầu đã xác nhận báo giá chưa
+  const isPQAssignDone = React.useCallback(() => {
+    return !importRequest || importRequest?.status === "Q_P_ASSIGNED";
+  }, [importRequest]);
 
-  const { data: priceQuotationList, isLoading: isPriceQuotaionListLoading } =
-    useQuery(
-      ["price-quotation-list", id],
-      () => {
-        return getPriceQuotationListOfImportRequest(id);
-      },
-      {
-        select: (data) => {
-          return data.map((item: any) => {
-            return {
-              ...item,
-              key: item.id,
-              product: "abc",
-              supplier: item?.SupplierModel?.name,
-            };
-          });
-        },
-      }
-    );
-
+  // mutation
   const queryClient = useQueryClient();
-  
-  const { mutate } = useMutation({
-    mutationFn: deletePriceQuotation,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["price-quotation-list"]);
-    },
-  });
+  const deletePQ = useApiDeletePQ(queryClient, id);
+  const { confirmSetImportPQId, setImportPQId } = useApiImpSetPQ(
+    queryClient,
+    id
+  );
 
-  // theme
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  // table columns
-  const columns: GridColumns<any> = [
-    { field: "id", headerName: "ID" },
-    { field: "supplier_id", headerName: "Mã NCC" },
-    { field: "supplier", headerName: "Nhà cung cấp", flex: 1 },
+  const columns = usePriceQuotationBasicColumns<{ selectedId?: number }>([
     {
-      field: "unit_price",
-      headerName: "Đơn giá",
-      flex: 1,
-      renderCell: (params: any) => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.unit_price}
-        </Typography>
-      ),
-    },
-    {
-      field: "note",
-      headerName: "Ghi chú",
-      flex: 1,
-    },
-    {
-      field: "Status",
+      field: "Trạng thái",
       renderCell: (param: any) => {
-        return <Chip color="success" variant="outlined" label="Accepted" />;
+        return (
+          <Select
+            labelId="select-pq"
+            id="select-pq"
+            value={param.row?.selectedId === param.row?.id ? 1 : 0}
+            label="Trạng thái"
+            disabled={isPQAssignDone()}
+            onChange={(e) => {
+              // nếu value = 1 -> gọi api chọn báo giá này
+              const v: number = e.target.value as number;
+              setImportPQId(v === 1 ? param.row?.id : null);
+            }}
+          >
+            <MenuItem value={1}>
+              <Chip color="success" variant="outlined" label="ĐÃ chọn" />
+            </MenuItem>
+            <MenuItem value={0}>
+              <Chip color="warning" variant="outlined" label="Không chọn" />
+            </MenuItem>
+          </Select>
+        );
       },
     },
     {
       field: "Edit",
       renderCell: (param: GridRenderCellParams<any, any, any>) => {
-        // console.log(param.row);
         return (
           <Button
             variant="outlined"
             color="warning"
+            disabled={isPQAssignDone()}
             onClick={() => {
+              // navigate to edit screen
               navigate(
                 `/imports/${importRequestId}/price-quotation-list/update/${param.row?.id}`,
                 { state: param.row }
@@ -155,8 +104,10 @@ const PriceQuotationList = () => {
           <Button
             variant="outlined"
             color="error"
+            disabled={isPQAssignDone()}
             onClick={() => {
-              mutate(param.row?.id);
+              // navigate to call api delete
+              deletePQ(param.row?.id);
             }}
           >
             Delete
@@ -164,7 +115,7 @@ const PriceQuotationList = () => {
         );
       },
     },
-  ];
+  ]);
 
   return (
     <Box m="20px">
@@ -176,10 +127,11 @@ const PriceQuotationList = () => {
         title="Danh sách báo giá"
         subtitle={`Danh sách báo giá của yêu cầu nhập hàng`}
         rightChildren={
-          <>
+          <Box>
             <Button
               variant="contained"
               color="secondary"
+              disabled={isPQAssignDone()}
               onClick={() => {
                 navigate(
                   `/imports/${importRequestId}/price-quotation-list/create`
@@ -188,91 +140,52 @@ const PriceQuotationList = () => {
             >
               Thêm báo giá mới
             </Button>
-          </>
+            <Button
+              variant="contained"
+              color="info"
+              disabled={isPQAssignDone()}
+              onClick={() => {
+                if (
+                  !!importRequest?.price_quotation_id &&
+                  !!importRequest?.id
+                ) {
+                  navigate(`/imports/${id}/price-quotation-list/confirm`);
+                  // confirmSetImportPQId(importRequest?.price_quotation_id);
+                } else {
+                  handleOpen();
+                }
+              }}
+              style={{
+                marginLeft: 24,
+              }}
+            >
+              {isPQAssignDone()
+                ? "Đã xác nhận nhập hàng"
+                : "Xác nhận nhập hàng"}
+            </Button>
+          </Box>
         }
       />
-      <Card
-        variant="outlined"
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          flexWrap: "wrap",
-        }}
-      >
-        <CardContentItem
-          loading={isImpFetchSuccess}
-          title="Mã yêu cầu"
-          value={importRequest?.id}
-        />
-        <CardContentItem
-          title="Mã sản phẩm"
-          value={`${importRequest?.product_id} - ${importRequest?.subproduct_id}`}
-          loading={isImpFetchSuccess}
-        />
-        <CardContentItem
-          title="Tên sản phẩm"
-          value={`${importRequest?.name}`}
-          loading={isImpFetchSuccess}
-        />
-        <CardContentItem
-          title="Loại"
-          value={`${importRequest?.category}`}
-          loading={isImpFetchSuccess}
-        />
-        <CardContentItem
-          title="Màu"
-          value={`${importRequest?.color}`}
-          loading={isImpFetchSuccess}
-        />
-        <CardContentItem
-          title="Số lượng"
-          value={`${importRequest?.quantity}`}
-          loading={isImpFetchSuccess}
-        />
-        <CardContentItem
-          title="Ngày tạo"
-          value={`${importRequest?.createdAt}`}
-          loading={isImpFetchSuccess}
-        ></CardContentItem>
-      </Card>
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
+      {/*  */}
+      <ImportRequestCard
+        {...importRequest}
+        isFetchSuccess={isImpFetchSuccess}
+      />
+
+      <TableContainer>
         <DataGrid
-          // checkboxSelection
-          // rows={mockDataImportStoryList}
           rows={priceQuotationList || []}
           columns={columns}
           loading={isPriceQuotaionListLoading}
         />
-      </Box>
+      </TableContainer>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={isOpen}
+        onClose={handleClose}
+        message="Cần chọn 1 báo giá trước khi xác nhận nhập hàng"
+        key={"snackbar"}
+      />
     </Box>
   );
 };

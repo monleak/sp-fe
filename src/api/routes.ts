@@ -63,7 +63,7 @@ export const getImportProductItem = async (
  */
 export const getPriceQuotationListOfImportRequest = async (
   importRequestId: string | number
-) => {
+): Promise<ApiPriceQuotationT[]> => {
   const { data } = await axios.get(
     `${BASE_URL}/price-quotation?import_id=${importRequestId}`
   );
@@ -155,3 +155,14 @@ export const deleteImportHistory = async (id: number) => {
   return data;
 };
 
+/**
+ * Update ImportProduct
+ */
+export const updateImportProduct = async (param: {
+  id: number;
+  imp: Partial<ApiImportProductT>;
+}) => {
+  const { data } = await axios.put(`${BASE_URL}/import/${param.id}`, param.imp);
+  console.log(data);
+  return data;
+};

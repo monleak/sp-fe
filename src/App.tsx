@@ -16,9 +16,14 @@ import PriceQuotationList from "./scenes/PriceQuotation/PriceQuotationList";
 import ImportHistoryList from "./scenes/list/ImportHistoryList";
 import NestedRouteModal from "./components/modal/NestedRouteModal";
 import UpdatePriceQuotationForm from "./scenes/PriceQuotation/UpdatePriceQuotationForm";
+
 import RequestImportList from "./scenes/RequestImportProduct/requestImportList";
 import EditImportProductsForm from "./scenes/RequestImportProduct/editImportProductForm";
 import CreateImportProduct from "./scenes/RequestImportProduct/createImportProduct";
+import NotFound from "./scenes/NotFound";
+import Setting from "./scenes/Setting";
+import ConfirmImportPQ from "./scenes/PriceQuotation/ConfirmImportPQ";
+
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -101,9 +106,22 @@ function App() {
                       </NestedRouteModal>
                     }
                   />
+                  <Route
+                    path="/imports/:importRequestId/price-quotation-list/confirm"
+                    element={
+                      <NestedRouteModal>
+                        <ConfirmImportPQ />
+                      </NestedRouteModal>
+                    }
+                  ></Route>
                   {/* Nested route */}
                 </Route>
+                <Route path="/setting" element={<Setting />} />
                 {/* ========================================  ============================================== */}
+                {/* ... */}
+                {/* ======================================== END ============================================== */}
+                <Route path="*" element={<NotFound />} />
+                {/* ======================================== END ============================================== */}
               </Routes>
             </main>
           </div>
