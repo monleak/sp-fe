@@ -4,12 +4,7 @@ import {
   Button,
   CircularProgress,
   FormControl,
-  InputLabel,
-  LinearProgress,
-  MenuItem,
-  Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -90,34 +85,8 @@ const PriceQuotationForm = (props: Props) => {
             flex={1}
             justifyContent="center"
             alignItems={"center"}
-            // flexDirection="column"
           >
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              {/* <InputLabel id="select-supplier">Chọn nhà cung cấp</InputLabel>
-              <Select
-                labelId="select-supplier"
-                label="Chọn nhà cung cấp *"
-                name="supplier_id"
-                value={values.supplier_id}
-                onChange={handleChange}
-              >
-                {props.isSupplierListSuccess ? (
-                  props.supplierList?.map((supplier) => {
-                    return (
-                      <MenuItem key={supplier.id} value={supplier.id}>
-                        {supplier.name}
-                      </MenuItem>
-                    );
-                  })
-                ) : (
-                  <LinearProgress
-                    color="inherit"
-                    style={{
-                      margin: 12,
-                    }}
-                  />
-                )}
-              </Select> */}
               <Autocomplete
                 id="supplier_id"
                 sx={{ width: 300 }}
@@ -177,40 +146,6 @@ const PriceQuotationForm = (props: Props) => {
             <div style={{ width: 60 }}></div>
             {/*  */}
             <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
-              {/* <InputLabel id="select-import-request">
-                Chọn yêu cầu nhập hàng
-              </InputLabel>
-              <Select
-                labelId="select-import-request"
-                label="Chọn yêu cầu nhập hàng"
-                id="product_id"
-                name="product_id"
-                value={values.product_id}
-                onChange={handleChange}
-              >
-                {props.isImportReqListSuccess ? (
-                  props.importRequestList?.map((req) => {
-                    return (
-                      <MenuItem key={req.id} value={req.id}>
-                        <Typography>
-                          {req.id}
-                          {" - "}
-                          {req.name}
-                          {req.size && ` - ${req.size}`}
-                          {req.color && ` - ${req.color}`}
-                        </Typography>
-                      </MenuItem>
-                    );
-                  })
-                ) : (
-                  <LinearProgress
-                    color="inherit"
-                    style={{
-                      margin: 12,
-                    }}
-                  />
-                )}
-              </Select> */}
               <Autocomplete
                 id="import_id"
                 disabled={props.isImportReqListDisable}

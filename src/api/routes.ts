@@ -63,7 +63,7 @@ export const getImportProductItem = async (
  */
 export const getPriceQuotationListOfImportRequest = async (
   importRequestId: string | number
-) => {
+): Promise<ApiPriceQuotationT[]> => {
   const { data } = await axios.get(
     `${BASE_URL}/price-quotation?import_id=${importRequestId}`
   );
