@@ -31,7 +31,7 @@ export function BootstrapDialogTitle(props: DialogTitleProps) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     return (
-        <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+        <DialogTitle sx={{ m: 0, p: 2, bgcolor: colors.primary[400] }} {...other}>
             {children}
             {onClose ? (
                 <IconButton

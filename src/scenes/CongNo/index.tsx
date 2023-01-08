@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, colors, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
@@ -147,23 +147,25 @@ const CongNo = () => {
         onClose={closeHandler}
         aria-labelledby="customized-dialog-title"
         open={open}
+        sx={{ overflow: 'auto' }}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={closeHandler}>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={closeHandler}
+        >
           <h1 style={{ color: colors.greenAccent[300], textAlign: "center", margin: 0 }}>Chi tiết công nợ</h1>
         </BootstrapDialogTitle>
-        <DialogContent dividers>
+        <DialogContent dividers sx={{ bgcolor: colors.primary[400] }}>
 
           {(ct => {
             console.log(ct);
             return (
-              <Typography gutterBottom>
+              <Typography>
                 <OrderInfoTable
                   id={ct.id}
                   customer={{ name: "Son", phone: "123", address: { ward: "123", district: "123", province: "123", detail: "Ha Noi" } }}
-                  shippingFree={100000}
-                  price={10000000}
-                  orderTime="2021-12-31"
-                  payTime='2022-01-01'
+                  shippingFree={ct.shippingFree}
+                  price={ct.price}
+                  orderTime={ct.orderTime}
+                  payTime={ct.payTime}
                 />
               </Typography>
             )
@@ -182,12 +184,13 @@ export interface OrderInfo {
   payTime: string;
 }
 export const OrderInfoTable = ({ id, customer, shippingFree, price, orderTime, payTime }: OrderInfo) => {
-  const css = ".tb,.tb tr, .tb td, .tb th{\
-  border: 1px solid black; \
-  border-collapse: collapse; \
-  padding: .7em;\
-  }\
-  "
+  const css = `.tb,.tb tr, .tb td, .tb th{
+  border: 1.5px solid #515151; 
+  border-collapse: collapse; 
+  padding: .7em;
+  // white-space: nowrap;
+  }
+  `
   return (
     <table className="tb"
     >
@@ -202,7 +205,22 @@ export const OrderInfoTable = ({ id, customer, shippingFree, price, orderTime, p
       </tr>
       <tr>
         <td>{id}</td>
-        <td>{customer.name}</td>
+        {((cus) => {
+          return (
+            <td>
+              <tr>
+                <th>Tên</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+              </tr>
+              <tr>
+                <td>{cus.name}</td>
+                <td>{cus.phone}</td>
+                <td>{cus.address.detail}</td>
+              </tr>
+            </td>
+          )
+        })(customer)}
         <td>{shippingFree}</td>
         <td>{price}</td>
         <td>{orderTime}</td>
