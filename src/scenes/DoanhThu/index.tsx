@@ -20,13 +20,16 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
+import Autocomplete from '@mui/material/Autocomplete';
+import { MonthPicker } from '@mui/x-date-pickers/MonthPicker';
+
 const DoanhThu = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
-
+  const options = ["The Godfather", "Pulp Fiction"];
   return (
-    <Box m="20px">
+    <Box m="5px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="Thống Kê Doanh Thu" subtitle="" />
@@ -36,7 +39,7 @@ const DoanhThu = () => {
             sx={{
               backgroundColor: colors.blueAccent[700],
               color: colors.grey[100],
-              fontSize: "14px",
+              fontSize: "10px",
               fontWeight: "bold",
               padding: "10px 20px",
             }}
@@ -46,7 +49,8 @@ const DoanhThu = () => {
           </Button>
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+
+      {/* <Box display="flex" justifyContent="space-between" alignItems="center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
 
           <DesktopDatePicker
@@ -71,6 +75,31 @@ const DoanhThu = () => {
         >
           Tim Kiếm
         </Button>
+      </Box> */}
+
+
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+      loại thống kê
+      <Autocomplete
+      disablePortal
+      id="combo-box-demo"
+      options={options}
+      sx={{ width: 300 }}
+      renderInput={(params) => <TextField {...params} label="Movie" />}
+      />
+      thời gian:
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+          <DesktopDatePicker
+            label="Thống Kê Tới Ngày"
+            value={value}
+            minDate={dayjs('2017-01-01')}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
       </Box>
 
       <Box marginBottom="20px">
@@ -94,7 +123,7 @@ const DoanhThu = () => {
         >
           <StatBoxV2
             price="30.100.000 đ"
-            title="Iphone 13 pro max"
+            title="Doanh thu"
             progress="0.75"
             increase="+14%"
             icon={
@@ -113,7 +142,7 @@ const DoanhThu = () => {
         >
           <StatBoxV2
             price="80.000 đ"
-            title="Minna no Nihongo 1"
+            title="Tổng vốn"
             progress="0.50"
             increase="+21%"
             icon={
@@ -132,7 +161,7 @@ const DoanhThu = () => {
         >
           <StatBoxV2
             price="500.000 đ"
-            title="Varsity SP-17"
+            title="Lợi Nhuận"
             progress="0.30"
             increase="+5%"
             icon={
@@ -151,7 +180,7 @@ const DoanhThu = () => {
         >
           <StatBoxV2
             price="450.000 đ"
-            title="Sữa rửa mặt svr 450ml"
+            title="So Với cùng kì tháng trước"
             progress="0.80"
             increase="+43%"
             icon={
