@@ -3,6 +3,9 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import CongNo from "./scenes/CongNo";
 import DoanhThu from "./scenes/DoanhThu";
+import BanHang from "./scenes/BanHang";
+import ChoXacNhan from "./scenes/BanHang/ChoXacNhan";
+
 import SupplierList from "./scenes/SupplierList";
 import Form from "./scenes/createNewSupplierForm";
 import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
@@ -114,6 +117,12 @@ function App() {
                 <Route path="/fiscal/revenue" element={<DoanhThu />} />
                 <Route path="/fiscal/receivable" element={<CongNo />} />
                 {/* ========================================  ============================================== */}
+
+                <Route path="/sell" element={<BanHang />} />
+                <Route path="/sell/waiting" element={<ChoXacNhan />} />
+                <Route path="/sell/confirm " element={<BanHang />} />
+                <Route path="/sell/trans" element={<BanHang />} />
+
               </Routes>
             </main>
           </div>
