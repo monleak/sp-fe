@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import { useNavigate, useParams } from "react-router-dom";
 import * as React from 'react';
 
-const DangGiao = () => {
+const DaGiaoHang = () => {
   const navigate = useNavigate();
   const { importRequestId } = useParams();
   const id = Number.parseInt(importRequestId || "");
@@ -40,7 +40,7 @@ const DangGiao = () => {
 
   return (
     <Box m="20px">
-      <Header title="" subtitle="Danh sách đơn hàng đang giao" />
+      <Header title="" subtitle="Danh sách đơn hàng đã giao hàng thành công" />
       <Box
         m="40px 0 0 0"
         height="58vh"
@@ -80,4 +80,4 @@ const DangGiao = () => {
   );
 };
 
-export default DangGiao;
+export default DaGiaoHang;
