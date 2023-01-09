@@ -194,7 +194,7 @@ const Dashboard = () => {
               borderBottom={`4px solid ${colors.primary[500]}`}
               p='15px'
             >
-              <Box>
+              <Box width='120px'>
                 <Typography
                   color={colors.greenAccent[500]}
                   variant='h5'
@@ -206,7 +206,7 @@ const Dashboard = () => {
                   {supplier.name}
                 </Typography>
               </Box>
-              <Box color={colors.grey[100]} justifyItems='left'>
+              <Box width='150px' color={colors.grey[100]} justifyItems='left'>
                 {supplier.email}
               </Box>
               <Box color={colors.grey[100]}>{supplier.phone}</Box>
