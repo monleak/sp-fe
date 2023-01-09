@@ -62,28 +62,28 @@ const sidebarSessions: SidebarItemListProps = [
   {
     type: "item",
     icon: <PersonOutlinedIcon />,
+    to: "/suppliers/create",
+    title: "Tạo NCC",
+  },
+  {
+    type: "item",
+    icon: <PersonOutlinedIcon />,
     to: "/suppliers",
     title: "Danh sách NCC",
   },
-  {
-    type: "item",
-    icon: <PersonOutlinedIcon />,
-    to: "/suppliers/create",
-    title: "Tạo NCC (test)",
-  },
-  {
-    type: "item",
-    icon: <PersonOutlinedIcon />,
-    to: "/suppliers/1",
-    title: "Chi tiết 1 NCC (test)",
-  },
-  { type: "text", title: "Báo giá" },
-  {
-    type: "item",
-    to: "/imports/1/price-quotation-list/",
-    title: "Danh sách báo giá",
-    icon: <HomeOutlinedIcon />,
-  },
+  // {
+  //   type: "item",
+  //   icon: <PersonOutlinedIcon />,
+  //   to: "/suppliers/1",
+  //   title: "Chi tiết 1 NCC (test)",
+  // },
+  // { type: "text", title: "Báo giá" },
+  // {
+  //   type: "item",
+  //   to: "/imports/1/price-quotation-list/",
+  //   title: "Danh sách báo giá",
+  //   icon: <HomeOutlinedIcon />,
+  // },
   { type: "text", title: "Cài đặt" },
   {
     type: "item",

@@ -47,7 +47,8 @@ export const useApiImpSetPQ = (queryClient: QueryClient, importId: number) => {
         id: importId,
         imp: {
           price_quotation_id: pqId,
-          status: "Q_P_ASSIGNED",
+          // NOTE: Q_P_ASSIGNED
+          status: "COMPLETED",
         },
       });
     },

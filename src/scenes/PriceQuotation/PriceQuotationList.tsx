@@ -38,7 +38,11 @@ const PriceQuotationList = () => {
 
   // kiểm tra yêu cầu đã xác nhận báo giá chưa
   const isPQAssignDone = React.useCallback(() => {
-    return !importRequest || importRequest?.status === "Q_P_ASSIGNED";
+    return (
+      !importRequest ||
+      !importRequest?.status ||
+      ["Q_P_ASSIGNED", "COMPLETED"].includes(importRequest?.status)
+    );
   }, [importRequest]);
 
   // mutation
