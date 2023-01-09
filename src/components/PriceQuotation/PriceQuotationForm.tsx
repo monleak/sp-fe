@@ -27,8 +27,8 @@ export type PriceQuotationFormT = {
 const checkoutSchema = yup.object().shape({
   supplier_id: yup.number().min(0).required("required"),
   product_id: yup.number().min(0).required("required"),
-  unit_price: yup.number().min(0).required(""),
-  note: yup.string().required("required"),
+  unit_price: yup.number().min(0).required("required"),
+  note: yup.string(),
 });
 
 // props
