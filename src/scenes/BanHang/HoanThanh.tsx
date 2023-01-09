@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Dialog, DialogProps, TextField, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataDetailsExport } from "../../data/mockData";
@@ -10,6 +10,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import ChiTietDonHang from "./ChiTietDonHang";
 
 const HoanThanh = () => {
     const navigate = useNavigate();
@@ -20,6 +21,17 @@ const HoanThanh = () => {
     const id = Number.parseInt(importRequestId || "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const [open, setOpen] = React.useState(false);
+    const [fullWidth, setFullWidth] = React.useState(true);
+    const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('lg');
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     const columns = [
         { field: "id", headerName: "Mã Đơn Hàng", flex: 0.35 },
         { field: "doanhthu", headerName: "doanhthu", flex: 1 },
@@ -32,13 +44,10 @@ const HoanThanh = () => {
             renderCell: () => {
                 return (
                     <Button
-                        onClick={() => {
-                            navigate(
-                                `/imports/${id}/show-details`
-                            );
-                        }}
+                        onClick={handleClickOpen}
                         variant="text"
-                        startIcon={<RemoveRedEyeIcon style={{ color: "white" }} />}
+                        startIcon={<RemoveRedEyeIcon style={{ color: "white" }}
+                        />}
                     ></Button>
                 );
             },
@@ -126,8 +135,17 @@ const HoanThanh = () => {
                         disableSelectionOnClick
                     />
                 </Box>
+                <Dialog
+                    fullWidth={fullWidth}
+                    maxWidth={maxWidth}
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <Box>
+                        <ChiTietDonHang />
+                    </Box>
+                </Dialog>
             </Box>
-
         </Box>
     );
 };

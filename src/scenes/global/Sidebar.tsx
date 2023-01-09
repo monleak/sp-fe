@@ -207,7 +207,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Sp17
+                  Sp17+Sp05
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Quản lý nhập, xuất, bán hàng
