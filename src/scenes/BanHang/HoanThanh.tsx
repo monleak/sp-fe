@@ -18,7 +18,6 @@ const HoanThanh = () => {
     const [startValue, setStartValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
     const [endValue, setEndValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
 
-    const id = Number.parseInt(importRequestId || "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = React.useState(false);
