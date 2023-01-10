@@ -33,12 +33,12 @@ const HoanThanh = () => {
     };
     const columns = [
         { field: "id", headerName: "Mã Đơn Hàng", flex: 0.35 },
-        { field: "doanhthu", headerName: "doanhthu", flex: 1 },
-        { field: "ngaytao", headerName: "ngaytao", flex: 1 },
-        { field: "trangthai", headerName: "trangthai", flex: 1 },
+        { field: "doanhthu", headerName: "Doanh thu", flex: 1 },
+        { field: "createdAt", headerName: "Ngày tạo", flex: 1 },
+        { field: "status", headerName: "Trạng thái", flex: 1 },
         {
             field: "edit",
-            headerName: "xem them",
+            headerName: "Xem thêm",
             flex: 0.3,
             renderCell: () => {
                 return (
@@ -129,7 +129,7 @@ const HoanThanh = () => {
                     }}
                 >
                     <DataGrid
-                        rows={mockDataDetailsExport}
+                        rows={mockDataDetailsExport.filter(v => v.status == "ACCEPT")}
                         columns={columns}
                         disableSelectionOnClick
                     />

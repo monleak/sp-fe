@@ -119,9 +119,9 @@ function App() {
                 {/* ========================================  ============================================== */}
 
                 <Route path="/sell" element={<BanHang />} />
-                <Route path="/sell/waiting" element={<ChoXacNhan />} />
+                {/* <Route path="/sell/waiting" element={<ChoXacNhan />} />
                 <Route path="/sell/confirm " element={<BanHang />} />
-                <Route path="/sell/trans" element={<BanHang />} />
+                <Route path="/sell/trans" element={<BanHang />} /> */}
 
               </Routes>
             </main>
