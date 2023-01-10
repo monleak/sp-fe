@@ -474,11 +474,12 @@ export const mockLineData = [
 ];
 
 
-export const mockDataDetailsExport: any = [
+export const mockDataDetailsExport = [
   {
     id: 30,
     createdAt: "2023-01-03",
-    status: "REJECTED",
+    cod: 100000,
+    status: "PENDING",
     HistoryItem: [
       {
         historyItemId: 300,
@@ -509,11 +510,25 @@ export const mockDataDetailsExport: any = [
   {
     id: 31,
     createdAt: "2023-01-03",
-    status: "REJECTED",
+    status: "PENDING",
+    cod: 200000
   },
   {
     id: 32,
     createdAt: "2023-01-03",
-    status: "REJECTED",
+    status: "ACCEPT",
+    cod: 150000
+  },
+  {
+    id: 33,
+    createdAt: "2023-01-03",
+    status: "ACCEPT",
+    cod: 250000
+  },
+  {
+    id: 34,
+    createdAt: "2023-01-03",
+    status: "PENDING",
+    cod: 120000
   },
 ];

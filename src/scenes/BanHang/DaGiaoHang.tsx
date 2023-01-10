@@ -24,19 +24,19 @@ const DaGiaoHang = () => {
   const columns = [
     { field: "id", headerName: "Mã Đơn Hàng", flex: 0.35 },
     { field: "doanhthu", headerName: "doanhthu", flex: 1 },
-    { field: "ngaytao", headerName: "ngaytao", flex: 1 },
-    { field: "trangthai", headerName: "trangthai", flex: 1 },
+    { field: "creatdAt", headerName: "Ngày tạo", flex: 1 },
+    { field: "status", headerName: "Trạng thái", flex: 1 },
     {
       field: "edit",
-      headerName: "xem them",
+      headerName: "Xem thêm",
       flex: 0.3,
       renderCell: () => {
         return (
           <Button
-          onClick={handleClickOpen}
-          variant="text"
-          startIcon={<RemoveRedEyeIcon style={{ color: "white" }}
-          />}
+            onClick={handleClickOpen}
+            variant="text"
+            startIcon={<RemoveRedEyeIcon style={{ color: "white" }}
+            />}
           ></Button>
         );
       },
@@ -76,7 +76,7 @@ const DaGiaoHang = () => {
         }}
       >
         <DataGrid
-          rows={mockDataDetailsExport}
+          rows={mockDataDetailsExport.filter(v => v.status == "ACCEPT")}
           columns={columns}
           disableSelectionOnClick
         />

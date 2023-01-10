@@ -134,8 +134,8 @@ const BanHang = () => {
                 </Button>
             </Box>
             <Box marginBottom="20px">
-                {isToggled1 && <DaXacNhan />}
                 {isToggled && <ChoXacNhan />}
+                {isToggled1 && <DaXacNhan />}
                 {isToggled2 && <DangGiao />}
                 {isToggled3 && <DaGiaoHang />}
                 {isToggled4 && <HoanThanh />}

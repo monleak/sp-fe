@@ -42,32 +42,31 @@ const ChoXacNhan = () => {
       event.target.value,
     );
   };
-
+  let rowCount = 0;
   const columns = [
-
-    { field: "id", headerName: "Mã Đơn Hàng", flex: 0.1 },
     {
-      field: "image", headerName: "", flex: 0.05, renderCell: () => {
+      field: "stt", headerName: "STT", flex: 0.05, renderCell: () => {
+        rowCount++;
         return (
-          <Avatar alt="ANH1" src="https://www.google.com.vn/imgres?imgurl=https%3A%2F%2Fcf.shopee.vn%2Ffile%2F796fe3d9f55db5170b6b9f4954faf2ee&imgrefurl=https%3A%2F%2Fshopee.vn%2F%25C3%2581o-kho%25C3%25A1c-th%25E1%25BB%2583-thao-3-s%25E1%25BB%258Dc-ch%25E1%25BA%25A5t-thun-poly-d%25C3%25A0y-d%25E1%25BA%25B7n-i.36052264.4847991977&tbnid=wirxl8DTfyWNSM&vet=12ahUKEwjm8Knigrj8AhUkBKYKHW7dAfIQMygAegUIARC5AQ..i&docid=TjhKRgocfrVx1M&w=1024&h=1024&q=%C3%A1o%20adidas&ved=2ahUKEwjm8Knigrj8AhUkBKYKHW7dAfIQMygAegUIARC5AQ" />
+          <span>{rowCount}</span>
         )
       }
     },
-    { field: "name", headerName: "Tên Sản Phẩm", flex: 0.3 },
-    { field: "count", headerName: "Số Lượng", flex: 0.1 },
-    { field: "money", headerName: "Tổng Tiền", flex: 0.1 },
-    { field: "status", headerName: "Trạng Thái", flex: 0.1 },
+    { field: "id", headerName: "ID Hóa đơn", flex: 0.1 },
+    { field: "createdAt", headerName: "Ngày tạo", flex: 0.2 },
+    { field: "cod", headerName: "Tổng Tiền", flex: 0.15 },
+    { field: "status", headerName: "Trạng Thái", flex: 0.07 },
     {
-      field: "edit",
-      headerName: "",
-      flex: 0.025,
+      field: "detail",
+      headerName: "Chi tiết",
+      flex: 0.05,
       renderCell: (v: any) => {
         return (
           <Button
-          onClick={handleClickOpen}
-          variant="text"
-          startIcon={<RemoveRedEyeIcon style={{ color: "white" }}
-          />}
+            onClick={handleClickOpen}
+            variant="text"
+            startIcon={<RemoveRedEyeIcon style={{ color: "white" }}
+            />}
           ></Button >
         );
       },
@@ -75,7 +74,7 @@ const ChoXacNhan = () => {
     {
       field: "refuse",
       headerName: "",
-      flex: 0.06,
+      flex: 0.1,
       renderCell: () => {
         return (
           <Button
@@ -100,7 +99,7 @@ const ChoXacNhan = () => {
     {
       field: "accept",
       headerName: "",
-      flex: 0.06,
+      flex: 0.1,
       renderCell: () => {
         return (
 
@@ -132,7 +131,7 @@ const ChoXacNhan = () => {
 
       </Typography>
       <Box
-        height="30vh"
+        height="58vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -161,7 +160,7 @@ const ChoXacNhan = () => {
       >
         <DataGrid
 
-          rows={mockDataDetailsExport}
+          rows={mockDataDetailsExport.filter((v) => v.status == "PENDING")}
           columns={columns}
           disableSelectionOnClick
         />
