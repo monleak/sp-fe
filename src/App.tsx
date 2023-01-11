@@ -1,10 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
+import CongNo from "./scenes/CongNo";
+import DoanhThu from "./scenes/DoanhThu";
+import BanHang from "./scenes/BanHang";
+import ChoXacNhan from "./scenes/BanHang/ChoXacNhan";
 
 import SupplierList from "./scenes/SupplierList";
 import SupplierDetailInfo from "./scenes/SupplierDetailInfo";
 import ImportProductsForm from "./scenes/form/ImportProductForm";
+import ImportExportsForm from "./scenes/form/ImportExportForm";
+import ImportHistoryExportList from "./scenes/list/ImportHistoryExportList";
+
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import CreatePriceQuotation from "./scenes/PriceQuotation/CreatePriceQuotationForm";
@@ -25,6 +32,9 @@ import ConfirmImportPQ from "./scenes/PriceQuotation/ConfirmImportPQ";
 import UpdateImportForm from "./scenes/form/UpdateImportForm";
 import CreateSupplier from "./scenes/SupplierList/CreateSupplierForm";
 import UpdateSupplier from "./scenes/SupplierList/UppdateSupplierForm";
+import ShowDetailsHistory from "./scenes/list/ShowDetailsHistory";
+// import RequestImportList from "./scenes/list/requestImportList";
+// import ShowDetailsHistory from "./scenes/list/ShowDetailsHistory";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -58,7 +68,6 @@ function App() {
                   path="/imports/create"
                   element={<ImportProductsForm />}
                 />
-
                 <Route
                   path="/imports/edit/:id"
                   element={
@@ -97,6 +106,27 @@ function App() {
                 {/* ======================================== Price quotation ============================================== */}
                 <Route
                   path="/imports/request"
+                  element={<RequestImportList />}
+                />
+                <Route
+                  path="/imports/create-export"
+                  element={<ImportExportsForm />}
+                />
+                <Route
+                  path="/imports/history-export"
+                  element={<ImportHistoryExportList />}
+                />
+                {/* Nested route */}
+                <Route
+                  path="/imports/:importRequestId/history-export/show-details"
+                  element={
+                    <NestedRouteModal>
+                      <ShowDetailsHistory />
+                    </NestedRouteModal>
+                  }
+                />
+                <Route
+                  path="/imports/request-export"
                   element={<RequestImportList />}
                 />
                 <Route
@@ -140,6 +170,17 @@ function App() {
                 {/* ======================================== END ============================================== */}
                 <Route path="*" element={<NotFound />} />
                 {/* ======================================== END ============================================== */}
+
+                {/* Nested route */}
+                {/* </Route> */}
+                <Route path="/fiscal/revenue" element={<DoanhThu />} />
+                <Route path="/fiscal/receivable" element={<CongNo />} />
+                {/* ========================================  ============================================== */}
+
+                <Route path="/sell" element={<BanHang />} />
+                {/* <Route path="/sell/waiting" element={<ChoXacNhan />} />
+                <Route path="/sell/confirm " element={<BanHang />} />
+                <Route path="/sell/trans" element={<BanHang />} /> */}
               </Routes>
             </main>
           </div>

@@ -1,6 +1,6 @@
-import { Box } from '@mui/material';
-import Header from '../../components/Header';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Box } from "@mui/material";
+import Header from "../../components/Header";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ApiImportProductT,
   SubProductInfoT,
@@ -9,13 +9,14 @@ import {
   getSupplierList,
   updatePriceQuotation,
   getALlImportHistoryList,
-} from '../../api';
-import React from 'react';
-import { transformJoinSubProductList } from '../../api/transform';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+} from "../../api";
+import React from "react";
+import { transformJoinSubProductList } from "../../api/transform";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ImportForm, {
   ImportProductFormT,
-} from '../../components/importForm/ImportForm';
+} from "../../components/importForm/ImportForm";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 /*
  * @brief Form cập nhật báo giá
@@ -25,24 +26,24 @@ import ImportForm, {
  */
 
 const UpdateImportForm = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   const location = useLocation();
   const param = location.state as ApiImportProductT;
 
   // api get
   const { data: productList } = useQuery(
-    ['sub-product-list'],
+    ["sub-product-list"],
     getSubProductList
   );
 
   const { data: supplierList, isSuccess: isSupplierListSuccess } = useQuery(
-    ['supplier-list'],
+    ["supplier-list"],
     getSupplierList
   );
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(['import-request'], getALlImportHistoryList, {
+    useQuery(["import-request"], getALlImportHistoryList, {
       //NOTE: join import request list and product list
       select: React.useCallback(
         (
@@ -60,7 +61,7 @@ const UpdateImportForm = () => {
   const { isLoading, isError, error, mutate } = useMutation({
     mutationFn: updatePriceQuotation,
     onSuccess: () => {
-      queryClient.invalidateQueries(['price-quotation-list']);
+      queryClient.invalidateQueries(["price-quotation-list"]);
     },
   });
 
@@ -81,26 +82,26 @@ const UpdateImportForm = () => {
 
   // jsx
   return (
-    <Box mt='20px' width='650px' margin='100px auto'>
-      <Header title='Cập nhật ' subtitle='Cập nhật lịch sử nhập hàng' />
+    <Box mt="20px" width="650px" margin="100px auto">
+      <Header title="Cập nhật " subtitle="Cập nhật lịch sử nhập hàng" />
       {/*  */}
       <ImportForm
         handleSubmit={handleFormSubmit}
         importRequestList={importRequestList}
         initialValues={{
-          note: param.note || '',
+          note: param.note || "",
           product_id: param.product_id || 0,
           subproduct_id: param.subproduct_id || 0,
-          status: param.status || '',
+          status: param.status || "",
           quantity: param.quantity || 0,
-          created_by: param.created_by || '',
-          updated_by: param.updated_by || '',
+          created_by: param.created_by || "",
+          updated_by: param.updated_by || "",
         }}
         supplierList={supplierList}
         isImportReqListSuccess={isImportReqListSuccess}
         isSupplierListSuccess={isSupplierListSuccess}
-        submitBtnText={'Cập nhật'}
-        create_update={'updated_by'}
+        submitBtnText={"Cập nhật"}
+        create_update={"updated_by"}
       />
       {/*  */}
     </Box>

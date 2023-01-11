@@ -7,10 +7,11 @@ import Header from "../../components/Header";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getImportHistoryList } from "../../api";
 import { useNavigate, useParams } from "react-router-dom";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 const ImportHistoryList = () => {
   // url param
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   // api
   const { data: importHistoryList, isLoading: isImportHistoryListLoading } =
     useQuery(

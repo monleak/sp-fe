@@ -10,6 +10,7 @@ import {
 /**
  * Navigate with preserve query parameters
  * - Keep sidebar, topbar setting without using context api, state, ...
+ * - Use this instead of react-router-dom useNavigate
  *
  * @see LinkWithPreserveQuery
  */

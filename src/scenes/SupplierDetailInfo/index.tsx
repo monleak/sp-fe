@@ -1,19 +1,20 @@
-import { Box,Button, useTheme } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam, products , productData} from "../../data/mockData";
+import { mockDataTeam, products, productData } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 const SupplierDetailInfo = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   const { supplier_id } = useParams();
   const id = Number.parseInt(supplier_id || "");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
     { field: "id", headerName: "productID" },
-    {field: "subpdid", headerName: "SubID"},
+    { field: "subpdid", headerName: "SubID" },
     {
       field: "name",
       headerName: "Tên sản phẩm",
@@ -30,14 +31,12 @@ const SupplierDetailInfo = () => {
       headerName: "Ghi chú",
       flex: 1,
     },
-    { 
+    {
       field: "detail",
       headerName: "",
       renderCell: () => {
         return (
-          <Button style={{color: 'yellow'}}>
-            Báo giá của sản phẩm 
-          </Button>
+          <Button style={{ color: "yellow" }}>Báo giá của sản phẩm</Button>
         );
       },
       flex: 1,
@@ -46,19 +45,21 @@ const SupplierDetailInfo = () => {
 
   return (
     <Box m="20px">
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Thông tin chi tiết nhà cung cấp" subtitle="" />
-        </Box>
-        <Box>
-            <p>ID:{productData.id}</p>
-            <p>Tên nhà cung cấp: {productData.name}</p>
-            <p>Số điện thoại: {productData.phone}</p>
-            <p>Email: {productData.email}</p>
-            <p>Địa chỉ:</p>
-            <ol>
-                {productData.address.map((add) => <li>{add}</li>)}
-            </ol>
-        </Box>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="Thông tin chi tiết nhà cung cấp" subtitle="" />
+      </Box>
+      <Box>
+        <p>ID:{productData.id}</p>
+        <p>Tên nhà cung cấp: {productData.name}</p>
+        <p>Số điện thoại: {productData.phone}</p>
+        <p>Email: {productData.email}</p>
+        <p>Địa chỉ:</p>
+        <ol>
+          {productData.address.map((add) => (
+            <li>{add}</li>
+          ))}
+        </ol>
+      </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -88,16 +89,15 @@ const SupplierDetailInfo = () => {
           },
         }}
       >
-        <DataGrid 
-          checkboxSelection 
+        <DataGrid
+          checkboxSelection
           rows={mockDataTeam}
           columns={columns}
           experimentalFeatures={{ newEditingApi: true }}
         />
-      </Box> 
+      </Box>
     </Box>
   );
 };
 
 export default SupplierDetailInfo;
-

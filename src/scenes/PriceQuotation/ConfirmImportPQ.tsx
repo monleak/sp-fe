@@ -27,6 +27,7 @@ import {
 } from "../../api/transform";
 import { Formik } from "formik";
 import { useApiImpSetPQ } from "../../hooks/useApiPQMutation";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 type Props = {};
 
@@ -46,7 +47,7 @@ const ConfirmImportPQ = (props: Props) => {
   // state
 
   // url param
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   const { importRequestId } = useParams();
   const id = Number.parseInt(importRequestId || "");
 

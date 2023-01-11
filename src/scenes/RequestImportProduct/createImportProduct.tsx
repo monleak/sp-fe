@@ -17,6 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
 import { ImportProductFormT } from "./ImportProductForm_hieutt";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 const initialValues: ImportProductFormT = {
   product_id: 0,
@@ -26,7 +27,7 @@ const initialValues: ImportProductFormT = {
 };
 
 const CreateImportProduct = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   // api get
   const { data: infoProductList, isSuccess: isinfoProductListSuccess } =

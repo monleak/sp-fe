@@ -20,10 +20,11 @@ import ImportForm, {
   ImportProductFormT,
 } from "../../components/importForm/ImportForm";
 import { transformJoinSubProductList } from "../../api/transform";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 const ImportProductsForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   // api get
   const { data: productList } = useQuery(

@@ -8,11 +8,12 @@ import Switch from "@mui/material/Switch";
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
 import { ListSubheader, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 type Props = {};
 
 function Setting({}: Props) {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   const { search, pathname } = useLocation();
 
   const [checked, setChecked] = React.useState<string[]>(() => {

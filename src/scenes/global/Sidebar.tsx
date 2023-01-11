@@ -10,7 +10,6 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { useRoutes } from "react-router-dom";
 import { LinkWithPreserveQuery } from "../../components/common/LinkWithPreserveQuery";
 
 type ItemProps = {
@@ -52,6 +51,13 @@ const sidebarSessions: SidebarItemListProps = [
     title: "Yêu cầu nhập hàng",
     icon: <ReceiptOutlinedIcon />,
   },
+  { type: "text", title: "Bán hàng" },
+  {
+    type: "item",
+    to: "/sell",
+    title: "Quản Lý Bán Hàng",
+    icon: <ContactsOutlinedIcon />,
+  },
   { type: "text", title: "Nhà cung cấp" },
   {
     type: "item",
@@ -65,19 +71,19 @@ const sidebarSessions: SidebarItemListProps = [
     to: "/suppliers",
     title: "Danh sách NCC",
   },
-  // {
-  //   type: "item",
-  //   icon: <PersonOutlinedIcon />,
-  //   to: "/suppliers/1",
-  //   title: "Chi tiết 1 NCC (test)",
-  // },
-  // { type: "text", title: "Báo giá" },
-  // {
-  //   type: "item",
-  //   to: "/imports/1/price-quotation-list/",
-  //   title: "Danh sách báo giá",
-  //   icon: <HomeOutlinedIcon />,
-  // },
+  { type: "text", title: "Tài Chính" },
+  {
+    type: "item",
+    to: "/fiscal/revenue",
+    title: "Báo Cáo Doanh Thu",
+    icon: <PersonOutlinedIcon />,
+  },
+  {
+    type: "item",
+    to: "/fiscal/receivable",
+    title: "Công Nợ Phải Thu",
+    icon: <HomeOutlinedIcon />,
+  },
   { type: "text", title: "Cài đặt" },
   {
     type: "item",
@@ -184,7 +190,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Sp17
+                  Sp17+Sp05
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Quản lý nhập, xuất, bán hàng

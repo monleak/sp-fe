@@ -10,35 +10,29 @@ import {
 import { tokens } from "../../theme";
 import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
 import Header from "../../components/Header";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete'
-import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   useMutation,
   useQueries,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import {
-  getSupplierList,
-  ApiSupplierT,
-  deleteSupplier,
-} from "../../api";
+import { getSupplierList, ApiSupplierT, deleteSupplier } from "../../api";
 import React from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Outlet, useParams } from "react-router-dom";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 const SupplierList = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
-  const {data: supplierList} = useQuery(
-    ["supplier-list"],
-    getSupplierList
-  );
+
+  const { data: supplierList } = useQuery(["supplier-list"], getSupplierList);
 
   const queryClient = useQueryClient();
-  
+
   const { mutate } = useMutation({
     mutationFn: deleteSupplier,
     onSuccess: () => {
@@ -68,56 +62,51 @@ const SupplierList = () => {
       headerName: "Địa chỉ",
       flex: 1,
     },
-    { field: "note", headerName: "Ghi chú", flex: 1
-    },
-    { 
+    { field: "note", headerName: "Ghi chú", flex: 1 },
+    {
       field: "edit",
       headerName: "",
       renderCell: (param: GridRenderCellParams<any, any, any>) => {
         return (
           <Button
-          variant="outlined"
-          onClick={() => {
-            navigate(
-              `/$supplier/update/${param.row?.id}`,
-              { state: param.row }
-            );
-          }}
-            startIcon={<EditIcon style={{ color: 'white' }} />}
+            variant="outlined"
+            onClick={() => {
+              navigate(`/$supplier/update/${param.row?.id}`, {
+                state: param.row,
+              });
+            }}
+            startIcon={<EditIcon style={{ color: "white" }} />}
           ></Button>
         );
       },
     },
-    { 
+    {
       field: "delete",
       headerName: "",
       renderCell: (param: GridRenderCellParams<any, any, any>) => {
         return (
           <Button
-            variant='text'
+            variant="text"
             onClick={() => {
               mutate(param.row?.id);
               console.log(mutate(param.row?.id));
             }}
-            startIcon={<DeleteIcon style={{ color: 'white' }} />}
+            startIcon={<DeleteIcon style={{ color: "white" }} />}
           ></Button>
         );
       },
     },
-    { 
+    {
       field: "detail",
       headerName: "",
       renderCell: (param: GridRenderCellParams<any, any, any>) => {
         return (
           <Button
-            variant='text'
-            onClick = {() => {
-              navigate(
-                `/suppliers/${param.row?.id}`,
-                { state: param.row }
-              );
+            variant="text"
+            onClick={() => {
+              navigate(`/suppliers/${param.row?.id}`, { state: param.row });
             }}
-            startIcon={<InfoIcon style={{ color: 'white' }} />}
+            startIcon={<InfoIcon style={{ color: "white" }} />}
           ></Button>
         );
       },
@@ -137,7 +126,7 @@ const SupplierList = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
-            onClick = {() => {
+            onClick={() => {
               navigate(`/suppliers/create`);
             }}
           >
@@ -171,12 +160,12 @@ const SupplierList = () => {
           },
         }}
       >
-        <DataGrid 
+        <DataGrid
           rows={supplierList || []}
           columns={columns}
           experimentalFeatures={{ newEditingApi: true }}
         />
-      </Box> 
+      </Box>
     </Box>
   );
 };

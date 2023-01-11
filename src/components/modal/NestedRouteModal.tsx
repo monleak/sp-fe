@@ -1,8 +1,8 @@
 import { Modal } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import PageModal from "./PageModal";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 type Props = {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ type Props = {
  * Copyright (c) 2023 HaVT
  */
 function NestedRouteModal({ children }: Props) {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   const handleClose = React.useCallback(() => {
     navigate(-1); // go back

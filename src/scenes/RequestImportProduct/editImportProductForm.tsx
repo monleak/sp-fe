@@ -19,6 +19,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ImportProductsForm from "../form/ImportProductForm";
 import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
 import { ImportProductFormT } from "./ImportProductForm_hieutt";
+import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 /*
  * @brief Form cập nhật báo giá
  *
@@ -27,7 +28,7 @@ import { ImportProductFormT } from "./ImportProductForm_hieutt";
  */
 
 const EditImportProductsForm = () => {
-  const navigate = useNavigate();
+  const navigate = usePreserveQueryNavigate();
 
   const location = useLocation();
   const param = location.state as ApiImportProductT;
