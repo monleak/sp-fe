@@ -8,12 +8,12 @@ import Switch from "@mui/material/Switch";
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
 import { ListSubheader, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 type Props = {};
 
-function Setting({}: Props) {
-  const navigate = usePreserveQueryNavigate();
+function Setting(props: Props) {
+  // NOTE: DO NOT USE usePreserveQueryNavigate HERE!
+  const navigate = useNavigate();
   const { search, pathname } = useLocation();
 
   const [checked, setChecked] = React.useState<string[]>(() => {
@@ -47,12 +47,13 @@ function Setting({}: Props) {
   };
 
   React.useEffect(() => {
-    navigate(
-      `${pathname}?sidebar=${checked.indexOf("sidebar") !== -1}&topbar=${
-        checked.indexOf("topbar") !== -1
-      }`
-    );
-  }, [checked, navigate, pathname]);
+    const pathWithoutQuery = pathname.split("?")[0];
+    console.log(pathWithoutQuery);
+    const path = `${pathWithoutQuery}?sidebar=${
+      checked.indexOf("sidebar") !== -1
+    }&topbar=${checked.indexOf("topbar") !== -1}`;
+    navigate(path);
+  }, []);
 
   return (
     <List
