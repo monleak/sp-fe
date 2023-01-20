@@ -41,6 +41,7 @@ import {
   ApiImportProductT,
   SubProductInfoT,
   getImportRequestList,
+  getImportLists,
   getSubProductList,
   getSupplierList,
   deleteImportHistory,
@@ -59,7 +60,7 @@ const RequestImportList = () => {
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } = useQuery(
     ["import-request"],
-    getImportRequestList
+    getImportLists
     );
 
   const queryClient = useQueryClient();
@@ -177,7 +178,7 @@ const RequestImportList = () => {
                 {importRequest.status == "REJECT" ?
                   <Chip color="error" variant="outlined" label="Rejected" /> : ""
                 }
-                {importRequest.status == "NULL" ?
+                {(importRequest.status !== "REQUEST" && importRequest.status !== "ACCEPT" && importRequest.status !== "REJECT") ?
                   <Chip color="error" variant="outlined" label="Null" /> : ""
                 }
               </StyledTableCell>

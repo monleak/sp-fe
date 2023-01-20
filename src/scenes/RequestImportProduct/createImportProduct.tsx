@@ -24,6 +24,7 @@ const initialValues: ImportProductFormT = {
     product_id: 0,
     subproduct_id: 0,
     quantity: 0,
+    status: "REQUEST",
     note: "",
 };
 

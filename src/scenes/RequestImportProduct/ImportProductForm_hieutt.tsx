@@ -19,6 +19,7 @@ export type ImportProductFormT = {
   product_id: number;
   subproduct_id: number;
   quantity: number;
+  status: string;
   note: string;
 };
 
@@ -156,6 +157,27 @@ const ImportProductForm_hieutt = (props: Props) => {
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
+            <FormControl fullWidth sx={{ minWidth: 240, mb: 3 }}>
+              <InputLabel id="select-status">Status</InputLabel>
+              <Select
+                labelId="select-status"
+                label="Status"
+                name="status"
+                value={values.status}
+                onChange={handleChange}
+              >
+                <MenuItem key="REQUEST" value="REQUEST">
+                    REQUEST
+                </MenuItem>
+                <MenuItem key="ACCEPT" value="ACCEPT">
+                    ACCEPT
+                </MenuItem>
+                <MenuItem key="REJECT" value="REJECT">
+                    REJECT
+                </MenuItem>
+              </Select>
+            </FormControl>
+
             <TextField
               fullWidth
               variant="filled"
