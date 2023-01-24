@@ -201,14 +201,15 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             {/* MAP SESSION LIST */}
-            {sidebarSessions.map((item) => {
+            {sidebarSessions.map((item, i) => {
               switch (item.type) {
                 case "text":
                   if (isCollapsed) {
-                    return <Divider />;
+                    return <Divider key={i} />;
                   } else {
                     return (
                       <Typography
+                        key={i}
                         variant="h6"
                         color={colors.grey[300]}
                         sx={{ m: "15px 0 5px 20px" }}
@@ -220,6 +221,7 @@ const Sidebar = () => {
                 case "item":
                   return (
                     <Item
+                      key={i}
                       title={item.title}
                       to={item.to}
                       icon={item.icon}

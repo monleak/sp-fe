@@ -1,13 +1,11 @@
 import { Box } from "@mui/material";
-import Header from "../../components/Header";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import { ApiSupplierT, updateSupplier } from "../../api";
-import React from "react";
+import Header from "../../components/Header";
 import SupplierForm, {
   SupplierFormT,
 } from "../../components/SupplierForm/SupplierForm";
-import { useLocation, useNavigate } from "react-router-dom";
-import { defaultAnimate } from "@nivo/core";
 import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 type UpdateSupplierFormProps = {
