@@ -74,7 +74,6 @@ const EditImportProductsForm = () => {
           note: param.note || "",
           product_id: param.product_id || 0,
           subproduct_id: param.subproduct_id || 0,
-          status: param.status || "",
           quantity: param.quantity || 0,
         }}
         submitBtnText={"Cập nhật"}

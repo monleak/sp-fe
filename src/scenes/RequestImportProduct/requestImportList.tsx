@@ -31,6 +31,8 @@ import { Outlet, useParams } from "react-router-dom";
 import EditImportProductsForm from "./ImportProductForm_hieutt";
 import CreateImportProduct from "./createImportProduct";
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 import {
   useMutation,
   useQueries,
@@ -45,10 +47,13 @@ import {
   getSubProductList,
   getSupplierList,
   deleteImportHistory,
+  updateImportHistory,
 } from "../../api";
 import React from "react";
 
-
+export type statusUpdate = {
+  status: string;
+};
 
 const RequestImportList = () => {
   const navigate = useNavigate();
@@ -64,14 +69,19 @@ const RequestImportList = () => {
     );
 
   const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
       mutationFn: deleteImportHistory,
       onSuccess: () => {
         queryClient.invalidateQueries(["import-request"]);
       },
     });
-
-
+    const { isLoading, isError, error, mutate : mutateAccept } = useMutation({
+      mutationFn: updateImportHistory,
+      onSuccess: () => {
+        queryClient.invalidateQueries(["import-request"]);
+      },
+    });
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
       [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
@@ -156,6 +166,7 @@ const RequestImportList = () => {
             <StyledTableCell align="center">Status</StyledTableCell>
             <StyledTableCell align="center">Date</StyledTableCell>
             <StyledTableCell> </StyledTableCell>
+            <StyledTableCell> </StyledTableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>
@@ -183,7 +194,56 @@ const RequestImportList = () => {
                 }
               </StyledTableCell>
               <StyledTableCell align="center">{importRequest.createdAt}</StyledTableCell>
-              <StyledTableCell align="center">
+              {importRequest.status == "REQUEST" ? 
+                <StyledTableCell align="center">
+                  <Button variant="contained" color="success" endIcon={<CheckCircleIcon />}
+                  onClick={() => {
+                    mutateAccept({
+                      id: importRequest.id || -1,
+                      pq: {
+                        // ...param,
+                        ...{
+                          product_id: importRequest.product_id,
+                          subproduct_id: importRequest.subproduct_id,
+                          status:"ACCEPT",
+                        },
+                      },
+                    });
+                  }}
+                  >
+                    Accept
+                  </Button>
+                  {"   "}
+                  <Button variant="contained" color="error" endIcon={<DoDisturbIcon />}
+                  onClick={() => {
+                    mutateAccept({
+                      id: importRequest.id || -1,
+                      pq: {
+                        // ...param,
+                        ...{
+                          product_id: importRequest.product_id,
+                          subproduct_id: importRequest.subproduct_id,
+                          status:"REJECT",
+                        },
+                      },
+                    });
+                  }}
+                  >
+                    Reject
+                  </Button>
+                </StyledTableCell>
+                  :
+                <StyledTableCell align="center">
+                  <Button variant="contained" color="success" endIcon={<CheckCircleIcon />} disabled>
+                    Accept
+                  </Button>
+                  {"   "}
+                  <Button variant="contained" color="error" endIcon={<DoDisturbIcon />} disabled>
+                    Reject
+                  </Button>
+                </StyledTableCell>
+              }
+              <StyledTableCell align="right">
               <Tooltip title="Edit">
                 <Button
                 variant="text"
