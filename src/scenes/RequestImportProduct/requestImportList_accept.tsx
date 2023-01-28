@@ -55,7 +55,7 @@ export type statusUpdate = {
   status: string;
 };
 
-const RequestImportList = () => {
+const RequestImportList_ACCEPT = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -64,7 +64,7 @@ const RequestImportList = () => {
   const id = Number.parseInt(importRequestId || "");
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } = useQuery(
-    ["import-request"],
+    ["import-request-accept"],
     getImportLists
     );
 
@@ -222,7 +222,7 @@ const RequestImportList = () => {
           </StyledTableRow>
         </TableHead>
         <TableBody>
-          {importRequestList?.filter(reqImport => reqImport.status==="REQUEST").map((importRequest) => (
+          {importRequestList?.filter(reqImport => reqImport.status==="ACCEPT").map((importRequest) => (
             <StyledTableRow
               key={importRequest.id}
             >
@@ -328,7 +328,6 @@ const RequestImportList = () => {
                       `/imports/${importRequest.id}/price-quotation-list/`
                     );
                   }}
-                  disabled
                   ></Button>
                 </Tooltip>
                 
@@ -342,4 +341,4 @@ const RequestImportList = () => {
   );
 };
 
-export default RequestImportList;
+export default RequestImportList_ACCEPT;
