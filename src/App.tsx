@@ -23,18 +23,18 @@ import ImportHistoryList from './scenes/list/ImportHistoryList';
 import NestedRouteModal from './components/modal/NestedRouteModal';
 import UpdatePriceQuotationForm from './scenes/PriceQuotation/UpdatePriceQuotationForm';
 
-import RequestImportList from './scenes/RequestImportProduct/requestImportList';
-import EditImportProductsForm from './scenes/RequestImportProduct/editImportProductForm';
-import CreateImportProduct from './scenes/RequestImportProduct/createImportProduct';
-import NotFound from './scenes/NotFound';
-import Setting from './scenes/Setting';
-import ConfirmImportPQ from './scenes/PriceQuotation/ConfirmImportPQ';
-import UpdateImportForm from './scenes/form/UpdateImportForm';
-import CreateSupplier from './scenes/SupplierList/CreateSupplierForm';
-import UpdateSupplier from './scenes/SupplierList/UppdateSupplierForm';
-import ShowDetailsHistory from './scenes/list/ShowDetailsHistory';
-// import RequestImportList from "./scenes/list/requestImportList";
-// import ShowDetailsHistory from "./scenes/list/ShowDetailsHistory";
+import RequestImportList from "./scenes/RequestImportProduct/requestImportList";
+import EditImportProductsForm from "./scenes/RequestImportProduct/editImportProductForm";
+import CreateImportProduct from "./scenes/RequestImportProduct/createImportProduct";
+import NotFound from "./scenes/NotFound";
+import Setting from "./scenes/Setting";
+import ConfirmImportPQ from "./scenes/PriceQuotation/ConfirmImportPQ";
+import UpdateImportForm from "./scenes/form/UpdateImportForm";
+import CreateSupplier from "./scenes/SupplierList/CreateSupplierForm";
+import UpdateSupplier from "./scenes/SupplierList/UppdateSupplierForm";
+import ShowDetailsHistory from "./scenes/list/ShowDetailsHistory";
+import RequestImportList_ACCEPT from "./scenes/RequestImportProduct/requestImportList_accept";
+import RequestImportList_REJECT from "./scenes/RequestImportProduct/requestImportList_reject";
 
 // Create query client to use react query
 const queryClient = new QueryClient();
@@ -92,6 +92,13 @@ function App() {
                   />
                 </Route>
                 <Route
+                    path="/imports/request/accept" element={<RequestImportList_ACCEPT />}
+                  />
+                  <Route
+                    path="/imports/request/reject" element={<RequestImportList_REJECT />}
+                  />
+                <Route
+                  path="/imports/update/:importId"
                   path='/imports/update/:importId'
                   element={
                     <NestedRouteModal>
