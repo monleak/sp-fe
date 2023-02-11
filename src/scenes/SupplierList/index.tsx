@@ -1,29 +1,13 @@
-import {
-  Box,
-  Button,
-  Card,
-  Chip,
-  Modal,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { tokens } from "../../theme";
-import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
-import Header from "../../components/Header";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
-import {
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { getSupplierList, ApiSupplierT, deleteSupplier } from "../../api";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Outlet, useParams } from "react-router-dom";
+import { Box, Button, useTheme } from "@mui/material";
+import { DataGrid, GridColumns, GridRenderCellParams } from "@mui/x-data-grid";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteSupplier, getSupplierList } from "../../api";
+import Header from "../../components/Header";
 import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
+import { tokens } from "../../theme";
 const SupplierList = () => {
   const navigate = usePreserveQueryNavigate();
   const theme = useTheme();

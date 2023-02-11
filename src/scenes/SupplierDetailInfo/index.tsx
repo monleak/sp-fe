@@ -1,11 +1,10 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import { mockDataTeam, products, productData } from "../../data/mockData";
-import Header from "../../components/Header";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Header from "../../components/Header";
+import { mockDataTeam, productData } from "../../data/mockData";
 import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
+import { tokens } from "../../theme";
 const SupplierDetailInfo = () => {
   const navigate = usePreserveQueryNavigate();
   const { supplier_id } = useParams();

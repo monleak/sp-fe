@@ -1,12 +1,12 @@
-import * as React from "react";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
+import { ListSubheader } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import TableChartIcon from "@mui/icons-material/TableChart";
 import Switch from "@mui/material/Switch";
-import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
-import { ListSubheader, Typography } from "@mui/material";
+import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {};
