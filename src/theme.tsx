@@ -1,3 +1,7 @@
+/**
+ * File config theme for mui
+ */
+
 import { createContext, useState, useMemo } from "react";
 import { createTheme, ThemeOptions } from "@mui/material/styles";
 
