@@ -82,6 +82,69 @@ export const mockDataTeam: any = [
   },
 ];
 
+export const mockDataThongKe: any = [
+  {
+    thang: "Tháng",
+    donhang: "Số lượng đơn hàng",
+    doanhthu: "Doanh Thu",
+    giamgia: "Giảm giá",
+    trahang: "Trả lại hàng",
+    doanhthuthuc:"Doanh thu thực",
+    vanchuyen: "Vận chuyển",
+    tongdoanhthu: "Tổng doanh thu",
+
+  },
+  {
+    thang: "Tháng 1 2023",
+    donhang: 100,
+    doanhthu: 150201110,
+    giamgia: 0,
+    trahang: 0,
+    doanhthuthuc:150001110,
+    vanchuyen: 200000,
+    tongdoanhthu: 150201110,
+  },
+    {
+    thang: "Tháng 2 2023",
+    donhang: 150,
+    doanhthu: 270201110,
+    giamgia: 200000,
+    trahang: 0,
+    doanhthuthuc:270001110,
+    vanchuyen: 200000,
+    tongdoanhthu: 270401110,
+  },
+    {
+    thang: "Tháng 3 2023",
+    donhang: 100,
+    doanhthu: 150201110,
+    giamgia: 0,
+    trahang: 0,
+    doanhthuthuc:150001110,
+    vanchuyen: 200000,
+    tongdoanhthu: 150001110,
+  },
+    {
+    thang: "Tháng 4 2023",
+    donhang: 100,
+    doanhthu: 150201110,
+    giamgia: 0,
+    trahang: 0,
+    doanhthuthuc:150001110,
+    vanchuyen: 200000,
+    tongdoanhthu: 150001110,
+  },
+    {
+    thang: "Tháng 5 2023",
+    donhang: 100,
+    doanhthu: 150201110,
+    giamgia: 0,
+    trahang: 0,
+    doanhthuthuc:150001110,
+    vanchuyen: 200000,
+    tongdoanhthu: 150001110,
+  },
+];
 export const mockDataContacts = [
   {
     id: 1,
