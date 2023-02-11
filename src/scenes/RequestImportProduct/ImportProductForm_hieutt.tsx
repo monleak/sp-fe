@@ -12,7 +12,12 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { ApiImportProductT, ApiProductInfoT, ApiSupplierT, SubProductInfoT } from "../../api";
+import {
+  ApiImportProductT,
+  ApiProductInfoT,
+  ApiSupplierT,
+  SubProductInfoT,
+} from "../../api";
 
 // form attributes
 export type ImportProductFormT = {
@@ -34,7 +39,7 @@ type Props = {
   initialValues: ImportProductFormT;
   handleSubmit: (value: ImportProductFormT) => any;
   infoProductList?: ApiProductInfoT[];
-  isInfoProductListSuccess?:boolean;
+  isInfoProductListSuccess?: boolean;
   submitBtnText?: string;
 };
 
@@ -115,27 +120,26 @@ const ImportProductForm_hieutt = (props: Props) => {
                 onChange={handleChange}
               >
                 {props.isInfoProductListSuccess ? (
-                  props.infoProductList?.find((product) => {
-                    if(product.id === values.product_id){
-                      return(
-                        true
-                      )
-                    }else{
-                      return false
-                    }
-                  })?.sub_products.map((sub) => {
-                    return (
-                      <MenuItem key={sub.id} value={sub.id}>
-                        <Typography>
-                          {sub.id}
-                          {" - "}
-                          {sub.size && ` - ${sub.size}`}
-                          {sub.color && ` - ${sub.color}`}
-                        </Typography>
-                      </MenuItem>
-                    );
-                  })
-
+                  props.infoProductList
+                    ?.find((product) => {
+                      if (product.id === values.product_id) {
+                        return true;
+                      } else {
+                        return false;
+                      }
+                    })
+                    ?.sub_products.map((sub) => {
+                      return (
+                        <MenuItem key={sub.id} value={sub.id}>
+                          <Typography>
+                            {sub.id}
+                            {" - "}
+                            {sub.size && ` - ${sub.size}`}
+                            {sub.color && ` - ${sub.color}`}
+                          </Typography>
+                        </MenuItem>
+                      );
+                    })
                 ) : (
                   <LinearProgress
                     color="inherit"

@@ -11,6 +11,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {};
 
+/**
+ * Setting page
+ */
 function Setting(props: Props) {
   // NOTE: DO NOT USE usePreserveQueryNavigate HERE!
   const navigate = useNavigate();
