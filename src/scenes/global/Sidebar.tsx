@@ -47,6 +47,12 @@ const sidebarSessions: SidebarItemListProps = [
   },
   {
     type: "item",
+    to: "/imports/request/create_hieutt",
+    title: "Tạo yêu cầu nhập hàng",
+    icon: <ReceiptOutlinedIcon />,
+  },
+  {
+    type: "item",
     to: "/imports/request",
     title: "Yêu cầu nhập hàng",
     icon: <ReceiptOutlinedIcon />,

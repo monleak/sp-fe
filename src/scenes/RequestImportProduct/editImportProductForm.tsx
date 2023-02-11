@@ -19,7 +19,6 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ImportProductsForm from "../form/ImportProductForm";
 import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
 import { ImportProductFormT } from "./ImportProductForm_hieutt";
-import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 /*
  * @brief Form cập nhật báo giá
  *
@@ -28,14 +27,16 @@ import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
  */
 
 const EditImportProductsForm = () => {
-  const navigate = usePreserveQueryNavigate();
+  const navigate = useNavigate();
 
   const location = useLocation();
   const param = location.state as ApiImportProductT;
 
   // api get
-  const { data: infoProductList, isSuccess: isinfoProductListSuccess } =
-    useQuery(["infoProduct-list"], getInfoProductList);
+  const { data: infoProductList, isSuccess: isinfoProductListSuccess } = useQuery(
+    ["infoProduct-list"],
+    getInfoProductList
+  );
 
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation({
@@ -67,8 +68,8 @@ const EditImportProductsForm = () => {
       {/*  */}
       <ImportProductForm_hieutt
         handleSubmit={handleFormSubmit}
-        infoProductList={infoProductList}
-        isInfoProductListSuccess={isinfoProductListSuccess}
+        infoProductList = {infoProductList}
+        isInfoProductListSuccess = {isinfoProductListSuccess}
         initialValues={{
           note: param.note || "",
           product_id: param.product_id || 0,
