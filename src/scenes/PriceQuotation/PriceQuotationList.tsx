@@ -2,9 +2,9 @@ import { Box, Button, Chip, MenuItem, Select, Snackbar } from "@mui/material";
 import { DataGrid, GridRenderCellParams } from "@mui/x-data-grid";
 import Header from "../../components/Header";
 import { Outlet, useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import React from "react";
+import React, { useCallback } from "react";
 import usePageModal from "../../hooks/usePageModal";
 import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 import ImportRequestCard from "../../components/ImportRequest/ImportRequestCard";
@@ -12,6 +12,7 @@ import TableContainer from "../../components/common/TableContainer";
 import usePriceQuotationBasicColumns from "../../hooks/usePriceQuotationColumns";
 import useApiPQListOfImpReq from "../../hooks/useApiPQListOfImpReq";
 import { useApiDeletePQ, useApiImpSetPQ } from "../../hooks/useApiPQMutation";
+import { importToWareHouse } from "../../api/external.routes";
 
 /*
  * @brief Danh sách báo giá cho 1 yêu cầu nhập hàng
@@ -121,6 +122,36 @@ const PriceQuotationList = () => {
     },
   ]);
 
+  const { mutate: _impToWareHouse } = useMutation({
+    mutationFn: importToWareHouse,
+  });
+
+  const handleConfirmImport = useCallback(() => {
+    if (!!importRequest?.price_quotation_id && !!importRequest?.id) {
+      navigate(`/imports/${id}/price-quotation-list/confirm`);
+      // confirmSetImportPQId(importRequest?.price_quotation_id);
+      // NOTE: call api import warehouse
+      _impToWareHouse({
+        itemId: importRequest.subproduct_id,
+        productId: importRequest.product_id,
+        badQuantity: 0,
+        goodQuantity: importRequest.quantity || 0,
+      });
+    } else {
+      handleOpen();
+    }
+  }, [
+    importRequest?.price_quotation_id,
+    importRequest?.id,
+    importRequest?.subproduct_id,
+    importRequest?.product_id,
+    importRequest?.quantity,
+    navigate,
+    id,
+    _impToWareHouse,
+    handleOpen,
+  ]);
+
   return (
     <Box m="20px">
       {/* NOTE: Nested modal using nested route react router dom */}
@@ -148,17 +179,7 @@ const PriceQuotationList = () => {
               variant="contained"
               color="info"
               disabled={isPQAssignDone()}
-              onClick={() => {
-                if (
-                  !!importRequest?.price_quotation_id &&
-                  !!importRequest?.id
-                ) {
-                  navigate(`/imports/${id}/price-quotation-list/confirm`);
-                  // confirmSetImportPQId(importRequest?.price_quotation_id);
-                } else {
-                  handleOpen();
-                }
-              }}
+              onClick={handleConfirmImport}
               style={{
                 marginLeft: 24,
               }}
