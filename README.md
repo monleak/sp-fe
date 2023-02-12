@@ -9,7 +9,7 @@ Trước khi cài đặt, hãy đảm bảo rằng máy tính của bạn đã c
 
 ### Install libraries
 
-Sử dụng lệnh `npm install`
+Sử dụng lệnh : `npm install`
 
 ### Run
 
