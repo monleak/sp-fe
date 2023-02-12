@@ -1,4 +1,4 @@
-# Structure programming frontend SP_17 ( tích hợp sp05 )
+# Structure programming frontend SP_17 ( tích hợp SP_05 )
 
 
 - Project này sử dụng framework Reactjs js
@@ -26,11 +26,11 @@ Test các chức năng đã có trên web :
   <li><a href="https://sp-fe.vercel.app/imports/history">Lịch sử nhập hàng</a> : Xem lịch sử nhập hàng , có thể chỉnh sửa từng hàng khi nhấn vào icon 'Edit' </li>
   <li><a href="https://sp-fe.vercel.app/imports/request/create_hieutt">Tạo yêu cầu nhập hàng</a></li>
   <li><a href="https://sp-fe.vercel.app/imports/request">Yêu cầu nhập hàng</a> : Xem danh sách yêu cầu nhập hàng, có thể lọc qua các tiêu chí : Cần phê duyệt, đã chấp nhận, đã từ chối, có thể chỉnh sửa / xoá từng hàng khi nhấn vào icon 'Edit' hoặc 'Xoá</li>
-   <li><a href="https://sp-fe.vercel.app/sell">Quản lý bán hàng ( sp 05 )</a> </li>
+   <li><a href="https://sp-fe.vercel.app/sell">Quản lý bán hàng ( SP_05 )</a> </li>
    <li><a href="https://sp-fe.vercel.app/suppliers/create">Tạo nhà cung cấp</a> </li>
    <li><a href="https://sp-fe.vercel.app/suppliers">Danh sách nhà cung cấp</a> xem danh sách, có thể thêm, sửa , xoá , xem chi tiết nhà cung cấp</li>
-   <li><a href="https://sp-fe.vercel.app/fiscal/revenue">Thống kê doanh thu ( sp05 )</a> </li>
-   <li><a href="https://sp-fe.vercel.app/fiscal/receivable"> Công nợ phải thu ( sp05 )</a> </li>
+   <li><a href="https://sp-fe.vercel.app/fiscal/revenue">Thống kê doanh thu ( SP_05 )</a> </li>
+   <li><a href="https://sp-fe.vercel.app/fiscal/receivable"> Công nợ phải thu ( SP_05 )</a> </li>
 </ul>
 
 ## Link tài liệu
