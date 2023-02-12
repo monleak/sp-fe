@@ -17,8 +17,8 @@ Sử dụng lệnh : `npm start`
 
 
 ## Hướng dẫn tester
-<p>Dựa theo link postman bên dưới, vào phần Version 1. Sửa BaseURL giống như link bên dưới để test. Sau đó đối chiếu kết quả trả về với kết quả ghi trong Link API Doc. Có thể thử các trường hợp vi phạm để bắt các lỗi không hợp lệ.</p>
-
+Test các chức năng đã có trên web.
+Web đã deploy : https://sp-fe.vercel.app/
 
 ## Link tài liệu
 <ul>
