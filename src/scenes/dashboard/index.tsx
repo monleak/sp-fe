@@ -10,6 +10,7 @@ import LineChart from '../../components/LineChart';
 import StatBox from '../../components/StatBox';
 import { mockDataTeam } from '../../data/mockData';
 import { mockDataInvoices } from '../../data/mockData';
+import StatBoxV2 from '../../components/StatBoxV2';
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -130,6 +131,83 @@ const Dashboard = () => {
           />
         </Box>
 
+        <Box
+          gridColumn="span 3"
+          bgcolor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBoxV2
+            price="30.100.000 đ"
+            title="Doanh thu"
+            progress="0.75"
+            increase="+14%"
+            icon={
+              <LooksOneIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
+          />
+        </Box>
+        <Box
+          gridColumn="span 3"
+          bgcolor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBoxV2
+            price="80.000 đ"
+            title="Tổng vốn"
+            progress="0.50"
+            increase="+21%"
+            icon={
+              <LooksTwoIcon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
+          />
+        </Box>
+        <Box
+          gridColumn="span 3"
+          bgcolor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBoxV2
+            price="500.000 đ"
+            title="Lợi Nhuận"
+            progress="0.30"
+            increase="+5%"
+            icon={
+              <Looks3Icon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
+          />
+        </Box>
+        <Box
+          gridColumn="span 3"
+          bgcolor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBoxV2
+            price="450.000 đ"
+            title="So Với cùng kì tháng trước"
+            progress="0.80"
+            increase="+43%"
+            icon={
+              <Looks4Icon
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              />
+            }
+          />
+        </Box>
+
         {/* ROW 2 */}
         <Box
           gridColumn='span 12'
@@ -165,6 +243,39 @@ const Dashboard = () => {
           </Box>
         </Box>
 
+        <Box
+          gridColumn="span 12"
+          gridRow="span 2"
+          bgcolor={colors.primary[400]}
+        >
+          <Box
+            mt="25px"
+            p="0 30px"
+            display="flex "
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                color={colors.grey[100]}
+              >
+                Tổng Doanh Thu
+              </Typography>
+            </Box>
+            <Box>
+              <IconButton>
+                <DownloadOutlinedIcon
+                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                />
+              </IconButton>
+            </Box>
+          </Box>
+          <Box height="250px" m="-20px 0 0 0">
+            <LineChart isDashboard={true} />
+          </Box>
+        </Box>
         {/* ROW 3 */}
         {/* Ncc */}
         <Box

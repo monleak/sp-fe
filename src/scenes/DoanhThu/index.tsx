@@ -8,7 +8,7 @@ import Looks4Icon from "@mui/icons-material/Looks4";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import StatBoxV2 from "../../components/StatBoxV2";
-import { mockDataTeam } from "../../data/mockData";
+import { mockDataTeam, mockDataThongKe } from "../../data/mockData";
 import { mockDataInvoices } from "../../data/mockData";
 import * as React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
@@ -27,7 +27,7 @@ const DoanhThu = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
-  const options = ["The Godfather", "Pulp Fiction"];
+  const options = ["Doanh thu","Sản phẩm"];
   return (
     <Box m="5px">
       {/* HEADER */}
@@ -79,16 +79,16 @@ const DoanhThu = () => {
 
 
       <Box display="flex" justifyContent="space-between" alignItems="center">
-      loại thống kê
-      <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={options}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params} label="Movie" />}
-      />
-      thời gian:
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        loại thống kê
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={options}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Doanh thu" />}
+        />
+        thời gian:
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
 
           <DesktopDatePicker
             label="Thống Kê Tới Ngày"
@@ -225,7 +225,60 @@ const DoanhThu = () => {
             <LineChart isDashboard={true} />
           </Box>
         </Box>
-       
+        {/* ROW 3 */}
+        {/* Ncc */}
+        <Box
+          gridColumn='span 12'
+          gridRow='span 2'
+          bgcolor={colors.primary[400]}
+          overflow='auto'
+        >
+          {mockDataThongKe.map((supplier: any, i: any) => (
+            <Box
+              key={`${supplier.thang}-${i}`}
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+              borderBottom={`4px solid ${colors.primary[500]}`}
+              p='15px'
+            >
+              <Box>
+                <Typography
+                  color={colors.greenAccent[500]}
+                  variant='h5'
+                  fontWeight='600'
+                >
+                  {supplier.thang}
+                </Typography>
+              </Box>
+
+              <Box color={colors.grey[100]} width = "120px">
+                {supplier.donhang}
+
+              </Box>
+
+              <Box color={colors.grey[100]} width = "100px">
+                {supplier.doanhthu}
+              </Box>
+              <Box color={colors.grey[100]} width = "70px">
+                {supplier.giamgia}
+              </Box> 
+              <Box color={colors.grey[100]} width = "80px">
+                {supplier.trahang}
+              </Box> 
+              <Box color={colors.grey[100]} width = "100px">
+                {supplier.doanhthuthuc}
+              </Box> 
+              <Box color={colors.grey[100]} width = "70px">
+                {supplier.vanchuyen}
+              </Box>    
+              <Box color={colors.grey[100]} width = "100px">
+                {supplier.tongdoanhthu}
+              </Box>         
+                    
+            </Box>
+          ))}
+        </Box>
       </Box>
     </Box>
   );
