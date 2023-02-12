@@ -4,7 +4,7 @@
 - Project này sử dụng framework Reactjs js
 - Trong project có áp dụng React Conditional Rendering Patterns. 
 
-### Yêu cầu cài dặt
+### Yêu cầu cài đặt
 Trước khi cài đặt, hãy đảm bảo rằng máy tính của bạn đã cài đặt Node.js và npm.
 
 ### Install libraries
