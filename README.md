@@ -18,7 +18,9 @@ Sử dụng lệnh : `npm start`
 
 ## Hướng dẫn tester
 Test các chức năng đã có trên web.
-Web đã deploy : https://sp-fe.vercel.app/
+
+### Web đã deploy 
+https://sp-fe.vercel.app/
 
 ## Link tài liệu
 <ul>
