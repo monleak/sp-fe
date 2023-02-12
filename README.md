@@ -1,20 +1,28 @@
-README - sp-fe
-  sp-fe là một repository chứa mã nguồn front-end của 2 nhóm sp05 và sp17.
+# Structure programming frontend SP_17
 
-Yêu cầu cài đặt
-  Trước khi cài đặt, hãy đảm bảo rằng máy tính của bạn đã cài đặt Node.js và npm.
 
-Cài đặt
-  Clone repository này về máy : $ git clone https://github.com/hahunavth/sp-fe.git
-  Truy cập vào thư mục đã clone : $ cd sp-fe
-  Cài đặt các dependencies : $ npm install
-Chạy ứng dụng
-  Chạy development server : $ npm start
-  Truy cập vào địa chỉ http://localhost:3000 để xem sản phẩm.
+- Project này sử dụng framework Reactjs js
+- Trong project có áp dụng React Conditional Rendering Patterns. 
 
-Tài liệu tham khảo
-  ReactJS
-  Redux
-  Bootstrap
-Liên hệ
-  Nếu có bất kỳ câu hỏi hoặc góp ý, hãy liên hệ với tác giả qua email hoặc cộng đồng của repository này.
+### Yêu cầu cài dặt
+Trước khi cài đặt, hãy đảm bảo rằng máy tính của bạn đã cài đặt Node.js và npm.
+
+### Install libraries
+
+Sử dụng lệnh `npm install`
+
+### Run
+
+Sử dụng lệnh : `npm start`
+
+
+## Hướng dẫn tester
+<p>Dựa theo link postman bên dưới, vào phần Version 1. Sửa BaseURL giống như link bên dưới để test. Sau đó đối chiếu kết quả trả về với kết quả ghi trong Link API Doc. Có thể thử các trường hợp vi phạm để bắt các lỗi không hợp lệ.</p>
+
+
+## Link tài liệu
+<ul>
+  <li><a href="https://husteduvn.sharepoint.com/:x:/s/IT44922022I-CGiang/EY666IL81J1HtFxlS2VlZRUB4jN1OfpGH_LN2Tg2Gj_5pQ?e=vp5ZuN">Link API Doc</a></li>
+  <li><a href="https://www.postman.com/lunar-star-420883/workspace/sp-17/overview">Link Postman</a></li>
+  <li>BaseURL: <a href="https://sp-17-production.fly.dev/api/v1">https://sp-17-production.fly.dev/api/v1</a></li>
+</ul>
