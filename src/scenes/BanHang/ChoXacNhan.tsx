@@ -7,63 +7,66 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import React from "react";
 import ChiTietDonHang from "./ChiTietDonHang";
 import { MenuItem } from "react-pro-sidebar";
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import { Order, Product, Receiver } from './type';
+import { API_SP05_URL } from "../../utils/config";
 
 
 const ChoXacNhan = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState<any[]>([]);
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [receiver, setReceiver] = React.useState<Receiver>({});
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('lg');
 
-  const handleClickOpen = () => {
+  const handleClickOpen = function handleClickOpen({ products, receiver }: { products: Product[]; receiver: Receiver; }) {
     setOpen(true);
+    setProducts(products);
+    setReceiver(receiver);
   };
-
+  React.useEffect(() => {
+    fetch(API_SP05_URL + "order?status=PENDING")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data.data.orders);
+      }
+      );
+  }, []);
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleMaxWidthChange = (event: SelectChangeEvent<typeof maxWidth>) => {
     setMaxWidth(
       // @ts-expect-error autofill of arbitrary value is not handled.
       event.target.value,
     );
   };
-  let rowCount = 0;
   const columns = [
+    { field: "orderId", headerName: "ID Hóa đơn", flex: 0.5 },
+    { field: "createdAt", headerName: "Ngày tạo", flex: 1 },
     {
-      field: "stt", headerName: "STT", flex: 0.05, renderCell: () => {
-        rowCount++;
+      field: "cod", headerName: "Tổng Tiền", flex: 1, renderCell: function f(data: any) {
+        let cod: number = data.row.cod;
         return (
-          <span>{rowCount}</span>
-        )
+          <>
+            {cod.toLocaleString()} VNĐ
+          </>);
       }
     },
-    { field: "id", headerName: "ID Hóa đơn", flex: 0.1 },
-    { field: "createdAt", headerName: "Ngày tạo", flex: 0.2 },
-    { field: "cod", headerName: "Tổng Tiền", flex: 0.15 },
-    { field: "status", headerName: "Trạng Thái", flex: 0.07 },
+    { field: "status", headerName: "Trạng Thái", flex: 1 },
+    { field: "payment_method", headerName: "Phương thức", flex: 1 },
     {
       field: "detail",
       headerName: "Chi tiết",
-      flex: 0.05,
-      renderCell: (v: any) => {
+      flex: 0.5,
+      renderCell: (data: any) => {
         return (
           <Button
-            onClick={handleClickOpen}
+            onClick={() => {
+              handleClickOpen({ products: data.row.products, receiver: data.row.receiver });
+            }}
             variant="text"
             startIcon={<RemoveRedEyeIcon style={{ color: "white" }}
             />}
@@ -74,7 +77,7 @@ const ChoXacNhan = () => {
     {
       field: "refuse",
       headerName: "",
-      flex: 0.1,
+      flex: 0.7,
       renderCell: () => {
         return (
           <Button
@@ -99,7 +102,7 @@ const ChoXacNhan = () => {
     {
       field: "accept",
       headerName: "",
-      flex: 0.1,
+      flex: 0.7,
       renderCell: () => {
         return (
 
@@ -125,8 +128,7 @@ const ChoXacNhan = () => {
   ];
 
   return (
-    <Box m="20px">
-      <Header title="" subtitle="Danh sách đơn hàng chưa xác nhận" />
+    <Box m="0">
       <Typography m="40px 0 10px 10px">
 
       </Typography>
@@ -159,8 +161,8 @@ const ChoXacNhan = () => {
         }}
       >
         <DataGrid
-
-          rows={mockDataDetailsExport.filter((v) => v.status == "PENDING")}
+          getRowId={(row) => row.orderId}
+          rows={data}
           columns={columns}
           disableSelectionOnClick
         />
@@ -173,7 +175,10 @@ const ChoXacNhan = () => {
         onClose={handleClose}
       >
         <Box>
-          <ChiTietDonHang />
+          <ChiTietDonHang
+            products={products}
+            receiver={receiver}
+          />
         </Box>
       </Dialog>
     </Box>

@@ -4,7 +4,6 @@ import Dashboard from "./scenes/dashboard";
 import CongNo from "./scenes/CongNo";
 import DoanhThu from "./scenes/DoanhThu";
 import BanHang from "./scenes/BanHang";
-import ChoXacNhan from "./scenes/BanHang/ChoXacNhan";
 
 import SupplierList from "./scenes/SupplierList";
 import SupplierDetailInfo from "./scenes/SupplierDetailInfo";

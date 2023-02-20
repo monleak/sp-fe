@@ -89,7 +89,7 @@ export const mockDataThongKe: any = [
     doanhthu: "Doanh Thu",
     giamgia: "Giảm giá",
     trahang: "Trả lại hàng",
-    doanhthuthuc:"Doanh thu thực",
+    doanhthuthuc: "Doanh thu thực",
     vanchuyen: "Vận chuyển",
     tongdoanhthu: "Tổng doanh thu",
 
@@ -100,47 +100,47 @@ export const mockDataThongKe: any = [
     doanhthu: 150201110,
     giamgia: 0,
     trahang: 0,
-    doanhthuthuc:150001110,
+    doanhthuthuc: 150001110,
     vanchuyen: 200000,
     tongdoanhthu: 150201110,
   },
-    {
+  {
     thang: "Tháng 2 2023",
     donhang: 150,
     doanhthu: 270201110,
     giamgia: 200000,
     trahang: 0,
-    doanhthuthuc:270001110,
+    doanhthuthuc: 270001110,
     vanchuyen: 200000,
     tongdoanhthu: 270401110,
   },
-    {
+  {
     thang: "Tháng 3 2023",
     donhang: 100,
     doanhthu: 150201110,
     giamgia: 0,
     trahang: 0,
-    doanhthuthuc:150001110,
+    doanhthuthuc: 150001110,
     vanchuyen: 200000,
     tongdoanhthu: 150001110,
   },
-    {
+  {
     thang: "Tháng 4 2023",
     donhang: 100,
     doanhthu: 150201110,
     giamgia: 0,
     trahang: 0,
-    doanhthuthuc:150001110,
+    doanhthuthuc: 150001110,
     vanchuyen: 200000,
     tongdoanhthu: 150001110,
   },
-    {
+  {
     thang: "Tháng 5 2023",
     donhang: 100,
     doanhthu: 150201110,
     giamgia: 0,
     trahang: 0,
-    doanhthuthuc:150001110,
+    doanhthuthuc: 150001110,
     vanchuyen: 200000,
     tongdoanhthu: 150001110,
   },
@@ -545,59 +545,374 @@ export const mockLineData = [
 
 export const mockDataDetailsExport = [
   {
-    id: 30,
-    createdAt: "2023-01-03",
-    cod: 100000,
-    status: "PENDING",
-    HistoryItem: [
+    "orderId": 2,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W56",
+        "district": "D23",
+        "province": "P45",
+        "detail": "hai ba trung ha noi"
+      }
+    },
+    "products": [
       {
-        historyItemId: 300,
-        quantity: 3,
-        status: "GOOD",
-        itemId: 68,
-        historyId: 30,
-        item: { productId: 11 },
+        "productId": 44,
+        "productName": "Vở Campus",
+        "productStatus": "1",
+        "price": "20000",
+        "quantity": 3,
+        "img": "https://ngoclanvpp.vn/User_folder_upload/admin/images/Vo-Campus-NB-BDAW120-2-120-trang.jpeg",
+        "size": "80Tr",
+        "color": "Hồng"
       },
       {
-        historyItemId: 301,
-        quantity: 3,
-        status: "GOOD",
-        itemId: 38,
-        historyId: 30,
-        item: { productId: 6 },
-      },
-      {
-        historyItemId: 302,
-        quantity: 6,
-        status: "GOOD",
-        itemId: 32,
-        historyId: 30,
-        item: { productId: 5 },
-      },
+        "productId": 54,
+        "productName": "Tai nghe",
+        "productStatus": "1",
+        "price": "100000",
+        "quantity": 1,
+        "img": "https://cdn.nguyenkimmall.com/images/detailed/605/10042790-tai-nghe-bluetooth-prolink-phb6003e-den-do-1.jpg",
+        "size": "2XL",
+        "color": "Đen"
+      }
     ],
+    "status": "thành công",
+    "payment_method": "momo",
+    "cod": 190000,
+    "createdAt": "1998-12-31 15:30:28",
+    "updateAt": "1998-12-31 15:30:56",
+    "startAt": "1999-01-01 02:30:28",
+    "completedAt": "1999-01-01 02:45:00",
+    "payAt": "1999-01-01 02:55:28",
+    "orderAt": "1998-12-31 15:50:00"
   },
   {
-    id: 31,
-    createdAt: "2023-01-03",
-    status: "PENDING",
-    cod: 200000,
+    "orderId": 1,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W25",
+        "district": "D01",
+        "province": "P04",
+        "detail": "hai ba trung ha noi"
+      }
+    },
+    "products": [
+      {
+        "productId": 34,
+        "productName": "Dép tổ ong",
+        "productStatus": "1",
+        "price": "85000",
+        "quantity": 1,
+        "img": "https://lzd-img-global.slatic.net/g/p/543d7be238bdd9fb6eec5cbdb0d970ca.jpg_360x360q75.jpg_.webp",
+        "size": "XL",
+        "color": "Trắng"
+      },
+      {
+        "productId": 24,
+        "productName": "Mũ cối",
+        "productStatus": "1",
+        "price": "60000",
+        "quantity": 1,
+        "img": "https://namtrungsafety.com/wp-content/uploads/2019/09/mu-coi.jpg",
+        "size": "L",
+        "color": "Xanh"
+      },
+      {
+        "productId": 14,
+        "productName": "Bút chì shin",
+        "productStatus": "1",
+        "price": "20000",
+        "quantity": 1,
+        "img": "http://img.websosanh.vn/v2/users/root_product/images/but-chi-go-2b-thien-long-gp02/2jgr174h4dbhl.jpg",
+        "size": "XL",
+        "color": "Trắng"
+      }
+    ],
+    "status": "đang giao",
+    "payment_method": "viettel pay",
+    "cod": 185000,
+    "createdAt": "1998-12-31 18:30:28",
+    "updateAt": "1998-12-31 18:30:56",
+    "startAt": "1999-01-01 01:30:28",
+    "completedAt": "1999-01-01 01:45:00",
+    "payAt": "1999-01-01 02:50:28",
+    "orderAt": "1998-12-31 18:40:00"
   },
   {
-    id: 32,
-    createdAt: "2023-01-03",
-    status: "ACCEPT",
-    cod: 150000,
+    "orderId": 3,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W23",
+        "district": "D02",
+        "province": "P25",
+        "detail": "hai ba trung ha noi"
+      }
+    },
+    "products": [
+      {
+        "productId": 64,
+        "productName": "Chuột máy tính",
+        "productStatus": "1",
+        "price": "100000",
+        "quantity": 1,
+        "img": "https://www.alo-computer.com/wp-content/uploads/2017/12/chu%E1%BB%99t-m%C3%A1y-t%C3%ADnh.png",
+        "size": "Default",
+        "color": "Đen"
+      },
+      {
+        "productId": 74,
+        "productName": "Ghế nhựa",
+        "productStatus": "2",
+        "price": "15000",
+        "quantity": 1,
+        "img": "https://hoacosa.com/wp-content/uploads/2021/02/GHE-NHUA-LUN-224-ANH-BIA.jpg",
+        "size": "L",
+        "color": "Đỏ"
+      },
+      {
+        "productId": 84,
+        "productName": "Khăn lau mặt",
+        "productStatus": "1",
+        "price": "25000",
+        "quantity": 1,
+        "img": "https://cdn.tgdd.vn/Products/Images/3727/223604/bhx/khan-mat-cotton-mollis-fm1k-40cm-x-80cm-giao-mau-ngau-nhien-202112281428284481.jpeg",
+        "size": "XX",
+        "color": "Trắng"
+      }
+    ],
+    "status": "đang giao",
+    "payment_method": "Zalopay",
+    "cod": 170000,
+    "createdAt": "1998-12-31 08:30:28",
+    "updateAt": "1998-12-31 08:30:56",
+    "startAt": "1999-01-01 03:30:28",
+    "completedAt": "1999-01-01 03:45:00",
+    "payAt": "1999-01-01 03:50:28",
+    "orderAt": "1998-12-31 08:33:00"
   },
   {
-    id: 33,
-    createdAt: "2023-01-03",
-    status: "ACCEPT",
-    cod: 250000,
+    "orderId": 4,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W13",
+        "district": "D02",
+        "province": "P05",
+        "detail": "hai ba trung ha noi"
+      }
+    },
+    "products": [
+      {
+        "productId": 114,
+        "productName": "Đèn bàn vintage",
+        "productStatus": "1",
+        "price": "125000",
+        "quantity": 1,
+        "img": "https://denlednhat.com/wp-content/uploads/2020/12/den-ban-lam-viec-co-dien-humitsu-classic-golux-1.jpg",
+        "size": "M",
+        "color": "Nâu"
+      },
+      {
+        "productId": 124,
+        "productName": "Kẹo cao su bigbabol",
+        "productStatus": "1",
+        "price": "35000",
+        "quantity": 1,
+        "img": "https://vn-test-11.slatic.net/p/5f43783670714c60c5febd7cdf0d9a4e.jpg",
+        "size": "M",
+        "color": "Nâu"
+      }
+    ],
+    "status": "chờ lấy hàng",
+    "payment_method": "ViettinBank",
+    "cod": 185000,
+    "createdAt": "1998-12-31 09:36:28",
+    "updateAt": "1998-12-31 09:36:56",
+    "startAt": "1999-01-01 04:30:28",
+    "completedAt": "1999-01-01 04:45:00",
+    "payAt": "1999-01-01 04:50:28",
+    "orderAt": "1998-12-31 09:40:00"
   },
   {
-    id: 34,
-    createdAt: "2023-01-03",
-    status: "PENDING",
-    cod: 120000,
+    "orderId": 5,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W13",
+        "district": "D02",
+        "province": "P05",
+        "detail": "hai ba trung ha noi"
+      }
+    },
+    "products": [
+      {
+        "productId": 144,
+        "productName": "Rolls-Royce Cullinan",
+        "productStatus": "1",
+        "price": "7033500000",
+        "quantity": 1,
+        "img": "https://vnn-imgs-f.vgcloud.vn/2020/11/12/18/nhung-chiec-xe-sang-trong-bac-nhat-thap-ky-truoc.jpg",
+        "size": "VJP",
+        "color": "Xanh"
+      },
+      {
+        "productId": 184,
+        "productName": "Giày thượng đình",
+        "productStatus": "1",
+        "price": "90000",
+        "quantity": 1,
+        "img": "https://bucket.nhanh.vn/store/26181/artCT/101577/giay_thuong_dinh_(1).jpg",
+        "size": "VJP",
+        "color": "Xanh"
+      },
+      {
+        "productId": 194,
+        "productName": "Đồng hồ quả lắc",
+        "productStatus": "1",
+        "price": "250000",
+        "quantity": 2,
+        "img": "https://phucthao.vn/upload/images/noi-mua-dong-ho-cay-tai-hai-phong-chat-luong.jpg",
+        "size": "VJP",
+        "color": "Xanh"
+      },
+      {
+        "productId": 201,
+        "productName": "Garen Demacia",
+        "productStatus": "1",
+        "price": "999999",
+        "quantity": 1,
+        "img": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Garen_0.jpg",
+        "size": "VJP",
+        "color": "Xanh"
+      }
+    ],
+    "status": "đã hủy",
+    "payment_method": "ViettinBank",
+    "cod": 7035089000,
+    "createdAt": "1998-12-31 09:36:28",
+    "updateAt": "1998-12-31 09:36:56",
+    "startAt": "1999-01-01 04:30:28",
+    "completedAt": "1999-01-01 04:45:00",
+    "payAt": "1999-01-01 04:50:28",
+    "orderAt": "1998-12-31 09:40:00"
   },
+  {
+    "orderId": 6,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W13",
+        "district": "D02",
+        "province": "P05",
+        "detail": "hai ba trung ha noi"
+      }
+    },
+    "products": [
+      {
+        "productId": 94,
+        "productName": "Ốp điện thoại",
+        "productStatus": "1",
+        "price": "15000",
+        "quantity": 1,
+        "img": "https://bocphot.club/wp-content/uploads/2020/11/shop-ban-op-dien-thoai-dep-tren-shopee-9.png",
+        "size": "M",
+        "color": "Nâu"
+      }
+    ],
+    "status": "trả hàng-hoàn tiền",
+    "payment_method": "ViettinBank",
+    "cod": 30000,
+    "createdAt": "1998-12-31 09:36:28",
+    "updateAt": "1998-12-31 09:36:56",
+    "startAt": "1999-01-01 04:30:28",
+    "completedAt": "1999-01-01 04:45:00",
+    "payAt": "1999-01-01 04:50:28",
+    "orderAt": "1998-12-31 09:40:00"
+  },
+  {
+    "orderId": 56,
+    "receiver": {
+      "userId": 21,
+      "address": {
+        "ward": "W11",
+        "district": "D03",
+        "province": "P12",
+        "detail": "cau giay"
+      }
+    },
+    "products": [
+      {
+        "productId": 45,
+        "productName": "Kẹo dẻo",
+        "productStatus": "1",
+        "price": "5000",
+        "quantity": 2,
+        "img": "https://e.khoahoc.tv/photos/image/2022/01/10/keo-deo-650.jpg",
+        "size": "L",
+        "color": "Đa sắc"
+      },
+      {
+        "productId": 45,
+        "productName": "Kẹo dẻo",
+        "productStatus": "1",
+        "price": "5000",
+        "quantity": 2,
+        "img": "https://e.khoahoc.tv/photos/image/2022/01/10/keo-deo-650.jpg",
+        "size": "L",
+        "color": "Đa sắc"
+      },
+      {
+        "productId": 45,
+        "productName": "Kẹo dẻo 123",
+        "productStatus": "1",
+        "price": "5000",
+        "quantity": 2,
+        "img": "https://e.khoahoc.tv/photos/image/2022/01/10/keo-deo-650.jpg",
+        "size": "L",
+        "color": "Đa sắc"
+      },
+      {
+        "productId": 45,
+        "productName": "@#",
+        "productStatus": "1",
+        "price": "5000",
+        "quantity": 2,
+        "img": "https://e.khoahoc.tv/photos/image/2022/01/10/keo-deo-650.jpg",
+        "size": "L",
+        "color": "Đa sắc"
+      },
+      {
+        "productId": 45,
+        "productName": "@#",
+        "productStatus": "1",
+        "price": "5000",
+        "quantity": 2,
+        "img": "https://e.khoahoc.tv/photos/image/2022/01/10/keo-deo-650.jpg",
+        "size": "L",
+        "color": "Đa sắc"
+      },
+      {
+        "productId": 45,
+        "productName": "@#",
+        "productStatus": "1",
+        "price": "5000",
+        "quantity": 2,
+        "img": "https://e.khoahoc.tv/photos/image/2022/01/10/keo-deo-650.jpg",
+        "size": "L",
+        "color": "Đa sắc"
+      }
+    ],
+    "status": "thành công",
+    "payment_method": "Viettel Pay",
+    "cod": 15000,
+    "createdAt": "2023-02-12 14:15:20",
+    "updateAt": "2023-02-12 14:15:20",
+    "startAt": "2023-02-12 14:15:20",
+    "completedAt": "2023-02-12 14:15:20",
+    "payAt": "2023-02-12 14:15:20",
+    "orderAt": "2023-02-12 14:15:20"
+  }
 ];

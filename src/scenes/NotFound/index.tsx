@@ -6,7 +6,7 @@ import { LinkWithPreserveQuery } from "../../components/common/LinkWithPreserveQ
 
 type Props = {};
 
-function NotFound({}: Props) {
+function NotFound({ }: Props) {
   return (
     <Box>
       <Typography>Not found</Typography>
