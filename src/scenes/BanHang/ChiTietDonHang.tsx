@@ -4,41 +4,38 @@ import Header from '../../components/Header';
 import { tokens } from '../../theme';
 import { mockDataDetailsExport } from '../../data/mockData';
 import { DataGrid } from '@mui/x-data-grid';
+import { Order } from './type';
+const ChiTietDonHang = ({ products, receiver }: Order) => {
+    console.log(products);
 
-const ChiTietDonHang = () => {
-    const date = new Date("12/12/2022");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
-        { field: "id", headerName: "ID" },
-        { field: "supplier_id", headerName: "Id nhà cung cấp", flex: 0.5 },
-        { field: "supplier", headerName: "Nhà cung cấp ", flex: 1 },
-        { field: "product_id", headerName: "Id sản phẩm", flex: 0.5 },
-        { field: "product", headerName: "Sản phẩm ", flex: 1 },
+        { field: "productId", headerName: "ID Sản phẩm" },
+        { field: "productName", headerName: "Tên Sản phẩm", flex: 1 },
+        { field: "quantity", headerName: "Số lượng", flex: 1 },
+        { field: "size", headerName: "Size", flex: 1 },
+        { field: "color", headerName: "Màu sắc", flex: 1 },
+        { field: "productStatus", headerName: "Trạng thái", flex: 1 },
         {
-            field: "quantity",
-            headerName: "Số lượng",
-            flex: 1,
+            field: "img", headerName: "Ảnh", flex: 1,
+            renderCell: function f(data: any) {
+                return (
+                    <>
+                        <img src={data?.row?.img} title={data?.row?.productName} alt="img" style={{ height: "50px", width: "75px" }} />
+                    </>);
+            }
         },
         {
-            field: "total_cost",
-            headerName: "Tổng số tiền",
-            flex: 1,
-            renderCell: (params: any) => (
-                <Typography color={colors.greenAccent[500]}>
-                    ${params.row.cost}
-                </Typography>
-            ),
-        },
-        {
-            field: "status",
-            headerName: "Trạng thái",
-            flex: 1,
-        },
-        {
-            field: "createdAt",
-            headerName: "Thời gian nhập ",
-            flex: 1,
+            field: "price", headerName: "Giá", flex: 1,
+            renderCell: ({ row: { price } }: any) => {
+                let p = Number.parseInt(price);
+                return (
+                    <>
+                        {p.toLocaleString()} VNĐ
+                    </>
+                )
+            }
         },
     ];
     return (
@@ -50,12 +47,18 @@ const ChiTietDonHang = () => {
             <Typography
                 variant="h5"
                 fontWeight="600"
-                // color={colors.grey[100]}
+                color={colors.grey[100]}
                 marginBottom="20px"
             >
-                Ngày Tạo Đơn : {date.toLocaleDateString('en-GB')}
+                <details style={{ marginLeft: "10px" }}>
+                    <summary>Thông tin người nhận</summary>
+                    <p style={{ paddingLeft: ".5em" }}>id: {receiver?.userId}</p>
+                    <address style={{ paddingLeft: ".5em" }}>
+                        {receiver?.address?.detail}
+                    </address>
+                </details>
             </Typography>
-            
+
 
             <Box
                 height="58vh"
@@ -86,7 +89,10 @@ const ChiTietDonHang = () => {
                 }}
             >
                 <DataGrid
-                    rows={mockDataDetailsExport}
+                    getRowId={(row) => {
+                        return row.productId || 0
+                    }}
+                    rows={products || []}
                     columns={columns}
                 />
             </Box>

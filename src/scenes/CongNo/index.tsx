@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, colors, Typography, useTheme } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, colors, Stack, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
@@ -8,7 +8,12 @@ import { mockDataReceivable, mockDataCollected } from "./data";
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { BootstrapDialog, BootstrapDialogTitle, DialogTitleProps } from "./Dialog";
-
+import { Order, Receiver, Product } from '../BanHang/type';
+import { API_SP05_URL } from "../../utils/config";
+type ReceiverData = {
+  unCollected: Order[],
+  collected: Order[]
+}
 const CongNo = () => {
   const clickHandler = (v: any) => {
     setContent(v.row);
@@ -22,12 +27,30 @@ const CongNo = () => {
   let countRow = 0;
   let countRow1 = 0;
   const [open, setOpen] = React.useState(false);
-  const [content, setContent] = React.useState(Object);
+  const [content, setContent] = React.useState<Order>({});
+  const [data, setData] = React.useState<ReceiverData>({ unCollected: [], collected: [] });
+  const [show, setShow] = React.useState(false);
+  const [styleShow, setStyleShow] = React.useState(true);
+  React.useEffect(() => {
+    let url = `${API_SP05_URL}receivable`;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.data);
+        setData(data.data);
+      }).catch((error) => {
+        setStyleShow(false)
+      }).finally(() => {
+        setShow(true);
+        setTimeout(() => { setShow(false); }, 1000);
+      });
+    // setData();
+  }, []);
   const columns = [
     { field: "stt", headerName: "STT", flex: 0.2 },
-    { field: "id", headerName: "ID Hóa đơn", flex: 1 },
-    { field: "date", headerName: "Ngày thu dự kiến", flex: 1 },
-    { field: "price", headerName: "Số tiền", flex: 1 },
+    { field: "orderId", headerName: "ID Hóa đơn", flex: 1 },
+    { field: "completed_at", headerName: "Ngày thu dự kiến", flex: 1 },
+    { field: "total_price", headerName: "Số tiền", flex: 1 },
     {
       field: "info", headerName: "Chi tiết", flex: 0.5, renderCell: (v: any) => {
 
@@ -44,9 +67,9 @@ const CongNo = () => {
   ]
   const columns1 = [
     { field: "stt", headerName: "STT", flex: 0.2 },
-    { field: "id", headerName: "ID Hóa đơn", flex: 1 },
-    { field: "date", headerName: "Ngày hoàn thành", flex: 1 },
-    { field: "price", headerName: "Số tiền", flex: 1 },
+    { field: "orderId", headerName: "ID Hóa đơn", flex: 1 },
+    { field: "completed_at", headerName: "Ngày hoàn thành", flex: 1 },
+    { field: "total_price", headerName: "Số tiền", flex: 1 },
     {
       field: "info", headerName: "Chi tiết", flex: 0.5, renderCell: (v: any) => {
 
@@ -65,6 +88,12 @@ const CongNo = () => {
 
     <Box m="20px">
       <Header title="Công nợ" subtitle="Danh sách công nợ" />
+      <Stack sx={{ opacity: show ? 1 : 0, position: "fixed", top: "10px", right: show ? "10px" : "-250px", transition: "all .5s linear" }}>
+        <Alert severity={!styleShow ? "error" : "success"}>
+          <AlertTitle>{!styleShow ? "エラー" : "成功"}</AlertTitle>
+          {!styleShow ? "注文情報を取得できません" : "注文インフォメーションの成功を取得します"}
+        </Alert>
+      </Stack>
       <Box>
         <Typography width="50%" display="inline-block" variant="h2" fontWeight="bold" color={colors.greenAccent[400]} textAlign="center">
           Công nợ chưa thu
@@ -103,7 +132,8 @@ const CongNo = () => {
             },
           }}>
           <DataGrid
-            rows={mockDataReceivable.map((v) => { return { ...v, stt: ++countRow } })}
+            getRowId={(row) => row.stt}
+            rows={data?.unCollected.map((v) => { return { ...v, stt: ++countRow } })}
             columns={columns}
           />
         </Box>
@@ -138,7 +168,8 @@ const CongNo = () => {
             },
           }}>
           <DataGrid
-            rows={mockDataCollected.map((v) => { return { ...v, stt: ++countRow1 } })}
+            getRowId={(row) => row.stt}
+            rows={data?.collected.map((v) => { return { ...v, stt: ++countRow1 } })}
             columns={columns1}
           />
         </Box>
@@ -154,22 +185,22 @@ const CongNo = () => {
           <h1 style={{ color: colors.greenAccent[300], textAlign: "center", margin: 0 }}>Chi tiết công nợ</h1>
         </BootstrapDialogTitle>
         <DialogContent dividers sx={{ bgcolor: colors.primary[400] }}>
-
+          {/* 
           {(ct => {
             console.log(ct);
             return (
               <Typography>
                 <OrderInfoTable
-                  id={ct.id}
-                  customer={{ name: "Son", phone: "123", address: { ward: "123", district: "123", province: "123", detail: "Ha Noi" } }}
-                  shippingFree={ct.shippingFree}
-                  price={ct.price}
-                  orderTime={ct.orderTime}
-                  payTime={ct.payTime}
+                  id={ct.orderId || ""}
+                  customer={ct.receiver || { name: "", phone: "", address: { ward: "", district: "", province: "", detail: "" } }}
+                  shippingFree={ct.cod || 0}
+                  price={ct.cod || 0}
+                  orderTime={ct?.orderAt?.toUTCString() || ""}
+                  payTime={ct?.completedAt?.toUTCString() || ""}
                 />
               </Typography>
             )
-          })(content)}
+          })(content)} */}
         </DialogContent>
       </BootstrapDialog>
     </Box >
@@ -183,50 +214,50 @@ export interface OrderInfo {
   orderTime: string;
   payTime: string;
 }
-export const OrderInfoTable = ({ id, customer, shippingFree, price, orderTime, payTime }: OrderInfo) => {
-  const css = `.tb,.tb tr, .tb td, .tb th{
-  border: 1.5px solid #515151; 
-  border-collapse: collapse; 
-  padding: .7em;
-  // white-space: nowrap;
-  }
-  `
-  return (
-    <table className="tb"
-    >
-      <style>{css}</style>
-      <tr>
-        <th>ID</th>
-        <th>Thông tin khách hàng</th>
-        <th>Phí ship</th>
-        <th>Tổng tiền</th>
-        <th>Thời gian tạo đơn</th>
-        <th>Thời gian hoàn thành</th>
-      </tr>
-      <tr>
-        <td>{id}</td>
-        {((cus) => {
-          return (
-            <td>
-              <tr>
-                <th>Tên</th>
-                <th>Số điện thoại</th>
-                <th>Địa chỉ</th>
-              </tr>
-              <tr>
-                <td>{cus.name}</td>
-                <td>{cus.phone}</td>
-                <td>{cus.address.detail}</td>
-              </tr>
-            </td>
-          )
-        })(customer)}
-        <td>{shippingFree}</td>
-        <td>{price}</td>
-        <td>{orderTime}</td>
-        <td>{payTime}</td>
-      </tr>
-    </table>
-  )
-}
+// export const OrderInfoTable = ({ orderId, userId, total_price, cod, ,  }: Order) => {
+//   const css = `.tb,.tb tr, .tb td, .tb th{
+//       border: 1.5px solid #515151;
+//       border - collapse: collapse;
+//       padding: .7em;
+//       // white-space: nowrap;
+//     }
+//     `
+//   return (
+//     <table className="tb"
+//     >
+//       <style>{css}</style>
+//       <tr>
+//         <th>ID</th>
+//         <th>Thông tin khách hàng</th>
+//         <th>Phí ship</th>
+//         <th>Tổng tiền</th>
+//         <th>Thời gian tạo đơn</th>
+//         <th>Thời gian hoàn thành</th>
+//       </tr>
+//       <tr>
+//         <td>{id}</td>
+//         {((cus) => {
+//           return (
+//             <td>
+//               <tr>
+//                 <th>Tên</th>
+//                 <th>Số điện thoại</th>
+//                 <th>Địa chỉ</th>
+//               </tr>
+//               <tr>
+//                 <td>{cus.name}</td>
+//                 <td>{cus.phone}</td>
+//                 <td>{cus.address.detail}</td>
+//               </tr>
+//             </td>
+//           )
+//         })(customer)}
+//         <td>{shippingFree}</td>
+//         <td>{price}</td>
+//         <td>{orderTime}</td>
+//         <td>{payTime}</td>
+//       </tr>
+//     </table>
+//   )
+// }
 export default CongNo

@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import { LinkWithPreserveQuery } from "../../components/common/LinkWithPreserveQuery";
 
+
 function NotFound() {
   return (
     <Box>

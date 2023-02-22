@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, colors, Stack, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
@@ -13,89 +13,79 @@ import { mockDataInvoices } from "../../data/mockData";
 import * as React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
+import MySelect, { Target, MySelectProps } from './Select';
 import Autocomplete from '@mui/material/Autocomplete';
-import { MonthPicker } from '@mui/x-date-pickers/MonthPicker';
-
+import { StatisticsData, StatisticsQuery, StatisticsPerMonth } from "./type";
+import { API_SP05_URL } from "../../utils/config";
 const DoanhThu = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
-  const options = ["Doanh thu","Sản phẩm"];
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs(new Date()));
+  const [data, setData] = React.useState<StatisticsData>();
+  const [query, setQuery] = React.useState<StatisticsQuery>({ type: "month", month: (new Date()).getMonth(), year: (new Date()).getFullYear() });
+  const [statisticsPerMonth, setStatisticsPerMonth] = React.useState<StatisticsPerMonth[]>();
+  const [show, setShow] = React.useState(false);
+  const [styleShow, setStyleShow] = React.useState(true);
+  React.useEffect(() => {
+    let url = `${API_SP05_URL}statistics?type=${query.type}&month=${(query.month || 0) + 1}&year=${query.year}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then(({ data: { statistics } }: { data: { statistics: StatisticsData } }) => {
+        setData(statistics);
+        console.log(statistics, query);
+      }).catch((error) => {
+        setStyleShow(false)
+      }).finally(() => {
+        setShow(true);
+        setTimeout(() => { setShow(false); }, 1000);
+      });
+    let url1 = `${API_SP05_URL}statistics/year?type=year&year=${query.year}`;
+    fetch(url1)
+      .then((response) => response.json())
+      .then(({ data: { statistics } }: { data: { statistics: StatisticsPerMonth[] } }) => {
+        setStatisticsPerMonth(statistics);
+        console.log(statistics);
+      })
+  }, [query]);
   return (
-    <Box m="5px">
-      {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="Thống Kê Doanh Thu" subtitle="" />
-
-        <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "10px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
-      </Box>
-
-      {/* <Box display="flex" justifyContent="space-between" alignItems="center">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-          <DesktopDatePicker
-            label="Thống Kê Tới Ngày"
-            value={value}
-            minDate={dayjs('2017-01-01')}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-
-        <Button
-          sx={{
-            backgroundColor: colors.blueAccent[700],
-            color: colors.grey[100],
-            fontSize: "14px",
-            fontWeight: "bold",
-            padding: "10px 20px",
+    <Box m="10px" sx={{
+      "&::-webkit-scrollbar": { width: 0 },
+      overflow: "auto", height: "88%"
+    }}>
+      <Header title="Thống Kê Doanh Thu" subtitle="" />
+      <Stack sx={{ opacity: show ? 1 : 0, position: "fixed", top: "10px", right: show ? "10px" : "-250px", transition: "all .5s linear" }}>
+        <Alert severity={!styleShow ? "error" : "success"}>
+          <AlertTitle>{!styleShow ? "エラー" : "成功"}</AlertTitle>
+          {!styleShow ? "注文情報を取得できません" : "注文インフォメーションの成功を取得します"}
+        </Alert>
+      </Stack>
+      <Box display="flex" justifyContent="flex-start" alignItems="center" gap={3} flexWrap="wrap">
+        <MySelect
+          title="Loại thống kê"
+          onChange={(value) => {
+            console.log(value);
           }}
-        >
-          Tim Kiếm
-        </Button>
-      </Box> */}
-
-
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        loại thống kê
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={options}
-          sx={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label="Doanh thu" />}
+          event={[{ value: "Doanh thu", name: "Doanh thu" }, { value: "Sản phẩm", name: "Sản phẩm" }]}
         />
-        thời gian:
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-
+        <MySelect
+          title="Thống kê theo"
+          onChange={(value) => {
+            query.type = value;
+            setQuery({ ...query });
+          }}
+          event={[{ value: "month", name: "Tháng" }, { value: "year", name: "Năm" }]}
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs} maxWidth="100%">
           <DesktopDatePicker
-            label="Thống Kê Tới Ngày"
+            label="Chọn thời gian"
             value={value}
-            minDate={dayjs('2017-01-01')}
+            minDate={dayjs('1900-01-01')}
             onChange={(newValue) => {
               setValue(newValue);
+              setQuery({ ...query, month: newValue?.month(), year: newValue?.year() });
             }}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -110,9 +100,8 @@ const DoanhThu = () => {
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
-        gap="20px"
+        gap={2}
       >
-        {/* ROW 1 */}
 
         <Box
           gridColumn="span 3"
@@ -120,12 +109,13 @@ const DoanhThu = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          borderRadius="5px"
         >
           <StatBoxV2
-            price="30.100.000 đ"
+            price={(data?.totalPrices.toLocaleString() || 0) + " VNĐ"}
             title="Doanh thu"
-            progress="0.75"
-            increase="+14%"
+            progress={(data?.growthPercentage.totalPrices || 0) / 100}
+            increase={((data?.growthPercentage.totalPrices || 0) > 0 ? '+' + (data?.growthPercentage.totalPrices || 0) : data?.growthPercentage.totalPrices || 0) + "%"}
             icon={
               <LooksOneIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -139,12 +129,13 @@ const DoanhThu = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          borderRadius="5px"
         >
           <StatBoxV2
-            price="80.000 đ"
+            price={(data?.totalCapital.toLocaleString() || 0) + " VNĐ"}
             title="Tổng vốn"
-            progress="0.50"
-            increase="+21%"
+            progress={(data?.growthPercentage.totalCapital || 0) / 100}
+            increase={((data?.growthPercentage.totalCapital || 0) > 0 ? '+' + (data?.growthPercentage.totalCapital || 0) : data?.growthPercentage.totalCapital || 0) + "%"}
             icon={
               <LooksTwoIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -158,12 +149,13 @@ const DoanhThu = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          borderRadius="5px"
         >
           <StatBoxV2
-            price="500.000 đ"
+            price={(data?.totalRevenue.toLocaleString() || 0) + " VNĐ"}
             title="Lợi Nhuận"
-            progress="0.30"
-            increase="+5%"
+            progress={(data?.growthPercentage.totalRevenue || 0) / 100}
+            increase={((data?.growthPercentage.totalRevenue || 0) > 0 ? '+' + (data?.growthPercentage.totalRevenue || 0) : data?.growthPercentage.totalRevenue || 0) + "%"}
             icon={
               <Looks3Icon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
@@ -172,26 +164,99 @@ const DoanhThu = () => {
           />
         </Box>
         <Box
-          gridColumn="span 3"
+          gridColumn='span 12'
+          gridRow='span 2'
           bgcolor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
+          overflow='auto'
         >
-          <StatBoxV2
-            price="450.000 đ"
-            title="So Với cùng kì tháng trước"
-            progress="0.80"
-            increase="+43%"
-            icon={
-              <Looks4Icon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            }
-          />
-        </Box>
+          <Box
+            key="Tháng"
+            display='flex'
+            justifyContent='space-between'
+            alignItems='center'
+            borderBottom={`4px solid ${colors.primary[500]}`}
+            p='15px'
+          >
+            <Box>
+              <Typography
+                color={colors.greenAccent[500]}
+                variant='h5'
+                fontWeight='600'
+              >
+                Tháng
+              </Typography>
+            </Box>
 
-        {/* ROW 2 */}
+            <Box color={colors.grey[100]} width="120px">
+              Số lượng
+            </Box>
+
+            <Box color={colors.grey[100]} width="70px">
+              Số đơn giảm giá
+            </Box>
+            <Box color={colors.grey[100]} width="80px">
+              Số đơn trả
+            </Box>
+            <Box color={colors.grey[100]} width="70px">
+              Tổng phí vận chuyển
+            </Box>
+            <Box color={colors.grey[100]} width="100px">
+              Tổng vốn
+            </Box>
+            <Box color={colors.grey[100]} width="100px">
+              Tổng doanh thu
+            </Box>
+            <Box color={colors.grey[100]} width="100px">
+              Tổng lợi nhuận
+            </Box>
+
+          </Box>
+          {statisticsPerMonth?.map((statistics) => (
+            <Box
+              key={statistics.month}
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+              borderBottom={`4px solid ${colors.primary[500]}`}
+              p='15px'
+            >
+              <Box>
+                <Typography
+                  color={colors.greenAccent[500]}
+                  variant='h5'
+                  fontWeight='600'
+                >
+                  {`${statistics.month}/${query.year}`}
+                </Typography>
+              </Box>
+
+              <Box color={colors.grey[100]} width="120px">
+                {statistics.quantity}
+
+              </Box>
+
+              <Box color={colors.grey[100]} width="70px">
+                {statistics.discount || 0}
+              </Box>
+              <Box color={colors.grey[100]} width="80px">
+                {statistics.returnNum || 0}
+              </Box>
+              <Box color={colors.grey[100]} width="70px">
+                {statistics.sippingFee || 0}
+              </Box>
+              <Box color={colors.grey[100]} width="100px">
+                {statistics.totalCapital.toLocaleString()} VNĐ
+              </Box>
+              <Box color={colors.grey[100]} width="100px">
+                {statistics.totalPrices.toLocaleString()} VNĐ
+              </Box>
+              <Box color={colors.grey[100]} width="100px">
+                {statistics.totalRevenue.toLocaleString()} VNĐ
+              </Box>
+
+            </Box>
+          ))}
+        </Box>
         <Box
           gridColumn="span 12"
           gridRow="span 2"
@@ -211,6 +276,8 @@ const DoanhThu = () => {
                 color={colors.grey[100]}
               >
                 Tổng Doanh Thu
+                {// TODO: 
+                }
               </Typography>
             </Box>
             <Box>
@@ -222,62 +289,8 @@ const DoanhThu = () => {
             </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <LineChart isDashboard />
           </Box>
-        </Box>
-        {/* ROW 3 */}
-        {/* Ncc */}
-        <Box
-          gridColumn='span 12'
-          gridRow='span 2'
-          bgcolor={colors.primary[400]}
-          overflow='auto'
-        >
-          {mockDataThongKe.map((supplier: any, i: any) => (
-            <Box
-              key={`${supplier.thang}-${i}`}
-              display='flex'
-              justifyContent='space-between'
-              alignItems='center'
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p='15px'
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant='h5'
-                  fontWeight='600'
-                >
-                  {supplier.thang}
-                </Typography>
-              </Box>
-
-              <Box color={colors.grey[100]} width = "120px">
-                {supplier.donhang}
-
-              </Box>
-
-              <Box color={colors.grey[100]} width = "100px">
-                {supplier.doanhthu}
-              </Box>
-              <Box color={colors.grey[100]} width = "70px">
-                {supplier.giamgia}
-              </Box> 
-              <Box color={colors.grey[100]} width = "80px">
-                {supplier.trahang}
-              </Box> 
-              <Box color={colors.grey[100]} width = "100px">
-                {supplier.doanhthuthuc}
-              </Box> 
-              <Box color={colors.grey[100]} width = "70px">
-                {supplier.vanchuyen}
-              </Box>    
-              <Box color={colors.grey[100]} width = "100px">
-                {supplier.tongdoanhthu}
-              </Box>         
-                    
-            </Box>
-          ))}
         </Box>
       </Box>
     </Box>
