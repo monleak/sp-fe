@@ -20,6 +20,7 @@ const ChoXacNhan = () => {
   const [receiver, setReceiver] = React.useState<Receiver>({});
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('lg');
+  const [update, setUpdate] = React.useState(0);
 
   const handleClickOpen = function handleClickOpen({ products, receiver }: { products: Product[]; receiver: Receiver; }) {
     setOpen(true);
@@ -33,7 +34,7 @@ const ChoXacNhan = () => {
         setData(data.data.orders);
       }
       );
-  }, []);
+  }, [update]);
   const handleClose = () => {
     setOpen(false);
   };
@@ -78,11 +79,26 @@ const ChoXacNhan = () => {
       field: "refuse",
       headerName: "",
       flex: 0.7,
-      renderCell: () => {
+      renderCell: (data: any) => {
         return (
           <Button
             onClick={() => {
-
+              let orderId = data?.row?.orderId;
+              fetch(API_SP05_URL + `reject/${orderId}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              })
+                .then((res) => res.json())
+                .then((dt) => {
+                  let status = dt.status;
+                  if (status === "success") {
+                    // data.data.orders.filter((order: any) => order?.orderId !== orderId);
+                    // setData(data.data.orders);
+                    setUpdate(update + 1);
+                  }
+                })
             }}
             sx={{
               backgroundColor: colors.redAccent[700],
@@ -103,12 +119,27 @@ const ChoXacNhan = () => {
       field: "accept",
       headerName: "",
       flex: 0.7,
-      renderCell: () => {
+      renderCell: (data: any) => {
         return (
 
           <Button
             onClick={() => {
-
+              let orderId = data?.row?.orderId;
+              fetch(API_SP05_URL + `confirm/order/${orderId}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                }
+              })
+                .then((res) => res.json())
+                .then((dt) => {
+                  let status = dt.status;
+                  if (status === "success") {
+                    // data.data.orders.filter((order: any) => order?.orderId !== orderId);
+                    // setData([...data.data.orders]);
+                    setUpdate(update + 1);
+                  }
+                })
             }}
             sx={{
               backgroundColor: colors.blueAccent[700],

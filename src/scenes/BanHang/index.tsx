@@ -68,9 +68,9 @@ const BanHang = () => {
                     {!styleShow ? "注文情報を取得できません" : "注文インフォメーションの成功を取得します"}
                 </Alert>
             </Stack>
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="space-between" flexWrap={"wrap"}>
                 <Header title="Quản Lý Bán Hàng" subtitle={"Các đơn hàng " + (isToggled && "đang chờ xác nhận" || isToggled1 && "đã xác nhận" || isToggled2 && "đang giao" || isToggled3 && "đã giao" || isToggled4 && "hoàn thành") || ""} />
-                <Box display="flex" justifyContent="space-between" alignItems="center" width="55%">
+                <Box display="flex" justifyContent="space-between" alignItems="center" width="55%" flexWrap={"wrap"}>
                     <Stack direction="row" spacing={1} alignItems="center">
                         <Typography>
                             Month
@@ -97,7 +97,7 @@ const BanHang = () => {
                 </Box>
 
             </Box>
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="flex-start" flexWrap={"wrap"} rowGap={1}>
                 <Button
                     onClick={() => {
                         setIsToggled4(false);

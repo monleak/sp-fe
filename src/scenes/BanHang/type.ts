@@ -20,15 +20,22 @@ export type Receiver = {
 }
 export type Order = {
     orderId?: number,
-    receiver?: Receiver,
-    products?: Product[],
     status?: string,
     payment_method?: string,
-    cod?: number,
-    createdAt?: Date,
-    updateAt?: Date,
-    startAt?: Date,
-    completedAt?: Date,
-    payAt?: Date,
-    orderAt?: Date
+    userId?: number,
+    created_at?: Date,
+    update_at?: Date,
+    shiptime_start_at?: Date,
+    completed_at?: Date,
+    paytime?: Date,
+    order_time?: Date,
+    DistrictID?: string,
+    ProvinceID?: string,
+    WardCode?: string,
+    detailAddress?: string,
+    total_price?: number,
+    comment?: string,
+    rate?: number,
+    products?: Product[],
+    receiver?: Receiver
 }

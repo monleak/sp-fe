@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, colors, Stack, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
@@ -23,10 +23,12 @@ import { API_SP05_URL } from "../../utils/config";
 const DoanhThu = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs(new Date));
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs(new Date()));
   const [data, setData] = React.useState<StatisticsData>();
-  const [query, setQuery] = React.useState<StatisticsQuery>({ type: "month", month: (new Date).getMonth(), year: (new Date).getFullYear() });
+  const [query, setQuery] = React.useState<StatisticsQuery>({ type: "month", month: (new Date()).getMonth(), year: (new Date()).getFullYear() });
   const [statisticsPerMonth, setStatisticsPerMonth] = React.useState<StatisticsPerMonth[]>();
+  const [show, setShow] = React.useState(false);
+  const [styleShow, setStyleShow] = React.useState(true);
   React.useEffect(() => {
     let url = `${API_SP05_URL}statistics?type=${query.type}&month=${(query.month || 0) + 1}&year=${query.year}`;
     fetch(url)
@@ -34,7 +36,12 @@ const DoanhThu = () => {
       .then(({ data: { statistics } }: { data: { statistics: StatisticsData } }) => {
         setData(statistics);
         console.log(statistics, query);
-      })
+      }).catch((error) => {
+        setStyleShow(false)
+      }).finally(() => {
+        setShow(true);
+        setTimeout(() => { setShow(false); }, 1000);
+      });
     let url1 = `${API_SP05_URL}statistics/year?type=year&year=${query.year}`;
     fetch(url1)
       .then((response) => response.json())
@@ -49,6 +56,12 @@ const DoanhThu = () => {
       overflow: "auto", height: "88%"
     }}>
       <Header title="Thống Kê Doanh Thu" subtitle="" />
+      <Stack sx={{ opacity: show ? 1 : 0, position: "fixed", top: "10px", right: show ? "10px" : "-250px", transition: "all .5s linear" }}>
+        <Alert severity={!styleShow ? "error" : "success"}>
+          <AlertTitle>{!styleShow ? "エラー" : "成功"}</AlertTitle>
+          {!styleShow ? "注文情報を取得できません" : "注文インフォメーションの成功を取得します"}
+        </Alert>
+      </Stack>
       <Box display="flex" justifyContent="flex-start" alignItems="center" gap={3} flexWrap="wrap">
         <MySelect
           title="Loại thống kê"
@@ -139,7 +152,7 @@ const DoanhThu = () => {
           borderRadius="5px"
         >
           <StatBoxV2
-            price={data?.totalRevenue.toLocaleString() + " VNĐ"}
+            price={(data?.totalRevenue.toLocaleString() || 0) + " VNĐ"}
             title="Lợi Nhuận"
             progress={(data?.growthPercentage.totalRevenue || 0) / 100}
             increase={((data?.growthPercentage.totalRevenue || 0) > 0 ? '+' + (data?.growthPercentage.totalRevenue || 0) : data?.growthPercentage.totalRevenue || 0) + "%"}
@@ -235,10 +248,10 @@ const DoanhThu = () => {
                 {statistics.totalCapital.toLocaleString()} VNĐ
               </Box>
               <Box color={colors.grey[100]} width="100px">
-                {statistics.totalRevenue.toLocaleString()} VNĐ
+                {statistics.totalPrices.toLocaleString()} VNĐ
               </Box>
               <Box color={colors.grey[100]} width="100px">
-                {statistics.totalPrices.toLocaleString()} VNĐ
+                {statistics.totalRevenue.toLocaleString()} VNĐ
               </Box>
 
             </Box>
