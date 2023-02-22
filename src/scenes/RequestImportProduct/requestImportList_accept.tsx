@@ -7,20 +7,8 @@ import {
   Chip,
   Modal,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataImportStoryList } from "../../data/mockData";
-import EditIcon from "@mui/icons-material/Edit";
 import Header from "../../components/Header";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import CheckCircleSharpIcon from "@mui/icons-material/CheckCircleSharp";
-import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
-import DoDisturbAltOutlinedIcon from "@mui/icons-material/DoDisturbAltOutlined";
-import { mockDataTeam } from "../../data/mockData";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import MoreOutlinedIcon from "@mui/icons-material/MoreOutlined";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Table from "@mui/material/Table";
@@ -33,7 +21,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
-import ImportProductsForm from "../form/ImportProductForm";
 import { useNavigate } from "react-router-dom";
 import { Outlet, useParams } from "react-router-dom";
 import EditImportProductsForm from "./ImportProductForm_hieutt";
@@ -64,9 +51,9 @@ export type statusUpdate = {
 };
 
 /**
- * Request import product
+ * Request Import List with status ACCEPT
  */
-const RequestImportList = () => {
+const RequestImportList_ACCEPT = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -75,7 +62,7 @@ const RequestImportList = () => {
   const id = Number.parseInt(importRequestId || "");
 
   const { data: importRequestList, isSuccess: isImportReqListSuccess } =
-    useQuery(["import-request"], getImportLists);
+    useQuery(["import-request-accept"], getImportLists);
 
   const queryClient = useQueryClient();
 
@@ -232,7 +219,7 @@ const RequestImportList = () => {
           </TableHead>
           <TableBody>
             {importRequestList
-              ?.filter((reqImport) => reqImport.status === "REQUEST")
+              ?.filter((reqImport) => reqImport.status === "ACCEPT")
               .map((importRequest) => (
                 <StyledTableRow key={importRequest.id}>
                   <StyledTableCell align="center">
@@ -382,7 +369,6 @@ const RequestImportList = () => {
                             `/imports/${importRequest.id}/price-quotation-list/`
                           );
                         }}
-                        disabled
                       ></Button>
                     </Tooltip>
                   </StyledTableCell>
@@ -395,4 +381,4 @@ const RequestImportList = () => {
   );
 };
 
-export default RequestImportList;
+export default RequestImportList_ACCEPT;

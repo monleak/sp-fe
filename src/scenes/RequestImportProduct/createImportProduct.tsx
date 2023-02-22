@@ -14,10 +14,8 @@ import {
 import React from "react";
 import { transformJoinSubProductList } from "../../api/transform";
 import { useNavigate, useParams } from "react-router-dom";
-
 import ImportProductForm_hieutt from "./ImportProductForm_hieutt";
 import { ImportProductFormT } from "./ImportProductForm_hieutt";
-import usePreserveQueryNavigate from "../../hooks/usePreserveQueryNavigate";
 
 const initialValues: ImportProductFormT = {
   product_id: 0,
@@ -26,8 +24,12 @@ const initialValues: ImportProductFormT = {
   note: "",
 };
 
+/**
+ * Form tạo mới yêu cầu nhập hàng moi
+ * @returns
+ */
 const CreateImportProduct = () => {
-  const navigate = usePreserveQueryNavigate();
+  const navigate = useNavigate();
 
   // api get
   const { data: infoProductList, isSuccess: isinfoProductListSuccess } =

@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# Structure programming frontend SP_17 ( tích hợp SP_05 )
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+- Project này sử dụng framework Reactjs js
+- Trong project có áp dụng React Conditional Rendering Patterns. 
 
-In the project directory, you can run:
+### Yêu cầu cài đặt
+Trước khi cài đặt, hãy đảm bảo rằng máy tính của bạn đã cài đặt Node.js và npm.
 
-### `npm start`
+### Install libraries
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Sử dụng lệnh : `npm install`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Run
 
-### `npm test`
+Sử dụng lệnh : `npm start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Web đã deploy 
+https://sp-fe.vercel.app/
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Hướng dẫn tester
+Test các chức năng đã có trên web : 
+<ul>
+  <li><a href="https://sp-fe.vercel.app">Dashboard</a></li>
+  <li><a href="https://sp-fe.vercel.app/imports/history">Lịch sử nhập hàng</a> : Xem lịch sử nhập hàng , có thể chỉnh sửa từng hàng khi nhấn vào icon 'Edit' </li>
+  <li><a href="https://sp-fe.vercel.app/imports/request/create_hieutt">Tạo yêu cầu nhập hàng</a></li>
+  <li><a href="https://sp-fe.vercel.app/imports/request">Yêu cầu nhập hàng</a> : Xem danh sách yêu cầu nhập hàng, có thể lọc qua các tiêu chí : Cần phê duyệt, đã chấp nhận, đã từ chối, có thể chỉnh sửa / xoá từng hàng khi nhấn vào icon 'Edit' hoặc 'Xoá</li>
+   <li><a href="https://sp-fe.vercel.app/sell">Quản lý bán hàng ( SP_05 )</a> </li>
+   <li><a href="https://sp-fe.vercel.app/suppliers/create">Tạo nhà cung cấp</a> </li>
+   <li><a href="https://sp-fe.vercel.app/suppliers">Danh sách nhà cung cấp</a> xem danh sách, có thể thêm, sửa , xoá , xem chi tiết nhà cung cấp</li>
+   <li><a href="https://sp-fe.vercel.app/fiscal/revenue">Thống kê doanh thu ( SP_05 )</a> </li>
+   <li><a href="https://sp-fe.vercel.app/fiscal/receivable"> Công nợ phải thu ( SP_05 )</a> </li>
+</ul>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Link tài liệu
+<ul>
+  <li><a href="https://husteduvn.sharepoint.com/:x:/s/IT44922022I-CGiang/EY666IL81J1HtFxlS2VlZRUB4jN1OfpGH_LN2Tg2Gj_5pQ?e=vp5ZuN">Link API Doc</a></li>
+  <li><a href="https://www.postman.com/lunar-star-420883/workspace/sp-17/overview">Link Postman</a></li>
+  <li>BaseURL: <a href="https://sp-17-production.fly.dev/api/v1">https://sp-17-production.fly.dev/api/v1</a></li>
+</ul>

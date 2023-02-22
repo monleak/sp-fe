@@ -64,9 +64,9 @@ export type statusUpdate = {
 };
 
 /**
- * Request import product
+ * Request Import List with status REJECT
  */
-const RequestImportList = () => {
+const RequestImportList_REJECT = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -232,7 +232,7 @@ const RequestImportList = () => {
           </TableHead>
           <TableBody>
             {importRequestList
-              ?.filter((reqImport) => reqImport.status === "REQUEST")
+              ?.filter((reqImport) => reqImport.status === "REJECT")
               .map((importRequest) => (
                 <StyledTableRow key={importRequest.id}>
                   <StyledTableCell align="center">
@@ -395,4 +395,4 @@ const RequestImportList = () => {
   );
 };
 
-export default RequestImportList;
+export default RequestImportList_REJECT;

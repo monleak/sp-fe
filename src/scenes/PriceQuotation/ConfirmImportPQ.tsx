@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import ImportRequestCard from "../../components/ImportRequest/ImportRequestCard";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   ApiImportProductT,
   SubProductInfoT,
@@ -43,6 +43,9 @@ const initialValues: ConfirmFormT = {
   tax: 0,
 };
 
+/**
+ * Form confirm import price quotation
+ */
 const ConfirmImportPQ = (props: Props) => {
   // state
 

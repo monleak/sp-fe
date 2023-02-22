@@ -1,3 +1,9 @@
+/**
+ * các hook mutation cung cấp hàm gọi api để sửa đổi dữ liệu
+ * và hàm invalidateQueries để refresh lại dữ liệu
+ *
+ */
+
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { deletePriceQuotation, updateImportProduct } from "../api";
 import React from "react";
